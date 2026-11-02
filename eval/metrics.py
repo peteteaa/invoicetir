@@ -67,6 +67,39 @@ def line_item_counts(pred: Optional[Invoice], truth: Invoice) -> tuple[int, int]
     return correct, max(len(truth.line_items), len(pred_items))
 
 
+MONEY_FIELDS = ["subtotal", "tax", "total"]
+
+
+def item_money_correct(pred: LineItem, truth: LineItem) -> bool:
+    """Quantity, unit price and amount match; the description may differ."""
+    return pred.quantity == truth.quantity and pred.unit_price == truth.unit_price and pred.amount == truth.amount
+
+
+def money_correct(pred: Optional[Invoice], truth: Invoice) -> bool:
+    """Every number that feeds spend is right: the labelled subtotal, tax and total, the sum of
+    adjustments, and quantity / unit price / amount on every line (no line missing or extra).
+    Descriptions don't count: they change a category, never an amount."""
+    if pred is None:
+        return False
+    if any(getattr(truth, f) is not None and getattr(pred, f) != getattr(truth, f) for f in MONEY_FIELDS):
+        return False
+    if sum((a.amount or 0 for a in pred.adjustments), Decimal(0)) != sum((a.amount or 0 for a in truth.adjustments), Decimal(0)):
+        return False
+    if len(pred.line_items) != len(truth.line_items):
+        return False
+    pairs = pair_items(pred.line_items, truth.line_items)
+    return len(pairs) == len(truth.line_items) and all(
+        item_money_correct(pred.line_items[i], truth.line_items[j]) for i, j in pairs)
+
+
+def error_kind(pred: Optional[Invoice], truth: Invoice) -> str:
+    """'none' (fully correct), 'text' (money right, a description or header text wrong), or 'money'."""
+    correct, total = line_item_counts(pred, truth)
+    if pred is not None and all(field_results(pred, truth).values()) and correct == total:
+        return "none"
+    return "text" if money_correct(pred, truth) else "money"
+
+
 def with_truth_categories(pred: Invoice, truth: Invoice) -> Invoice:
     """A copy of pred whose line items carry the category of the true item they pair with, so
     dollar error measures extraction, not categorizer disagreement."""

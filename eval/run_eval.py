@@ -6,6 +6,9 @@ Runs only on documents that have labels in data/labels/. Configs:
   small_escalate   small model + checks + retries + escalation
   large_per_doc    large model per document, no checks
   large_all        large model given all documents at once, asked for the spend summary directly
+  claude_per_doc   Claude (frontier baseline, default Opus 5.5) per document, no checks
+  claude_all       Claude given all documents at once, asked for the spend summary directly
+The Claude configs need ANTHROPIC_API_KEY; with --config all they are skipped without one.
 Writes out/results.csv and out/accuracy_vs_cost.html (total spend accuracy vs cost per document,
 one point per config), plus
 out/eval_details.csv (one row per document per config).
@@ -30,6 +33,8 @@ How the scores are defined (see eval/metrics.py):
   categorizes for itself, so its error includes disagreeing with that categorizer.
 """
 import argparse
+from concurrent.futures import ThreadPoolExecutor
+from types import SimpleNamespace
 import json
 import random
 import sys
@@ -45,7 +50,7 @@ from pydantic import BaseModel, create_model
 
 import config
 import llm
-from eval import metrics, template_truth
+from eval import claude_baseline, metrics, template_truth
 from pipeline import categorize, clean, ingest, run
 from pipeline.extract import document_message
 from schemas import Label, Money, ProcessedDoc
@@ -60,8 +65,11 @@ PER_DOC = {
     "small_checks": {"use_checks": True, "escalate": False},
     "small_escalate": {"use_checks": True, "escalate": True},
     "large_per_doc": {"use_checks": False, "escalate": False, "large": True},
+    "claude_per_doc": {"claude": True},
 }
-CONFIGS = [*PER_DOC, "large_all"]
+SUMMARY = {"large_all": "kimi", "claude_all": "claude"}   # all documents at once
+CONFIGS = [*PER_DOC, *SUMMARY]
+CLAUDE_CONFIGS = {"claude_per_doc", "claude_all"}
 
 
 @dataclass
@@ -73,7 +81,7 @@ class Case:
 
 # --- cases ----------------------------------------------------------------------------------
 
-def load_cases(source: str, limit: int, seed: int, as_images: bool, out_dir: Path) -> list[Case]:
+def load_cases(source: str, limit: int, seed: int, as_images: bool, out_dir: Path, only: str = "") -> list[Case]:
     files = {p.stem: p for p in run.find_files([DOCS_DIR])} if DOCS_DIR.is_dir() else {}
     label_files = sorted(LABELS_DIR.glob("*.json")) if LABELS_DIR.is_dir() else []
     if source == "auto":
@@ -93,8 +101,10 @@ def load_cases(source: str, limit: int, seed: int, as_images: bool, out_dir: Pat
             truth = template_truth.truth_for(path)
             if truth is not None:
                 cases.append(Case(doc_id, path, truth))
+    if only:  # e.g. "cord_": keep one dataset, so real receipts and synthetic invoices don't mix
+        cases = [c for c in cases if c.doc_id.startswith(only)]
     if not cases:
-        raise SystemExit(f"No documents with ground truth (source: {source}).")
+        raise SystemExit(f"No documents with ground truth (source: {source}{', only ' + only if only else ''}).")
 
     if limit and limit < len(cases):
         cases = sorted(random.Random(seed).sample(cases, limit), key=lambda c: c.doc_id)
@@ -126,8 +136,30 @@ def categorize_truth(cases: list[Case]) -> Optional[Decimal]:
 
 # --- per-document configs -------------------------------------------------------------------
 
+def _claude_doc(case: Case) -> ProcessedDoc:
+    """claude_per_doc: one Claude extraction, no checks (the same rule as large_per_doc)."""
+    try:
+        doc = ingest.load(case.path, case.doc_id)
+    except Exception as e:
+        return ProcessedDoc(doc_id=case.doc_id, source_path=str(case.path), status="flagged",
+                            cost_usd=Decimal(0), reasons=[f"could not load the file: {e}"])
+    result, error, usage = claude_baseline.extract(doc)
+    ok = result is not None and result.invoice is not None
+    return ProcessedDoc(doc_id=case.doc_id, source_path=str(case.path), status="verified" if ok else "flagged",
+                        invoice=result.invoice if result else None,
+                        uncertain_fields=list(result.uncertain_fields) if result else [],
+                        reasons=[] if ok else [error or "no invoice in the answer"], model=claude_baseline.MODEL,
+                        input_tokens=usage["input_tokens"], output_tokens=usage["output_tokens"],
+                        latency_s=usage["latency_s"], cost_usd=usage["cost_usd"])
+
+
 def run_per_doc(name: str, cases: list[Case]) -> list[ProcessedDoc]:
     opts = dict(PER_DOC[name])
+    if opts.pop("claude", False):
+        with ThreadPoolExecutor(max(1, config.WORKERS)) as pool:
+            docs = list(pool.map(_claude_doc, cases))
+        print(f"  {name} [{len(docs)}/{len(cases)}] done", flush=True)
+        return docs
     model = config.ESCALATION_MODEL if opts.pop("large", False) else None
     docs = run.extract_all([c.path for c in cases], model=model, **opts,
                            progress=lambda done, total, d: print(f"  {name} [{done}/{total}] {d.doc_id}: {d.status}",
@@ -156,10 +188,15 @@ def score_per_doc(name: str, docs: list[ProcessedDoc], cases: list[Case],
                                                 invoice=c.truth))
         if d.invoice is not None and metrics.spendable(c.truth):
             pred_for_spend.append(d.model_copy(update={"invoice": metrics.with_truth_categories(d.invoice, c.truth)}))
+        kind = metrics.error_kind(d.invoice, c.truth)
         details.append({"config": name, "doc_id": c.doc_id, "status": d.status, "escalated": d.escalated,
                         "fields_correct": sum(got.values()), "fields": len(got),
                         "items_correct": correct, "items": total,
-                        "fully_correct": all(got.values()) and correct == total,
+                        "fully_correct": kind == "none",
+                        "money_correct": kind != "money",
+                        "error_kind": kind,   # none | text (money right) | money
+                        "truth_total": c.truth.total,
+                        "pred_total": d.invoice.total if d.invoice else None,
                         "cost_usd": d.cost_usd, "latency_s": round(d.latency_s, 2),
                         "reasons": "; ".join(d.reasons)})
 
@@ -167,6 +204,10 @@ def score_per_doc(name: str, docs: list[ProcessedDoc], cases: list[Case],
     pred_spend = metrics.category_spend(pred_for_spend)
     verified_ids = {d.doc_id for d in docs if d.status == "verified"}
     covered = metrics.category_spend([t for t in truth_for_spend if t.doc_id in verified_ids])
+    # Trust: how right is what the config verified, and how wrong is what it flagged.
+    verified_rows = [x for x in details if x["status"] == "verified"]
+    flagged_rows = [x for x in details if x["status"] == "flagged"]
+    verified_spend_acc = metrics.total_accuracy(pred_spend, covered) if covered else None
     flags = metrics.precision_recall([d.status == "flagged" for d in docs], [c.truth.expected_flag for c in cases])
     dups = metrics.precision_recall([d.status == "duplicate" for d in docs],
                                     [bool(c.truth.is_duplicate_of) if any(x.truth.is_duplicate_of for x in cases) else None
@@ -184,6 +225,10 @@ def score_per_doc(name: str, docs: list[ProcessedDoc], cases: list[Case],
         "spend_accuracy": metrics.spend_accuracy(pred_spend, truth_spend),
         "spend_docs": len(truth_for_spend),
         "dollar_error": float(sum(metrics.dollar_error(pred_spend, truth_spend).values(), Decimal(0))),
+        "verified_spend_accuracy": verified_spend_acc,
+        "verified_money_correct": (sum(x["money_correct"] for x in verified_rows) / len(verified_rows)) if verified_rows else None,
+        "flagged_money_wrong": (sum(not x["money_correct"] for x in flagged_rows) / len(flagged_rows)) if flagged_rows else None,
+        "money_errors_verified": sum(not x["money_correct"] for x in verified_rows),
         "coverage": float(sum(covered.values(), Decimal(0)) / sum(truth_spend.values(), Decimal(0))),
         "verified": len(verified_ids), "flagged": sum(d.status == "flagged" for d in docs),
         "escalated": sum(d.escalated for d in docs),
@@ -209,8 +254,9 @@ def summary_schema(names: list[str]) -> type[BaseModel]:
     return create_model("SpendSummary", spend=(list[row], ...))
 
 
-def run_large_all(cases: list[Case]) -> tuple[dict, dict]:
-    """Ask ESCALATION_MODEL for the spend summary of every document, BATCH_DOCS per request."""
+def run_large_all(cases: list[Case], provider: str = "kimi") -> tuple[dict, dict]:
+    """Ask ESCALATION_MODEL (provider "kimi") or Claude ("claude") for the spend summary of every
+    document, BATCH_DOCS per request."""
     categories = categorize.load_categories()
     listing = "\n".join(f"- {n}: {d}" for n, d in categories.items())
     system = (config.PROMPTS_DIR / "summary.md").read_text().replace("{categories}", listing)
@@ -218,6 +264,20 @@ def run_large_all(cases: list[Case]) -> tuple[dict, dict]:
     spend, calls, failed = {}, [], []
     batches = [cases[i:i + BATCH_DOCS] for i in range(0, len(cases), BATCH_DOCS)]
     for n, batch in enumerate(batches, 1):
+        if provider == "claude":
+            user = [b for c in batch for b in claude_baseline.content(ingest.load(c.path, c.doc_id))]
+            user.append({"type": "text", "text": f"That was all {len(batch)} documents."})
+            parsed, error, t_in, t_out, latency, cost = claude_baseline.call(
+                doc_id=f"batch{n}", stage="claude_all", system=system, user=user, schema=schema)
+            calls.append(SimpleNamespace(cost_usd=cost, latency_s=latency))
+            if parsed is None:
+                print(f"  claude_all batch {n} failed: {error}", flush=True)
+                failed.append(n)
+                continue
+            for r in parsed.spend:
+                spend[r.currency, r.category] = spend.get((r.currency, r.category), Decimal(0)) + r.amount
+            print(f"  claude_all batch {n}/{len(batches)} done", flush=True)
+            continue
         content = []
         for c in batch:
             part = document_message(ingest.load(c.path, c.doc_id))["content"]
@@ -251,13 +311,13 @@ def run_large_all(cases: list[Case]) -> tuple[dict, dict]:
     return spend, usage
 
 
-def score_large_all(spend: dict, usage: dict, cases: list[Case]) -> dict:
+def score_large_all(spend: dict, usage: dict, cases: list[Case], name: str = "large_all") -> dict:
     truth_spend = metrics.category_spend([ProcessedDoc(doc_id=c.doc_id, source_path=str(c.path), status="verified",
                                                        invoice=c.truth) for c in cases])
     errors = metrics.dollar_error(spend, truth_spend)
     per_doc_latency = sum(usage["latency"]) / len(cases)
     return {
-        "config": "large_all", "docs": len(cases), "field_accuracy": None, "line_item_accuracy": None,
+        "config": name, "docs": len(cases), "field_accuracy": None, "line_item_accuracy": None,
         "docs_fully_correct": None, "spend_docs": len(cases),
         "total_spend_accuracy": metrics.total_accuracy(spend, truth_spend),
         "spend_accuracy": metrics.spend_accuracy(spend, truth_spend),
@@ -301,12 +361,20 @@ def chart(results: pd.DataFrame, path: Path) -> Path:
     return path
 
 
+def save_predictions(docs: list[ProcessedDoc], folder: Path) -> None:
+    """Every document's final answer, so it can be re-scored later without new model calls."""
+    folder.mkdir(parents=True, exist_ok=True)
+    for d in docs:
+        (folder / f"{d.doc_id}.json").write_text(d.model_dump_json(indent=1))
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Compare the pipeline configs on labelled documents.")
     ap.add_argument("--config", default="all", help=f"all, or a comma list of {', '.join(CONFIGS)}")
     ap.add_argument("--source", default="auto", choices=["auto", "labels", "template"])
     ap.add_argument("--limit", type=int, default=50, help="seeded sample size; 0 = every labelled document")
     ap.add_argument("--seed", type=int, default=7)
+    ap.add_argument("--only", default="", help="only doc_ids starting with this, e.g. cord_")
     ap.add_argument("--as-images", action="store_true", help="render PDFs to PNG (tests the vision model)")
     ap.add_argument("--out", default=str(OUT_DIR))
     args = ap.parse_args(argv)
@@ -315,8 +383,14 @@ def main(argv=None) -> int:
     unknown = set(names) - set(CONFIGS)
     if unknown:
         ap.error(f"unknown config(s): {', '.join(sorted(unknown))}")
+    if CLAUDE_CONFIGS & set(names) and not claude_baseline.has_credentials():
+        if args.config == "all":
+            print("skipping claude_per_doc and claude_all: no Anthropic credential (set ANTHROPIC_API_KEY in .env)")
+            names = [n for n in names if n not in CLAUDE_CONFIGS]
+        else:
+            ap.error("the Claude configs need ANTHROPIC_API_KEY in .env (or an `ant auth login` profile)")
     out = Path(args.out)
-    cases = load_cases(args.source, args.limit, args.seed, args.as_images, out)
+    cases = load_cases(args.source, args.limit, args.seed, args.as_images, out, args.only)
 
     rows, details = [], []
     categorize_cost = None
@@ -326,15 +400,17 @@ def main(argv=None) -> int:
     for name in names:
         start = time.monotonic()
         print(f"{name}:")
-        if name == "large_all":
+        if name in SUMMARY:
             # it only produces spend, so it only runs on labels that say what the spend is
             spend_cases = [c for c in cases if metrics.spendable(c.truth)]
             if len(spend_cases) < len(cases):
                 print(f"  {len(cases) - len(spend_cases)} documents left out: their labels lack a total or an amount")
-            spend, usage = run_large_all(spend_cases)
-            rows.append(score_large_all(spend, usage, spend_cases))
+            spend, usage = run_large_all(spend_cases, SUMMARY[name])
+            rows.append(score_large_all(spend, usage, spend_cases, name))
         else:
-            row, d = score_per_doc(name, run_per_doc(name, cases), cases, categorize_cost)
+            docs = run_per_doc(name, cases)
+            save_predictions(docs, out / "predictions" / name)
+            row, d = score_per_doc(name, docs, cases, categorize_cost)
             rows.append(row)
             details += d
         print(f"  {time.monotonic() - start:.0f}s")
@@ -345,8 +421,9 @@ def main(argv=None) -> int:
     pd.DataFrame(details).to_csv(out / "eval_details.csv", index=False)
     chart(results, out / "accuracy_vs_cost.html")
 
-    show = ["config", "field_accuracy", "line_item_accuracy", "docs_fully_correct", "total_spend_accuracy", "spend_accuracy",
-            "coverage", "flagged", "escalated", "cost_per_doc_usd", "p50_latency_s", "p95_latency_s"]
+    show = ["config", "line_item_accuracy", "docs_fully_correct", "total_spend_accuracy", "coverage",
+            "verified_spend_accuracy", "verified_money_correct", "flagged_money_wrong", "flagged", "escalated",
+            "cost_per_doc_usd", "p50_latency_s"]
     with pd.option_context("display.width", 200, "display.float_format", "{:.4f}".format):
         print("\n" + results[show].to_string(index=False))
     print(f"\n{out / 'results.csv'}\n{out / 'eval_details.csv'}\n{out / 'accuracy_vs_cost.html'}")

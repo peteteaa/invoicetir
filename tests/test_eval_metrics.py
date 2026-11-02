@@ -85,3 +85,15 @@ def test_template_truth_parses_wrapped_descriptions_and_totals():
     assert (label.vendor_name, label.invoice_date, label.total) == ("Sanchez, Foster and Peterson", "2014-09-07", D("125.77"))
     assert label.line_items[-1].description == "Steam Yacht Varuna, Brand New, Free shipping in the US"
     assert label.expected_flag is False
+
+
+def test_error_kind_separates_text_errors_from_money_errors():
+    truth = inv([item("Nasi goreng", "25000.00"), item("Es teh", "5000.00")])
+    assert metrics.error_kind(inv([item("Nasi goreng", "25000.00"), item("Es teh", "5000.00")]), truth) == "none"
+    renamed = inv([item("Nasi gorng", "25000.00"), item("Es teh", "5000.00")])
+    assert metrics.error_kind(renamed, truth) == "text" and metrics.money_correct(renamed, truth)
+    misread = inv([item("Nasi goreng", "52000.00"), item("Es teh", "5000.00")], total=truth.total, subtotal=truth.subtotal)
+    assert metrics.error_kind(misread, truth) == "money"
+    skipped = inv([item("Nasi goreng", "25000.00")], total=truth.total, subtotal=truth.subtotal)
+    assert metrics.error_kind(skipped, truth) == "money"
+    assert metrics.error_kind(None, truth) == "money"
