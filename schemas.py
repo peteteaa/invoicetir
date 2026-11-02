@@ -11,13 +11,16 @@ Invoice           doc_id, vendor_name (exactly as printed), invoice_number (opti
                   source_pages
 ExtractionResult  invoice (or null), uncertain_fields, unreadable
 Label             ground truth: Invoice plus optional is_duplicate_of (doc_id) and expected_flag
+ProcessedDoc      one document after the pipeline: status (verified / flagged / duplicate), the
+                  invoice, reasons, normalized vendor, and the cost and latency of its model calls.
+                  pipeline/run.py builds these; clean.py, aggregate.py and output.py read them.
 
 Model-output fields may be null: the prompt says to return null for anything not printed, and
 checks.py decides whether a missing value is a failure. Dates and currency codes are plain
 strings for the same reason; checks.py validates them.
 """
 from decimal import ROUND_HALF_UP, Decimal
-from typing import Annotated, Optional
+from typing import Annotated, Literal, Optional
 
 from pydantic import AfterValidator, BaseModel, BeforeValidator
 
@@ -73,3 +76,21 @@ class ExtractionResult(BaseModel):
 class Label(Invoice):
     is_duplicate_of: Optional[str] = None  # doc_id of the original
     expected_flag: bool = False            # the document's own printed math is wrong
+
+
+class ProcessedDoc(BaseModel):
+    """One document after the pipeline. Only status "verified" counts toward the spend totals."""
+    doc_id: str
+    source_path: str
+    status: Literal["verified", "flagged", "duplicate"]
+    invoice: Optional[Invoice] = None       # None only when nothing valid was extracted
+    uncertain_fields: list[str] = []
+    reasons: list[str] = []                 # why flagged, in words, e.g. "line 2: 4 x 3288.00 != 13125.00"
+    vendor: Optional[str] = None            # normalized by clean.py; invoice.vendor_name stays as printed
+    duplicate_of: Optional[str] = None      # doc_id of the original, set by clean.py
+    model: Optional[str] = None             # the model whose extraction this is
+    escalated: bool = False
+    input_tokens: int = 0
+    output_tokens: int = 0
+    latency_s: float = 0.0
+    cost_usd: Optional[Decimal] = None      # None when a model's prices are not configured
