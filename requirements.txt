@@ -1,0 +1,11 @@
+openai
+pydantic
+pymupdf
+rapidfuzz
+pandas
+openpyxl
+plotly
+streamlit
+datasets
+pytest
+pyyaml
