@@ -1,1 +1,10 @@
-# Categories and their descriptions: software, cloud, travel, meals, contractors, office, marketing, other
+# Spend categories: name -> description. The descriptions go into prompts/categorize.md, so say
+# what belongs in each one. "other" must stay: it is the fallback.
+software: Software subscriptions and licenses (SaaS, apps, developer tools).
+cloud: Cloud infrastructure and hosting (compute, storage, domains, CDN, usage-billed APIs).
+travel: Flights, hotels, car rental, taxis and rideshare, fuel, parking, tolls.
+meals: Restaurants, cafes, food and drink, food delivery, catering.
+contractors: Freelancers, agencies and professional services (legal, accounting, consulting).
+office: Office supplies, furniture, equipment and hardware, rent, utilities, internet, phone.
+marketing: Advertising, sponsorships, events, printing, promotional items.
+other: Anything that fits none of the categories above.
