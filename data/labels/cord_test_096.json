@@ -1,0 +1,38 @@
+{
+  "doc_id": "cord_test_096",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "BBQ Chicken",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "41000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "- Tidak Pedas",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "0.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "41000.00",
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "41000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

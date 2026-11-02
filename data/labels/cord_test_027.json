@@ -1,0 +1,38 @@
+{
+  "doc_id": "cord_test_027",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "PKT AYAM",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "33000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "GULAI OTAK",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "23000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "56000.00",
+  "tax": "5600.00",
+  "tax_inclusive": false,
+  "total": "61600.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

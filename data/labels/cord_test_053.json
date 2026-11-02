@@ -1,0 +1,51 @@
+{
+  "doc_id": "cord_test_053",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "Pecel Komplit + Nasi",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "42000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "SOTO KUDUS",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "47000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Mineral Water",
+      "quantity": "2",
+      "unit_price": null,
+      "amount": "18000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [
+    {
+      "label": "Service charge",
+      "amount": "5350.00"
+    }
+  ],
+  "subtotal": "107000.00",
+  "tax": "11235.00",
+  "tax_inclusive": false,
+  "total": "123585.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

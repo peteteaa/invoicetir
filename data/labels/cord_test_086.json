@@ -1,0 +1,38 @@
+{
+  "doc_id": "cord_test_086",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "Cheezemania",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "9500.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Mamamia",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "12500.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "22000.00",
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "22000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

@@ -1,0 +1,30 @@
+{
+  "doc_id": "cord_test_067",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "CHEESE JOHN",
+      "quantity": "1",
+      "unit_price": "9500.00",
+      "amount": "9500.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": null,
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "9500.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

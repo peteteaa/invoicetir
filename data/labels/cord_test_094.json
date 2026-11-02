@@ -1,0 +1,59 @@
+{
+  "doc_id": "cord_test_094",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "TAHU GORENG",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "28000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "CAKWE",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "17000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "PHO TAI CHIN(R)",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "63000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "TEA",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "11000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [
+    {
+      "label": "Service charge",
+      "amount": "8330.00"
+    }
+  ],
+  "subtotal": "119000.00",
+  "tax": "12733.00",
+  "tax_inclusive": false,
+  "total": "140063.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

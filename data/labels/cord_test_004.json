@@ -1,0 +1,51 @@
+{
+  "doc_id": "cord_test_004",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "ICE BLACKCOFFE",
+      "quantity": "2",
+      "unit_price": null,
+      "amount": "82000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "AVOCADO COFFEE",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "61000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "CHIKEN KATSU FF",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "51000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [
+    {
+      "label": "Discount",
+      "amount": "-19400.00"
+    }
+  ],
+  "subtotal": "194000.00",
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "174600.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

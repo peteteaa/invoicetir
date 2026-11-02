@@ -1,0 +1,55 @@
+{
+  "doc_id": "cord_test_033",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "GRILLED BABY POTATO (R",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "50500.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "HOT TUNA",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "67000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "HOT TUNA",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "67000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [
+    {
+      "label": "Discount: HOT TUNA",
+      "amount": "-67000.00"
+    },
+    {
+      "label": "Service charge",
+      "amount": "11070.00"
+    }
+  ],
+  "subtotal": "117500.00",
+  "tax": "19557.00",
+  "tax_inclusive": false,
+  "total": "148127.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

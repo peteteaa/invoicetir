@@ -1,0 +1,46 @@
+{
+  "doc_id": "cord_test_025",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "TWIST STRAWBERRY DONUT",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "10000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "TLJ CROQUETTE",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "17000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "POTATO PEPPER BAGEL",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "16000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": null,
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "43000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

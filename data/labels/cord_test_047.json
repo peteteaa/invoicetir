@@ -1,0 +1,51 @@
+{
+  "doc_id": "cord_test_047",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "COPIA 1 /GB",
+      "quantity": "1",
+      "unit_price": "45000.00",
+      "amount": "45000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "PLASTIC BAG RED CENTRAL SI",
+      "quantity": "1",
+      "unit_price": "0.00",
+      "amount": "0.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "COPIA 1 /GB",
+      "quantity": "1",
+      "unit_price": "18000.00",
+      "amount": "18000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [
+    {
+      "label": "Discount",
+      "amount": "0.00"
+    }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "63000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

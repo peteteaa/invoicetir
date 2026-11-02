@@ -1,0 +1,107 @@
+{
+  "doc_id": "cord_test_041",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "Chicken Maryland",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "47619.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Cappucino (Hot/Iced)",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "30303.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Naga Lychee Juice",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "34632.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Cafe Latte",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "30303.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Hot Chocolate Marshmallo",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "30303.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Chicken Cesar Salad",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "43290.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Mineral Water",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "12987.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Mineral Water",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "12987.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Lychee/Peach/Lemon/Mango",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "25974.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Chicken Maryland",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "47619.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [
+    {
+      "label": "Service charge",
+      "amount": "48982.68"
+    }
+  ],
+  "subtotal": "316017.00",
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "365000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

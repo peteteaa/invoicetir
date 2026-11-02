@@ -149,10 +149,26 @@ Assumes one invoice per document.
   math is wrong" (`expected_flag`) only when the document itself prints the math wrong.
   "Save and next" jumps to the next unlabeled document. To label in parallel, each person
   takes a different range of documents and commits their `data/labels/` files.
-- **`data/load_cord.py`** (optional): downloads the CORD receipts dataset from Hugging Face
-  (verify the ID, likely `naver-clova-ix/cord-v2`), maps line items, subtotal, tax and total
-  to our schema, and writes images and labels into `data/docs/` and `data/labels/`. Fields
-  CORD doesn't have are skipped.
+- **`data/load_cord.py`**: downloads real scanned Indonesian receipts from
+  [CORD](https://huggingface.co/datasets/naver-clova-ix/cord-v2) (`naver-clova-ix/cord-v2`,
+  Clova AI, CC BY 4.0), maps line items, subtotal, tax, service charges, discounts and total
+  to our schema, and writes images to `data/docs/cord/` and labels to `data/labels/`.
+  `python data/load_cord.py --split test` takes about 10 seconds for 100 receipts. The 100
+  test-split labels are committed (`data/labels/cord_test_*.json`, derived from CORD under CC
+  BY 4.0); the images aren't (`data/docs/` is gitignored), so run the script once to get
+  them. Existing labels are kept unless `--overwrite`.
+  - CORD masks the store, so receipts print **no vendor, date or invoice number**: those are
+    left null and not scored. Currency is IDR (CORD doesn't label it; every receipt is
+    Indonesian). About 19 of the 100 labels don't pass our own math checks, mostly because
+    CORD left a total or a line price unannotated; the eval scores spend only on complete ones.
+  - Evaluate CORD with only what it prints required:
+    `REQUIRED_FIELDS=total,currency DEFAULT_CURRENCY=IDR python -m eval.run_eval --source labels`
+
+**Fields a document doesn't print** (`REQUIRED_FIELDS`, `DEFAULT_CURRENCY` in `.env`): by
+default vendor, date, currency and total are required. A required value that is absent fails
+the checks, but it is never retried or escalated, since re-reading can't print it: the document
+is flagged "not printed (or not read)" straight away. `DEFAULT_CURRENCY` is used only when no
+currency is printed at all, and is always marked uncertain.
 
 ## Eval (`eval/run_eval.py`)
 

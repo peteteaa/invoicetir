@@ -1,0 +1,46 @@
+{
+  "doc_id": "cord_test_026",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "Nasi Cap Cay Porsi B esar",
+      "quantity": "1",
+      "unit_price": "65000",
+      "amount": "65000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Teh Tawar",
+      "quantity": "2",
+      "unit_price": "4000",
+      "amount": null,
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Fu Yung Hai",
+      "quantity": "1",
+      "unit_price": "65000",
+      "amount": "65000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "138000.00",
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "138000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

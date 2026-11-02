@@ -1,0 +1,46 @@
+{
+  "doc_id": "cord_test_082",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "Chocolate Log Cake",
+      "quantity": "1",
+      "unit_price": "115000",
+      "amount": "115000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Snowman Cake Chocolate",
+      "quantity": "1",
+      "unit_price": "60000",
+      "amount": "60000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Strawberry Log Cake",
+      "quantity": "2",
+      "unit_price": "105000",
+      "amount": "210000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "385000.00",
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "385000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

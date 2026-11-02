@@ -8,19 +8,26 @@ Checks (money tolerance 0.01):
   - tax_inclusive: sum of line amounts + adjustments = total (tax is already inside the prices)
   - no subtotal printed: sum of line amounts + adjustments + tax = total
 - invoice_date is a real ISO 8601 date (YYYY-MM-DD); currency is an ISO 4217 code
-- vendor_name, invoice_date, currency and total are present; there is at least one line item
+- the fields in config.REQUIRED_FIELDS (default vendor_name, invoice_date, currency, total) are
+  present; there is at least one line item
 
 A missing tax counts as 0 in the sums: many receipts print none. A wrong total still fails.
 The failures are written for two readers: the model, when repair.py re-prompts it, and a person
-reviewing a flagged invoice. Pure functions: no I/O, no model calls.
+reviewing a flagged invoice. Pure functions: no I/O, no model calls. Failures named in MISSING_FIELD mean a value is absent
+(not printed, or not read); repair.py doesn't re-prompt for those, since re-reading can't print it.
 """
+import re
 from datetime import date
 from decimal import Decimal
 from typing import Optional
 
+import config
 from schemas import ExtractionResult, Invoice
 
 TOLERANCE = Decimal("0.01")
+# A failure saying a value is absent, as opposed to wrong or not adding up.
+MISSING_FIELD = re.compile(r"^(vendor_name|invoice_date|currency|total) missing$|^line \d+: amount missing$"
+                           r"|^adjustment \d+ \(.*\): amount missing$")
 
 # Active ISO 4217 codes.
 CURRENCIES = set("""
@@ -61,21 +68,24 @@ def _valid_date(value: str) -> bool:
         return False
 
 
-def check_invoice(invoice: Invoice) -> list[str]:
+def check_invoice(invoice: Invoice, required: Optional[list[str]] = None) -> list[str]:
     failures = []
 
-    # Required fields.
-    if not (invoice.vendor_name or "").strip():
+    # Required fields (config.REQUIRED_FIELDS); a value that is present must always be valid.
+    required = config.REQUIRED_FIELDS if required is None else required
+    if not (invoice.vendor_name or "").strip() and "vendor_name" in required:
         failures.append("vendor_name missing")
     if invoice.invoice_date is None:
-        failures.append("invoice_date missing")
+        if "invoice_date" in required:
+            failures.append("invoice_date missing")
     elif not _valid_date(invoice.invoice_date):
         failures.append(f"invoice_date {invoice.invoice_date!r} is not a valid YYYY-MM-DD date")
     if invoice.currency is None:
-        failures.append("currency missing")
+        if "currency" in required:
+            failures.append("currency missing")
     elif invoice.currency not in CURRENCIES:
         failures.append(f"currency {invoice.currency!r} is not an ISO 4217 code")
-    if invoice.total is None:
+    if invoice.total is None and "total" in required:
         failures.append("total missing")
     if not invoice.line_items:
         failures.append("no line items")

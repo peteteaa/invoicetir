@@ -1,0 +1,46 @@
+{
+  "doc_id": "cord_test_024",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "5001-Corn Flakes Cookies",
+      "quantity": "1",
+      "unit_price": "56000",
+      "amount": "56000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "5003-Chokoreto Cookies",
+      "quantity": "1",
+      "unit_price": "62000",
+      "amount": "62000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "6002-Plastic Bag Medium",
+      "quantity": "1",
+      "unit_price": "0",
+      "amount": "0.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": null,
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "118000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

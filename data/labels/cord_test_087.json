@@ -1,0 +1,30 @@
+{
+  "doc_id": "cord_test_087",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "PHOTAI CHIN",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "36500.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "36500.00",
+  "tax": "3650.00",
+  "tax_inclusive": false,
+  "total": "40150.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

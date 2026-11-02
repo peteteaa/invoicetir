@@ -1,0 +1,75 @@
+{
+  "doc_id": "cord_test_017",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "Goblin's Mace",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "25000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Mozarella Hot Dog",
+      "quantity": "2",
+      "unit_price": null,
+      "amount": "38000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Chili Pepper Croquette",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "14000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Cheese Croquette",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "14000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Plastik Amook",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "0.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Plastik Putih Take Away",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "0.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [
+    {
+      "label": "Discount",
+      "amount": "0.00"
+    }
+  ],
+  "subtotal": "91000.00",
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "91000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

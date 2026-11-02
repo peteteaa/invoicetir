@@ -1,0 +1,67 @@
+{
+  "doc_id": "cord_test_020",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "cashew nuts chkn",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "64500.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "garlic pepper beef",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "79500.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "red curry beef",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "69500.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "phad thai",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "64500.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "steamed rice",
+      "quantity": "4",
+      "unit_price": null,
+      "amount": "47600.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [
+    {
+      "label": "Service charge",
+      "amount": "17908.00"
+    }
+  ],
+  "subtotal": "325600.00",
+  "tax": "34351.00",
+  "tax_inclusive": false,
+  "total": "377859.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

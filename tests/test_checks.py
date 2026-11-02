@@ -150,3 +150,22 @@ def test_check_result_handles_missing_and_unreadable():
     assert check_result(ExtractionResult(unreadable=True)) == ["model reported the document as unreadable"]
     assert check_result(ExtractionResult(invoice=None)) == ["no invoice in the extraction"]
     assert check_result(ExtractionResult(invoice=load("clean_invoice"))) == []
+
+
+# --- configurable required fields -----------------------------------------------------------
+
+def test_required_fields_can_be_relaxed_but_present_values_must_still_be_valid():
+    no_header = load("clean_invoice", vendor_name=None, invoice_date=None)
+    assert check_invoice(no_header, required=["total"]) == []
+    assert check_invoice(load("clean_invoice", invoice_date="2013-13-08"), required=["total"]) == [
+        "invoice_date '2013-13-08' is not a valid YYYY-MM-DD date"]
+
+
+@pytest.mark.parametrize("failure, absent", [
+    ("vendor_name missing", True), ("total missing", True), ("line 3: amount missing", True),
+    ("adjustment 2 (Tip): amount missing", True), ("no line items", False),
+    ("line 1: 4 x 12.50 != 48.00", False), ("currency 'usd' is not an ISO 4217 code", False),
+])
+def test_missing_field_pattern(failure, absent):
+    from pipeline.checks import MISSING_FIELD
+    assert bool(MISSING_FIELD.match(failure)) is absent

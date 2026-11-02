@@ -1,0 +1,38 @@
+{
+  "doc_id": "cord_test_073",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "1001-Choco Bun",
+      "quantity": "1",
+      "unit_price": "22000",
+      "amount": "22000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "6001-Plastic Bag Small",
+      "quantity": "1",
+      "unit_price": "0",
+      "amount": "0.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": null,
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "22000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

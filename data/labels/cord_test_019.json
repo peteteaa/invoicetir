@@ -1,0 +1,38 @@
+{
+  "doc_id": "cord_test_019",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "AMBUSH DBL CHS",
+      "quantity": "4",
+      "unit_price": null,
+      "amount": "60000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "AMBUSH CHS BUR",
+      "quantity": "10",
+      "unit_price": null,
+      "amount": "100000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "160000.00",
+  "tax": "16000.00",
+  "tax_inclusive": false,
+  "total": "176000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

@@ -1,0 +1,94 @@
+{
+  "doc_id": "cord_test_059",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "Tahu Isi",
+      "quantity": "2",
+      "unit_price": null,
+      "amount": "78000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Tea",
+      "quantity": "5",
+      "unit_price": null,
+      "amount": "30000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Kepiting 7-8.4ons - Chilly 0.7 1",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "297490.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Udang Telur Asin - Regular",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "47500.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Kailan 2 Rasa",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "45000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Mantau - 2 pcs",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "25000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Sweet Tea",
+      "quantity": "2",
+      "unit_price": null,
+      "amount": "16000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Nasi Putih",
+      "quantity": "7",
+      "unit_price": null,
+      "amount": "42000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Mantau - 3 pcs",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "37500.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "618490.00",
+  "tax": "61849.00",
+  "tax_inclusive": false,
+  "total": "680500.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

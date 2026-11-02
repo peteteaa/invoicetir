@@ -1,0 +1,62 @@
+{
+  "doc_id": "cord_test_016",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "[LG] BLACK SAKURA",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "59091.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "LONGAN",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "0.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "ROASTED ALMOND",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "0.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "IVANGGO",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "0.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "IVINERAL WATER (bundling) 5k",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "4545.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "63636.00",
+  "tax": "6364.00",
+  "tax_inclusive": false,
+  "total": "70000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

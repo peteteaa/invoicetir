@@ -1,0 +1,46 @@
+{
+  "doc_id": "cord_test_069",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "[MD] SOFT MORNING ROLL",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "18000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "REAL HONEY PANCAKE BREAD",
+      "quantity": "2",
+      "unit_price": null,
+      "amount": "20000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "CUSTARD BRIOCHE",
+      "quantity": "4",
+      "unit_price": null,
+      "amount": "36000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": null,
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "74000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

@@ -1,0 +1,38 @@
+{
+  "doc_id": "cord_test_013",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "BASO KUAH",
+      "quantity": "1",
+      "unit_price": "43636",
+      "amount": "43636.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "A.MINERAL GELAS",
+      "quantity": "1",
+      "unit_price": "3000",
+      "amount": "3000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "46636.00",
+  "tax": "4664.00",
+  "tax_inclusive": false,
+  "total": "51300.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

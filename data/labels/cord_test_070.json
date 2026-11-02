@@ -1,0 +1,107 @@
+{
+  "doc_id": "cord_test_070",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "UDANG RE",
+      "quantity": "2",
+      "unit_price": "216000",
+      "amount": "432000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "=*LARGE*==",
+      "quantity": "2",
+      "unit_price": null,
+      "amount": null,
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "AYM GR JUN NJAN =*MEDIUM*=",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "108000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "SAPO TH SEAFOOD =*LARGE*==",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "172000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "POCAI 3",
+      "quantity": "2",
+      "unit_price": "111000",
+      "amount": "222000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "=*MEDIUM*=",
+      "quantity": "2",
+      "unit_price": null,
+      "amount": null,
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "GURAME FILLET M ASAM MANIS",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "163000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "BIHUN GORENG JJ =*LARGE*==",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "116000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "ICED TEA",
+      "quantity": "5",
+      "unit_price": "12000",
+      "amount": "60000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "NASI PUTIH",
+      "quantity": "7",
+      "unit_price": "10000",
+      "amount": "70000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [
+    {
+      "label": "Service charge",
+      "amount": "80580.00"
+    }
+  ],
+  "subtotal": "1343000.00",
+  "tax": "142358.00",
+  "tax_inclusive": false,
+  "total": "1565938.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

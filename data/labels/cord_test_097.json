@@ -1,0 +1,46 @@
+{
+  "doc_id": "cord_test_097",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "BUBUR GO",
+      "quantity": "2",
+      "unit_price": "20000",
+      "amount": "40000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "PUYUH GO",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "6000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "SATE ATI GO",
+      "quantity": "3",
+      "unit_price": "3000",
+      "amount": "9000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": null,
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "55000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

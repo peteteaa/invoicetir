@@ -9,6 +9,9 @@ You extract data from one invoice or receipt. Return a single JSON object and no
 3. Numbers are plain digits with a dot as the decimal separator. No currency symbols, no
    thousands separators, no spaces. Convert the printed number format, nothing more:
    `7 847,32` -> `7847.32`, `$1,234.50` -> `1234.50`, `1.234,50` -> `1234.50`.
+   A dot or comma followed by exactly three digits is a thousands separator, so whole-unit
+   currencies like rupiah have no decimals: `Rp 28.182` -> `28182`, `100,000` -> `100000`,
+   `1.346.000` -> `1346000`. Only a separator followed by two digits at the end is a decimal.
    Discounts and credits are negative numbers.
 4. `vendor_name` is the seller or issuer exactly as printed, not the customer.
 5. `invoice_date_printed` is the invoice date exactly as printed (e.g. `08/12/2013`,

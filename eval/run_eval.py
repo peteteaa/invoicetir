@@ -19,6 +19,8 @@ How the scores are defined (see eval/metrics.py):
 - Field and line-item accuracy compare the final extraction with the truth, even when the
   pipeline flagged the document: they measure reading, not the decision.
 - Total spend accuracy compares the money with the printed totals, ignoring categories.
+- Spend scores use only labels that say what the true spend is (metrics.spendable: a total and
+  an amount for every line); "spend_docs" says how many. The rest still count for fields.
 - Dollar error per category counts verified documents only, so spend the pipeline flagged is
   missing from its totals. "coverage" is the share of true spend in verified documents.
 - To measure extraction rather than categorizer disagreement, a per-document config's line
@@ -149,9 +151,10 @@ def score_per_doc(name: str, docs: list[ProcessedDoc], cases: list[Case],
         correct, total = metrics.line_item_counts(d.invoice, c.truth)
         item_correct += correct
         item_total += total
-        truth_for_spend.append(ProcessedDoc(doc_id=c.doc_id, source_path=str(c.path), status="verified",
-                                            invoice=c.truth))
-        if d.invoice is not None:
+        if metrics.spendable(c.truth):   # else the label can't say what the true spend is
+            truth_for_spend.append(ProcessedDoc(doc_id=c.doc_id, source_path=str(c.path), status="verified",
+                                                invoice=c.truth))
+        if d.invoice is not None and metrics.spendable(c.truth):
             pred_for_spend.append(d.model_copy(update={"invoice": metrics.with_truth_categories(d.invoice, c.truth)}))
         details.append({"config": name, "doc_id": c.doc_id, "status": d.status, "escalated": d.escalated,
                         "fields_correct": sum(got.values()), "fields": len(got),
@@ -179,6 +182,7 @@ def score_per_doc(name: str, docs: list[ProcessedDoc], cases: list[Case],
         "docs_fully_correct": sum(x["fully_correct"] for x in details) / len(details),
         "total_spend_accuracy": metrics.total_accuracy(pred_spend, truth_spend),
         "spend_accuracy": metrics.spend_accuracy(pred_spend, truth_spend),
+        "spend_docs": len(truth_for_spend),
         "dollar_error": float(sum(metrics.dollar_error(pred_spend, truth_spend).values(), Decimal(0))),
         "coverage": float(sum(covered.values(), Decimal(0)) / sum(truth_spend.values(), Decimal(0))),
         "verified": len(verified_ids), "flagged": sum(d.status == "flagged" for d in docs),
@@ -250,7 +254,8 @@ def score_large_all(spend: dict, usage: dict, cases: list[Case]) -> dict:
     per_doc_latency = sum(usage["latency"]) / len(cases)
     return {
         "config": "large_all", "docs": len(cases), "field_accuracy": None, "line_item_accuracy": None,
-        "docs_fully_correct": None, "total_spend_accuracy": metrics.total_accuracy(spend, truth_spend),
+        "docs_fully_correct": None, "spend_docs": len(cases),
+        "total_spend_accuracy": metrics.total_accuracy(spend, truth_spend),
         "spend_accuracy": metrics.spend_accuracy(spend, truth_spend),
         "dollar_error": float(sum(errors.values(), Decimal(0))),
         "coverage": None if usage["failed_batches"] else 1.0,
@@ -318,8 +323,12 @@ def main(argv=None) -> int:
         start = time.monotonic()
         print(f"{name}:")
         if name == "large_all":
-            spend, usage = run_large_all(cases)
-            rows.append(score_large_all(spend, usage, cases))
+            # it only produces spend, so it only runs on labels that say what the spend is
+            spend_cases = [c for c in cases if metrics.spendable(c.truth)]
+            if len(spend_cases) < len(cases):
+                print(f"  {len(cases) - len(spend_cases)} documents left out: their labels lack a total or an amount")
+            spend, usage = run_large_all(spend_cases)
+            rows.append(score_large_all(spend, usage, spend_cases))
         else:
             row, d = score_per_doc(name, run_per_doc(name, cases), cases, categorize_cost)
             rows.append(row)

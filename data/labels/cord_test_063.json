@@ -1,0 +1,46 @@
+{
+  "doc_id": "cord_test_063",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "Kopi Susu Kampung. Ice",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "19000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Kopi Susu Kampung Less Ice",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "0.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Kopi Susu Kampung. Ice",
+      "quantity": "2",
+      "unit_price": null,
+      "amount": "38000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "57000.00",
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "57000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

@@ -1,0 +1,38 @@
+{
+  "doc_id": "cord_test_036",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "XXL Crispy Chicken",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "40000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "- Sedang",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "0.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "40000.00",
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "40000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

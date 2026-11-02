@@ -6,6 +6,8 @@
 2. Escalate once to ESCALATION_MODEL with every failure so far (prompts/escalate.md) when the
    small model still fails, calls the document unreadable, or (ESCALATE_ON_UNCERTAIN) is
    unsure about a material field.
+   A value that is simply absent (vendor_name missing, a line with no amount) is never retried
+   or escalated: re-reading can't print it. The document is flagged "not printed" straight away.
 3. Flag for human review, with the reasons, when the escalation model still fails the checks,
    calls the document unreadable, or is itself unsure about a material field. Never guess.
 
@@ -27,7 +29,7 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 import config
-from pipeline.checks import check_result
+from pipeline.checks import MISSING_FIELD, check_result
 from pipeline.extract import Attempt, default_model, extract
 from pipeline.ingest import Document
 from schemas import ExtractionResult
@@ -101,6 +103,18 @@ def failures(attempt: Attempt) -> list[str]:
     return check_result(attempt.result)
 
 
+def _split(fails: list[str]) -> tuple[list[str], list[str]]:
+    """(absent values, everything else). Re-reading can fix a misread or a sum that doesn't add
+    up, but it can't make a vendor or date appear that the document doesn't print."""
+    missing = [f for f in fails if MISSING_FIELD.match(f)]
+    return missing, [f for f in fails if f not in missing]
+
+
+def _not_printed(missing: list[str], who: str = "") -> list[str]:
+    fields = ", ".join(f.replace(" missing", "") for f in missing)
+    return [f"{who}not printed (or not read): {fields}"]
+
+
 def _bullets(items: list[str]) -> str:
     return "\n".join(f"- {x}" for x in items)
 
@@ -134,15 +148,19 @@ def run(doc: Document, model: Optional[str] = None, use_checks: bool = True,
                 return Outcome("verified", last.result, model, [], attempts)
             why_escalate = [f"{model.split('/')[-1]} unsure about: {', '.join(unsure)}"]
             break
-        seen += [f for f in fails if f not in seen]
+        missing, fixable = _split(fails)
+        seen += [f for f in fixable if f not in seen]
         if last.result is not None and last.result.unreadable:
             why_escalate = ["small model reported the document as unreadable"]
             break
+        if not fixable:   # only absent values: no retry or escalation can print them
+            return Outcome("flagged", last.result, model, _not_printed(missing), attempts)
         if retry == config.MAX_RETRIES:
-            why_escalate = fails
+            why_escalate = fixable
             break
+        # Only the fixable failures: listing "vendor_name missing" invites an invented vendor.
         followup = [{"role": "assistant", "content": last.raw or "(no answer)"},
-                    {"role": "user", "content": _prompt("repair.md", fails)}]
+                    {"role": "user", "content": _prompt("repair.md", fixable)}]
         last = extract(doc, model=model, stage=f"repair{retry + 1}", followup=followup)
         attempts.append(last)
 
@@ -158,9 +176,11 @@ def run(doc: Document, model: Optional[str] = None, use_checks: bool = True,
     attempts.append(final)
 
     name = big.split("/")[-1]
-    fails = failures(final)
-    if fails:
-        return Outcome("flagged", final.result, big, [f"{name}: {f}" for f in fails], attempts, True)
+    missing, fixable = _split(failures(final))
+    if fixable:
+        return Outcome("flagged", final.result, big, [f"{name}: {f}" for f in fixable + missing], attempts, True)
+    if missing:
+        return Outcome("flagged", final.result, big, _not_printed(missing, f"{name}: "), attempts, True)
     unsure = material_uncertain(final.result)
     if unsure:
         return Outcome("flagged", final.result, big, [f"{name} unsure about: {', '.join(unsure)}"],

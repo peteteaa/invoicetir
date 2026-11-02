@@ -1,0 +1,51 @@
+{
+  "doc_id": "cord_test_098",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "BLACK PAPPER MEATBALL PAS",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "79000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "TRUFFLE CREAM",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "77000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "EARL GREY MILK TEA",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "59000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [
+    {
+      "label": "Service charge",
+      "amount": "12900.00"
+    }
+  ],
+  "subtotal": "215000.00",
+  "tax": "22790.00",
+  "tax_inclusive": false,
+  "total": "250690.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

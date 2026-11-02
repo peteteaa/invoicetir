@@ -1,0 +1,38 @@
+{
+  "doc_id": "cord_test_084",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "Kroket",
+      "quantity": "1",
+      "unit_price": "12000",
+      "amount": "12000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Arem Arem",
+      "quantity": "2",
+      "unit_price": "12000",
+      "amount": "24000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "36000.00",
+  "tax": "3600.00",
+  "tax_inclusive": false,
+  "total": "39600.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

@@ -1,0 +1,30 @@
+{
+  "doc_id": "cord_test_083",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "COOKIES AND CREAM",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "20909.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "20909.00",
+  "tax": "2091.00",
+  "tax_inclusive": false,
+  "total": "23000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

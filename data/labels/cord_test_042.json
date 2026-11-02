@@ -1,0 +1,30 @@
+{
+  "doc_id": "cord_test_042",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "Chicken HCC. 1Pcs",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "15000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "15000.00",
+  "tax": "1500.00",
+  "tax_inclusive": false,
+  "total": "16500.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

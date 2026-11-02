@@ -61,6 +61,13 @@ API_MAX_RETRIES = int(_env("API_MAX_RETRIES", "6"))   # rate limits / server err
 WORKERS = int(_env("WORKERS", "4"))   # documents extracted at once; 12 hit Fireworks rate limits
 
 MAX_RETRIES = int(_env("MAX_RETRIES", "2"))
+# Fields a document must have (checks.py). Some sources never print some of them (CORD masks
+# the store, so no vendor or date): set e.g. REQUIRED_FIELDS=total for those.
+REQUIRED_FIELDS = [f.strip() for f in _env("REQUIRED_FIELDS", "vendor_name,invoice_date,currency,total").split(",")
+                   if f.strip()]
+# Currency to assume when none is printed at all (e.g. IDR for Indonesian receipts); always
+# marked uncertain. Empty = none: a missing currency stays missing.
+DEFAULT_CURRENCY = _env("DEFAULT_CURRENCY").upper() or None
 # Escalate when the small model passes the checks but is unsure about a money or vendor field.
 ESCALATE_ON_UNCERTAIN = _env("ESCALATE_ON_UNCERTAIN", "true").lower() in ("1", "true", "yes")
 ZOOM_ENABLED = _env("ZOOM_ENABLED", "false").lower() in ("1", "true", "yes")

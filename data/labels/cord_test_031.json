@@ -1,0 +1,47 @@
+{
+  "doc_id": "cord_test_031",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "SALMON PESTO",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "85500.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "SALMON PESTO",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "85500.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [
+    {
+      "label": "Discount: SALMON PESTO",
+      "amount": "-85500.00"
+    },
+    {
+      "label": "Service charge",
+      "amount": "10260.00"
+    }
+  ],
+  "subtotal": "85500.00",
+  "tax": "18126.00",
+  "tax_inclusive": false,
+  "total": "113886.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

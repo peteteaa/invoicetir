@@ -1,0 +1,30 @@
+{
+  "doc_id": "cord_test_010",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "CINNAMON SUGAR",
+      "quantity": "1",
+      "unit_price": "17000",
+      "amount": "17000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "17000.00",
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "17000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

@@ -1,0 +1,55 @@
+{
+  "doc_id": "cord_test_028",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "SAMGYOPSAL",
+      "quantity": "2",
+      "unit_price": null,
+      "amount": "194000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "SUL LUNG TANG",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "75000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "MAKOLI",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "100000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [
+    {
+      "label": "Discount",
+      "amount": "0.00"
+    },
+    {
+      "label": "Service charge",
+      "amount": "18450.00"
+    }
+  ],
+  "subtotal": "369000.00",
+  "tax": "38745.00",
+  "tax_inclusive": false,
+  "total": "426195.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

@@ -1,0 +1,30 @@
+{
+  "doc_id": "cord_test_032",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "THAI ICED GREEN TEA",
+      "quantity": "1",
+      "unit_price": "24000",
+      "amount": "24000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "24000.00",
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "24000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

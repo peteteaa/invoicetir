@@ -1,0 +1,99 @@
+{
+  "doc_id": "cord_test_038",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "XLB Org Pork 10x",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "78000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Sicito Babi",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "65000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Hotplate Tahu",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "58000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "DF Fish Fillet Garlc",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "108000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "LM Pork Belly",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "88000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Siew Mai",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "38800.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Kwan Yin Cup",
+      "quantity": "5",
+      "unit_price": null,
+      "amount": "50000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Herbal Jelly",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "38000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Onde-Onde",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "38000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [
+    {
+      "label": "Service charge",
+      "amount": "42135.00"
+    }
+  ],
+  "subtotal": "561800.00",
+  "tax": "60394.00",
+  "tax_inclusive": false,
+  "total": "664329.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

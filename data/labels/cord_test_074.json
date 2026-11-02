@@ -1,0 +1,59 @@
+{
+  "doc_id": "cord_test_074",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "BLACKCURRANT",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "32000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "SPRITE",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "32000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "GRILLED CALAMARI",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "85000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "DINE FOR 2 * DANISH FISH & CHIPS DF * NEW YORK FISH & CHIPS",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "129000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [
+    {
+      "label": "Service charge",
+      "amount": "22240.00"
+    }
+  ],
+  "subtotal": "278000.00",
+  "tax": "30024.00",
+  "tax_inclusive": false,
+  "total": "330264.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

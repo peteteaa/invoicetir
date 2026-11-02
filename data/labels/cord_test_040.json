@@ -1,0 +1,38 @@
+{
+  "doc_id": "cord_test_040",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "Snack Lestari All",
+      "quantity": "2",
+      "unit_price": "27000",
+      "amount": "54000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Bakery Aneka Sisir Banana,Pizza,yoko,Mar mer,Daging,abon,keju,cokelat,dll",
+      "quantity": "2",
+      "unit_price": "7000",
+      "amount": "14000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": null,
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "68000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

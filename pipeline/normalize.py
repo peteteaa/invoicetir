@@ -6,7 +6,8 @@ own ISO reading. Python decides.
 Currency: an ISO code or an unambiguous symbol (EUR, €, £, ₩, Rp...) maps directly. A shared
 symbol like `$` or `¥` keeps the model's code if it is one the symbol can mean (else the
 symbol's most common code) and is marked uncertain. Anything else (nothing printed, or a local
-abbreviation such as "Ksh" or "грн") keeps the model's code and is marked uncertain.
+abbreviation such as "Ksh" or "грн") keeps the model's code and is marked uncertain. With no
+code at all, config.DEFAULT_CURRENCY (if set) is used, also marked uncertain.
 
 Dates:
 - an unambiguous printed date (year first, a month name, or a day above 12) is parsed directly;
@@ -110,6 +111,8 @@ def _mark(uncertain_fields: list[str], name: str, uncertain: bool) -> None:
 def resolve(invoice, uncertain_fields: list[str]) -> None:
     """Set invoice.currency and invoice.invoice_date from what is printed, in place."""
     invoice.currency, unsure = currency(invoice.currency_printed, invoice.currency)
+    if invoice.currency is None and config.DEFAULT_CURRENCY:   # nothing printed, nothing read
+        invoice.currency, unsure = config.DEFAULT_CURRENCY, True
     _mark(uncertain_fields, "currency", unsure)
 
     iso, ambiguous = to_iso(invoice.invoice_date_printed, invoice.currency)

@@ -1,0 +1,75 @@
+{
+  "doc_id": "cord_test_014",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "RedVelvet Cheese Slc",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "38000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Chicken Baked Rice",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "55000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Fish n Chips",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "65000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Mushroom Soup",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "35000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Chamomile",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "25000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Iced Tea",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "20000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [
+    {
+      "label": "Service charge",
+      "amount": "17850.00"
+    }
+  ],
+  "subtotal": "238000.00",
+  "tax": "25585.00",
+  "tax_inclusive": false,
+  "total": "281435.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

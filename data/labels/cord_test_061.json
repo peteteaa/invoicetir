@@ -1,0 +1,83 @@
+{
+  "doc_id": "cord_test_061",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "TALAM UNGU",
+      "quantity": "1",
+      "unit_price": "6500",
+      "amount": "6500.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "AREM - AREM",
+      "quantity": "1",
+      "unit_price": "8000",
+      "amount": "8000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "LEMPER",
+      "quantity": "2",
+      "unit_price": "9000",
+      "amount": "18000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "MIKA SEDANG",
+      "quantity": "1",
+      "unit_price": "0",
+      "amount": "0.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "PLASTIK KECIL",
+      "quantity": "1",
+      "unit_price": "0",
+      "amount": "0.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "TEH KOTAK",
+      "quantity": "1",
+      "unit_price": "5000",
+      "amount": "5000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [
+    {
+      "label": "Discount: TALAM UNGU",
+      "amount": "-2600.00"
+    },
+    {
+      "label": "Discount: AREM - AREM",
+      "amount": "-3200.00"
+    },
+    {
+      "label": "Discount: LEMPER",
+      "amount": "-7200.00"
+    }
+  ],
+  "subtotal": "24500.00",
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "24500.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

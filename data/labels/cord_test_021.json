@@ -1,0 +1,38 @@
+{
+  "doc_id": "cord_test_021",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "NASI GOR SFD TLR",
+      "quantity": "1",
+      "unit_price": "35000",
+      "amount": "35000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "ES TEH TAWAR",
+      "quantity": "1",
+      "unit_price": "3000",
+      "amount": "3000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": null,
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "38000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

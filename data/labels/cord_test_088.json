@@ -1,0 +1,38 @@
+{
+  "doc_id": "cord_test_088",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "STIX ECLAIRS",
+      "quantity": "1",
+      "unit_price": "19000",
+      "amount": "19000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "ALMOND CREAM CHEESE",
+      "quantity": "1",
+      "unit_price": "28000",
+      "amount": "28000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "47000.00",
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "47000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

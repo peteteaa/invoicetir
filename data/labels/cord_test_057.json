@@ -1,0 +1,38 @@
+{
+  "doc_id": "cord_test_057",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "ICED TT",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "20000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "ICED GT",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "22000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": null,
+  "tax": null,
+  "tax_inclusive": false,
+  "total": null,
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

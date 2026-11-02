@@ -1,0 +1,38 @@
+{
+  "doc_id": "cord_test_007",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "Kupon 15",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "100000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "ADD CHICKEN BOX",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "909.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "100909.00",
+  "tax": "10091.00",
+  "tax_inclusive": false,
+  "total": "111000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

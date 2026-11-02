@@ -77,6 +77,15 @@ def with_truth_categories(pred: Invoice, truth: Invoice) -> Invoice:
     return pred
 
 
+def spendable(truth: Invoice) -> bool:
+    """Whether a label says what the true spend is: a currency, a total, and an amount for every
+    line item and adjustment. Labels without one (CORD leaves some out) are left out of the spend
+    scores rather than counted as zero spend; their fields still count toward field accuracy."""
+    return (truth.currency is not None and truth.total is not None
+            and all(i.amount is not None for i in truth.line_items)
+            and all(a.amount is not None for a in truth.adjustments))
+
+
 def category_spend(docs: list[ProcessedDoc]) -> dict[tuple[str, str], Decimal]:
     """{(currency, category): amount} over the verified documents."""
     spend = defaultdict(Decimal)

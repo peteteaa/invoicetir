@@ -1,0 +1,47 @@
+{
+  "doc_id": "cord_test_012",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "BLUS WANITA",
+      "quantity": "1",
+      "unit_price": "120000",
+      "amount": null,
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "SHOPPING BAG",
+      "quantity": "1",
+      "unit_price": "880",
+      "amount": null,
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [
+    {
+      "label": "Discount: BLUS WANITA",
+      "amount": "0.00"
+    },
+    {
+      "label": "Discount: SHOPPING BAG",
+      "amount": "-100.00"
+    }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "120000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

@@ -1,0 +1,30 @@
+{
+  "doc_id": "cord_test_048",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "S-Hazelnut KOI Cafe 25% Less Ice",
+      "quantity": "1",
+      "unit_price": "25000",
+      "amount": "25000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "22728.00",
+  "tax": "2272.00",
+  "tax_inclusive": false,
+  "total": "25000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

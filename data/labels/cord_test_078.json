@@ -1,0 +1,38 @@
+{
+  "doc_id": "cord_test_078",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "Lemon Tea (L)",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "25000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Extra Jelly Lychee",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "5000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": null,
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "30000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

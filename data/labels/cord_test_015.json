@@ -1,0 +1,38 @@
+{
+  "doc_id": "cord_test_015",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "Lemon Tea (L)",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "25000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Caramel Small",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "38000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": null,
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "63000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

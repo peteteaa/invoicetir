@@ -1,0 +1,46 @@
+{
+  "doc_id": "cord_test_001",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "J.STB PROMO",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "17500.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Y.B.BAT",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "46000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Y.BASO PROM",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "27500.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": null,
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "91000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

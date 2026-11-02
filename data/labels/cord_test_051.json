@@ -1,0 +1,54 @@
+{
+  "doc_id": "cord_test_051",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "(TA) NASI GRG TERI MEDAN",
+      "quantity": "4",
+      "unit_price": null,
+      "amount": "165460.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "(TA) BIHUN GORENG SEAFOOD",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "40456.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "(TA) KWETIAW SEAFOOD SIRAM",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "42274.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "(TA) NASI GORENG",
+      "quantity": "2",
+      "unit_price": null,
+      "amount": "55456.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "303646.00",
+  "tax": "30365.00",
+  "tax_inclusive": false,
+  "total": "334000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

@@ -1,0 +1,46 @@
+{
+  "doc_id": "cord_test_008",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "[REG] BLACK SAKURA",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "45455.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "COOKIE DOH SAUCES",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "0.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "NATA DE COCO",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "0.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "45455.00",
+  "tax": "4545.00",
+  "tax_inclusive": false,
+  "total": "50000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

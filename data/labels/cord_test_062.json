@@ -1,0 +1,38 @@
+{
+  "doc_id": "cord_test_062",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "XXI Java Tea (M)",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "18000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Combo 2",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "30000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": null,
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "48000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

@@ -1,0 +1,70 @@
+{
+  "doc_id": "cord_test_075",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "CHOCO PUFF",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "29091.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "CREAMY BEEF CLS FTC",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "42727.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "NEW ORIENTAL CHK RICE",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "34545.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "LIPTON PITCHER",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "54545.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "SC/P SUPER SUPREME",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "47273.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "CB/P BLACK PEPP BEEF",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "48182.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "256363.00",
+  "tax": "25637.00",
+  "tax_inclusive": false,
+  "total": "282000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

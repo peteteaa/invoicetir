@@ -1,0 +1,38 @@
+{
+  "doc_id": "cord_test_046",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "S-Bubble Milk Tea 100%",
+      "quantity": "1",
+      "unit_price": "20000",
+      "amount": "20000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "S-Caramel Milk Tea 100%",
+      "quantity": "1",
+      "unit_price": "20000",
+      "amount": "20000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": null,
+  "tax": null,
+  "tax_inclusive": false,
+  "total": "40000.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

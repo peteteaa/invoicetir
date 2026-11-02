@@ -78,3 +78,18 @@ def test_wrong_printed_math_is_flagged_not_fixed(tmp_path):
     assert any("line 2: 4 x 3288.00 != 13125.00" in r for r in outcome.reasons)
     amounts = [i.amount for i in outcome.result.invoice.line_items]
     assert str(amounts[1]) == "13125.00"                          # copied as printed, not fixed
+
+
+CORD = Path(__file__).resolve().parent.parent / "data" / "docs" / "cord"
+
+
+@pytest.mark.skipif(not config.FIREWORKS_API_KEY or not (CORD / "cord_test_011.png").exists(),
+                    reason="needs FIREWORKS_API_KEY and data/load_cord.py")
+def test_unprinted_vendor_is_flagged_without_retries(monkeypatch):
+    """CORD receipts print no vendor or date. With them required, the receipt is flagged as not
+    printed after one call: no retry or escalation can make them appear."""
+    monkeypatch.setattr(config, "REQUIRED_FIELDS", ["vendor_name", "invoice_date", "total"])
+    monkeypatch.setattr(config, "DEFAULT_CURRENCY", "IDR")
+    outcome = repair.run(ingest.load(CORD / "cord_test_011.png"))
+    assert outcome.status == "flagged" and len(outcome.attempts) == 1 and not outcome.escalated
+    assert outcome.reasons[0].startswith("not printed (or not read): vendor_name, invoice_date")

@@ -1,0 +1,110 @@
+{
+  "doc_id": "cord_test_085",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "Nasi Putih",
+      "quantity": "3",
+      "unit_price": null,
+      "amount": "30000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Nasi Tambah",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "7000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Ayam Pop",
+      "quantity": "2",
+      "unit_price": null,
+      "amount": "40000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Samabal SP",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "11000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Sambal Gabus Asin Cb",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "18000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Kerupuk Kuah",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "15000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Ikan Bawal Besa",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "28500.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Telur Dadar",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "10000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Teh Es",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "7000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Teh Manis",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "9000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "Es Batu",
+      "quantity": "1",
+      "unit_price": null,
+      "amount": "4000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "179500.00",
+  "tax": "17950.00",
+  "tax_inclusive": false,
+  "total": "197450.00",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}

@@ -1,0 +1,46 @@
+{
+  "doc_id": "cord_test_039",
+  "vendor_name": null,
+  "invoice_number": null,
+  "invoice_date_printed": null,
+  "invoice_date": null,
+  "currency_printed": null,
+  "currency": "IDR",
+  "line_items": [
+    {
+      "description": "LUNCH BOX 3P SET W/RED BAG & SP00 N.",
+      "quantity": "8",
+      "unit_price": "243000",
+      "amount": "1944000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "RICE CASE 7L W/CUP",
+      "quantity": "5",
+      "unit_price": "195000",
+      "amount": "975000.00",
+      "category": null,
+      "page": 1
+    },
+    {
+      "description": "LUNCH BOX 3P SET W/BLACK BAG & SP OON",
+      "quantity": "4",
+      "unit_price": "243000",
+      "amount": "972000.00",
+      "category": null,
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": null,
+  "tax": null,
+  "tax_inclusive": false,
+  "total": null,
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": null,
+  "corrected_fields": []
+}
