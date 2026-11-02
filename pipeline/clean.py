@@ -14,7 +14,8 @@ Every answer adds the name to the registry, so the same name is never asked abou
 Two invoices with different invoice numbers are never duplicates, even with the same total and
 dates: a coffee shop's two receipts for 4.50 on consecutive days are two purchases.
 The first invoice of a duplicate group (in input order) is the original. Only verified documents
-take part: a flagged one is not counted in the totals, so it can't be an original either.
+take part: a flagged one is not counted in the totals, so it can't be an original either, and
+its vendor name never enters the registry.
 """
 import json
 import re
@@ -95,12 +96,30 @@ def _candidate(key: str, aliases: dict):
     return (prefixed, fuzz.ratio(key, prefixed)) if prefixed else None
 
 
+def _aliases(registry: dict) -> dict:
+    """vendor_key of every known name -> (canonical name, the name as printed)."""
+    return {vendor_key(a): (canonical, a) for canonical, names in registry.items() for a in names}
+
+
+def lookup_vendor(name: Optional[str], registry: dict) -> Optional[str]:
+    """The canonical name when name is clearly a known vendor (score VENDOR_MATCH_HIGH or more),
+    else name itself. Read only and no model call: for flagged documents, whose printed name
+    may be a misreading and must not become a vendor or an alias."""
+    if not name:
+        return None
+    aliases = _aliases(registry)
+    candidate = _candidate(vendor_key(name), aliases)
+    if candidate and candidate[1] >= config.VENDOR_MATCH_HIGH:
+        return aliases[candidate[0]][0]
+    return name
+
+
 def match_vendor(name: Optional[str], registry: dict, doc_id: Optional[str] = None,
                  model: Optional[str] = None):
     """Return (canonical name, calls) and add name to the registry, in place."""
     if not name:
         return None, []
-    aliases = {vendor_key(a): (canonical, a) for canonical, names in registry.items() for a in names}
+    aliases = _aliases(registry)
     key = vendor_key(name)
     canonical, calls = None, []
     candidate = _candidate(key, aliases)
@@ -165,17 +184,19 @@ def clean(docs: list[ProcessedDoc], registry: Optional[dict] = None, model: Opti
     A duplicate gets status "duplicate", duplicate_of and the reason. The model calls' tokens,
     latency and cost are added to their document; the calls are also returned. registry is
     updated in place; pass load_registry() to keep vendors across runs.
+
+    Only verified documents add names to the registry. A flagged document's vendor name may be
+    a misreading, and the first name seen becomes the canonical one, so a flagged document is
+    looked up afterwards (lookup_vendor) without changing the registry or calling the model.
     """
     registry = {} if registry is None else registry
     calls, originals = [], []
     for doc in docs:
-        if doc.invoice is None:
+        if doc.invoice is None or doc.status != "verified":
             continue
         doc.vendor, doc_calls = match_vendor(doc.invoice.vendor_name, registry, doc.doc_id, model)
         _add_usage(doc, doc_calls)
         calls += doc_calls
-        if doc.status != "verified":
-            continue
         duplicate = find_duplicate(doc.invoice, doc.vendor, originals)
         if duplicate:
             doc.status = "duplicate"
@@ -183,4 +204,7 @@ def clean(docs: list[ProcessedDoc], registry: Optional[dict] = None, model: Opti
             doc.reasons.append(reason)
         else:
             originals.append((doc.invoice, doc.vendor))
+    for doc in docs:
+        if doc.invoice is not None and doc.status == "flagged":
+            doc.vendor = lookup_vendor(doc.invoice.vendor_name, registry)
     return calls

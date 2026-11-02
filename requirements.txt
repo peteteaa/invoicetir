@@ -1,6 +1,7 @@
 openai
 pydantic
 pymupdf
+pillow
 rapidfuzz
 pandas
 openpyxl

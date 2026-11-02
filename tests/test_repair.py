@@ -4,6 +4,7 @@ The material-field rule is a pure function. The loop itself is tested live again
 real documents; those tests skip when FIREWORKS_API_KEY is unset or data/docs is missing.
 Cost per run: about $0.02.
 """
+from decimal import Decimal
 from pathlib import Path
 
 import pymupdf
@@ -11,7 +12,7 @@ import pytest
 
 import config
 from pipeline import ingest, repair
-from schemas import ExtractionResult
+from schemas import ExtractionResult, Invoice, LineItem
 
 DOCS = Path(__file__).resolve().parent.parent / "data" / "docs" / "Samples of electronic invoices"
 
@@ -32,6 +33,17 @@ def test_material_uncertain(fields, material):
 
 def test_material_uncertain_without_result():
     assert repair.material_uncertain(None) == []
+
+
+def test_fields_not_printed_are_not_material():
+    """A receipt with no subtotal, no tax and no quantity is not a reason to escalate: checks.py
+    decides whether a missing value is a failure. A printed value the model doubts still is."""
+    invoice = Invoice(vendor_name="Blue Door Cafe", total=Decimal("12.00"), line_items=[
+        LineItem(description="Avocado toast", quantity=None, unit_price=None, amount=Decimal("12.00"))])
+    result = ExtractionResult(invoice=invoice, uncertain_fields=[
+        "subtotal", "tax", "line_items[0].quantity", "line_items[0].unit_price",
+        "line_items[0].amount", "total", "line_items[5].amount"])
+    assert repair.material_uncertain(result) == ["line_items[0].amount", "total", "line_items[5].amount"]
 
 
 live = pytest.mark.skipif(not config.FIREWORKS_API_KEY or not DOCS.is_dir(),

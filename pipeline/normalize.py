@@ -5,7 +5,8 @@ own ISO reading. Python decides.
 
 Currency: an ISO code or an unambiguous symbol (EUR, €, £, ₩, Rp...) maps directly. A shared
 symbol like `$` or `¥` keeps the model's code if it is one the symbol can mean (else the
-symbol's most common code) and is marked uncertain.
+symbol's most common code) and is marked uncertain. Anything else (nothing printed, or a local
+abbreviation such as "Ksh" or "грн") keeps the model's code and is marked uncertain.
 
 Dates:
 - an unambiguous printed date (year first, a month name, or a day above 12) is parsed directly;
@@ -18,6 +19,7 @@ from datetime import date
 from typing import Optional
 
 import config
+from pipeline.checks import CURRENCIES
 
 SYMBOLS = {  # unambiguous symbols and prefixes
     "€": "EUR", "£": "GBP", "₩": "KRW", "₹": "INR", "₱": "PHP", "₫": "VND", "฿": "THB",
@@ -36,7 +38,7 @@ def currency(printed, model_code):
     """Return (ISO code or None, uncertain)."""
     s = (printed or "").strip()
     code = (model_code or "").strip().upper() or None
-    if len(s) == 3 and s.isalpha():
+    if s.upper() in CURRENCIES:  # a printed code; "Ksh" or "Lei" are words, not codes
         return s.upper(), False
     if s.lower() in SYMBOLS:
         return SYMBOLS[s.lower()], False
