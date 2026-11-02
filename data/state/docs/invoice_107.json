@@ -1,0 +1,71 @@
+{
+  "doc": {
+    "doc_id": "invoice_107",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_107.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_107",
+      "vendor_name": "Shaffer-Hill",
+      "invoice_number": "45852677",
+      "invoice_date_printed": "09/24/2019",
+      "invoice_date": "2019-09-24",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Nike SB Dunk High x Concepts Kids Size 3 Ugly Sweater 2017 Pre School AO1557-446",
+          "quantity": "2.0",
+          "unit_price": "100",
+          "amount": "200.00",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "crewcuts shoes",
+          "quantity": "5.0",
+          "unit_price": "12",
+          "amount": "60.00",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "FABULOUS Nike Boy's Kyrie 3 White Basketball Shoes Size 5.5Y 859466-103 WITH BOX",
+          "quantity": "4.0",
+          "unit_price": "29.99",
+          "amount": "119.96",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "DC Kids Pixie 3 Sneaker (Toddler/Little Kid/Big Kid) Color WHITE/BATTLESHIP",
+          "quantity": "3.0",
+          "unit_price": "55",
+          "amount": "165.00",
+          "category": "other",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "544.96",
+      "tax": "54.50",
+      "tax_inclusive": false,
+      "total": "599.46",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency"
+    ],
+    "reasons": [],
+    "vendor": "Shaffer-Hill",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2560,
+    "output_tokens": 817,
+    "latency_s": 3.57373324999935,
+    "cost_usd": "0.00087420"
+  },
+  "review": null
+}

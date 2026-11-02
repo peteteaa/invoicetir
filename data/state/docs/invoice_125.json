@@ -1,0 +1,79 @@
+{
+  "doc": {
+    "doc_id": "invoice_125",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_125.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_125",
+      "vendor_name": "Ramirez LLC",
+      "invoice_number": "12019246",
+      "invoice_date_printed": "03/20/2016",
+      "invoice_date": "2016-03-20",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "NWT Boohoo Sabra Emerald Green Floral Ruffle Dress Sz 12",
+          "quantity": "5.0",
+          "unit_price": "4.99",
+          "amount": "24.95",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Women Elegant Fashion O-Neck Knee Length Short Sleeve Retro Floral Print Dress",
+          "quantity": "1.0",
+          "unit_price": "12",
+          "amount": "12.00",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "NWOT Italian Dress Grey Black Size XS Made in Italy",
+          "quantity": "5.0",
+          "unit_price": "44.99",
+          "amount": "224.95",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Escada Long Black Dress SZ 40 100% Silk Lining",
+          "quantity": "4.0",
+          "unit_price": "74.99",
+          "amount": "299.96",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "LuLaRoe Nicole Dress Size Medium 11",
+          "quantity": "5.0",
+          "unit_price": "1.99",
+          "amount": "9.95",
+          "category": "other",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "571.81",
+      "tax": "57.18",
+      "tax_inclusive": false,
+      "total": "628.99",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency"
+    ],
+    "reasons": [],
+    "vendor": "Ramirez LLC",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2564,
+    "output_tokens": 882,
+    "latency_s": 7.420473333011614,
+    "cost_usd": "0.00091380"
+  },
+  "review": null
+}

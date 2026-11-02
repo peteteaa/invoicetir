@@ -1,0 +1,72 @@
+{
+  "doc": {
+    "doc_id": "invoice_111",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_111.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_111",
+      "vendor_name": "Miller-Padilla",
+      "invoice_number": "23487897",
+      "invoice_date_printed": "11/12/2011",
+      "invoice_date": "2011-11-12",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Clear Acrylic Table, Breakfast Table, Tradeshow Desk",
+          "quantity": "1.0",
+          "unit_price": "271.72",
+          "amount": "271.72",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "7'x4' Collectible Marble Green Dining Table Top Floral Inlay Design Decor E997",
+          "quantity": "3.0",
+          "unit_price": "13536.06",
+          "amount": "40608.18",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "Carnelian Stone Inlay Art Marble Coffee Table Top White Corner Table 14 Inches",
+          "quantity": "3.0",
+          "unit_price": "225.25",
+          "amount": "675.75",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "Nugget Play Couch - Dew Drop",
+          "quantity": "5.0",
+          "unit_price": "550",
+          "amount": "2750.00",
+          "category": "office",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "44305.65",
+      "tax": "4430.57",
+      "tax_inclusive": false,
+      "total": "48736.22",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency",
+      "invoice_date"
+    ],
+    "reasons": [],
+    "vendor": "Miller-Padilla",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2530,
+    "output_tokens": 763,
+    "latency_s": 3.1402294170402456,
+    "cost_usd": "0.00083730"
+  },
+  "review": null
+}

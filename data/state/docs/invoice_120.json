@@ -1,0 +1,96 @@
+{
+  "doc": {
+    "doc_id": "invoice_120",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_120.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_120",
+      "vendor_name": "Hernandez, Mcbride and Evans",
+      "invoice_number": "43973325",
+      "invoice_date_printed": "08/05/2013",
+      "invoice_date": "2013-08-05",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "13 Inch Marble Coffee Table Stone Game Table Mother of Pearl with Check Pattern",
+          "quantity": "3.0",
+          "unit_price": "301.75",
+          "amount": "905.25",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "October Mist - Deer Metal Side Table by Rosemary Millette",
+          "quantity": "3.0",
+          "unit_price": "89.95",
+          "amount": "269.85",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "4'x2' Black Center Top Table Italian Marquetry Gemstone Art Columba's Day Gift",
+          "quantity": "1.0",
+          "unit_price": "3688",
+          "amount": "3688.00",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "36 Inches Marble Office Table Top with Multi Gemstones Work Dinning Table Top",
+          "quantity": "3.0",
+          "unit_price": "1683.75",
+          "amount": "5051.25",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "15 Inches Marble Bed Side Table Top Stone Coffee Table with Royal Inlay Work",
+          "quantity": "1.0",
+          "unit_price": "246.5",
+          "amount": "246.50",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "18\" Handmade White Top Chess Table Inlaid Mosaic Gemstone Art Halloween Gift Art",
+          "quantity": "5.0",
+          "unit_price": "525",
+          "amount": "2625.00",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "6'x3' Black Marble Dining Center Table Top Marquetry Inlay Outdoor Decor H3420A",
+          "quantity": "3.0",
+          "unit_price": "5756.72",
+          "amount": "17270.16",
+          "category": "office",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "30056.01",
+      "tax": "3005.60",
+      "tax_inclusive": false,
+      "total": "33061.61",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency",
+      "invoice_date"
+    ],
+    "reasons": [],
+    "vendor": "Hernandez, Mcbride and Evans",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2797,
+    "output_tokens": 1121,
+    "latency_s": 4.030167709017405,
+    "cost_usd": "0.00109215"
+  },
+  "review": null
+}

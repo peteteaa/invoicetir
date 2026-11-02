@@ -1,0 +1,47 @@
+{
+  "doc": {
+    "doc_id": "invoice_112",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_112.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_112",
+      "vendor_name": "Arnold, Harris and Leonard",
+      "invoice_number": "73801126",
+      "invoice_date_printed": "11/26/2016",
+      "invoice_date": "2016-11-26",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "1pc Exquisite Durable Foot Cloth Christmas Carpet Xmas Cushion for Kitchen",
+          "quantity": "3.0",
+          "unit_price": "15.57",
+          "amount": "46.71",
+          "category": "office",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "46.71",
+      "tax": "4.67",
+      "tax_inclusive": false,
+      "total": "51.38",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency"
+    ],
+    "reasons": [],
+    "vendor": "Arnold, Harris and Leonard",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2321,
+    "output_tokens": 469,
+    "latency_s": 2.2032492089783773,
+    "cost_usd": "0.00062955"
+  },
+  "review": null
+}

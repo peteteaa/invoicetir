@@ -198,6 +198,27 @@ Caveats:
 Streamlit: upload files, run the pipeline, show the spend table, Sankey, flagged items with
 reasons, cost and latency stats, and an xlsx download.
 
+## Web app (`server.py` + `frontend/`)
+
+The spend workspace from `mock/b-workspace.html`, working: `uvicorn server:app --reload`, then
+open http://localhost:8000. `server.py` is a JSON API over the pipeline; `frontend/` is plain
+HTML, CSS and JavaScript (no build step) that it serves.
+
+- **Inbox:** upload files, or process the files in `data/docs/` that haven't been processed
+  yet (25 at a time or all). Needs `FIREWORKS_API_KEY`.
+- **Overview:** spend for a month (defaults to the latest month with invoices), vs the month
+  before, Sankey, monthly bars, categories, top vendors. One currency at a time, never converted.
+- **Review:** flagged and duplicate documents next to the page image, with editable fields and
+  checks that rerun as you type. Approve (with corrections), exclude, or "not a duplicate".
+- **Line items, Vendors, Model benchmark, Settings:** line items with their doc and page; merged
+  vendor names; live cost/latency/escalation stats plus `out/results.csv` once the eval writes it.
+- Greyed out with "Coming soon" (need a mail server, OAuth or a scheduler): email forwarding,
+  Gmail/Drive, weekly digest, budgets, automation.
+
+**`store.py`** keeps every processed document and the reviewer's decision in
+`data/state/docs/<doc_id>.json`, so decisions survive a restart and no file is extracted twice.
+A review never overwrites the pipeline's version; it's applied on read and can be undone.
+
 ## Tests
 
 pytest for `checks.py` and `aggregate.py` using small handcrafted JSON fixtures in
@@ -214,6 +235,7 @@ streamlit run label_app.py
 python data/load_cord.py
 python -m eval.run_eval --config all
 streamlit run app.py
+uvicorn server:app --reload                  # web app at http://localhost:8000
 ```
 
 ## Done when

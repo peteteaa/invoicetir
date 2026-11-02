@@ -1,0 +1,71 @@
+{
+  "doc": {
+    "doc_id": "invoice_123",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_123.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_123",
+      "vendor_name": "Black Group",
+      "invoice_number": "69470175",
+      "invoice_date_printed": "03/28/2020",
+      "invoice_date": "2020-03-28",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Rebecca to the Rescue (American Girl (Quality))",
+          "quantity": "3.0",
+          "unit_price": "4.89",
+          "amount": "14.67",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "Most famous bracelet in the world",
+          "quantity": "3.0",
+          "unit_price": "20",
+          "amount": "60.00",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "Cell: A Novel by Stephen King",
+          "quantity": "2.0",
+          "unit_price": "4.49",
+          "amount": "8.98",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "CSS: The Definitive Guide by Eric A. Meyer",
+          "quantity": "1.0",
+          "unit_price": "4.49",
+          "amount": "4.49",
+          "category": "office",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "88.14",
+      "tax": "8.81",
+      "tax_inclusive": false,
+      "total": "96.95",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency"
+    ],
+    "reasons": [],
+    "vendor": "Black Group",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2464,
+    "output_tokens": 728,
+    "latency_s": 3.480129458999727,
+    "cost_usd": "0.00080640"
+  },
+  "review": null
+}

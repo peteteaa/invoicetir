@@ -1,0 +1,71 @@
+{
+  "doc": {
+    "doc_id": "invoice_113",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_113.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_113",
+      "vendor_name": "Kemp-Ware",
+      "invoice_number": "78126731",
+      "invoice_date_printed": "10/31/2019",
+      "invoice_date": "2019-10-31",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Sony PlayStation 5 Digital Edition 825GB Video Game Console - White",
+          "quantity": "1.0",
+          "unit_price": "550",
+          "amount": "550.00",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Sony PlayStation 2 Fat Console PS2 SCPH-30001",
+          "quantity": "4.0",
+          "unit_price": "80",
+          "amount": "320.00",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "PlayStation 5 Console Disc Version **PREORDER**ὒὒὒὒ!!!",
+          "quantity": "4.0",
+          "unit_price": "899.99",
+          "amount": "3599.96",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Sony PlayStation 5 Console - PS5- PRESALE- Disc Version Pre Order Confirmed",
+          "quantity": "1.0",
+          "unit_price": "849.99",
+          "amount": "849.99",
+          "category": "other",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "5319.95",
+      "tax": "532.00",
+      "tax_inclusive": false,
+      "total": "5851.95",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency"
+    ],
+    "reasons": [],
+    "vendor": "Kemp-Ware",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2552,
+    "output_tokens": 840,
+    "latency_s": 3.344020917022135,
+    "cost_usd": "0.0008868"
+  },
+  "review": null
+}

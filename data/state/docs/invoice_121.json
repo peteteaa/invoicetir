@@ -1,0 +1,88 @@
+{
+  "doc": {
+    "doc_id": "invoice_121",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_121.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_121",
+      "vendor_name": "Osborn-Ortiz",
+      "invoice_number": "14348661",
+      "invoice_date_printed": "01/08/2019",
+      "invoice_date": "2019-01-08",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "The Children’s Place Brown Dress Boy Lace Up Shoes Size 12",
+          "quantity": "4.0",
+          "unit_price": "8",
+          "amount": "32.00",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Reebok Kids Boys Blue Sneakers Shoes US 11 No Laces",
+          "quantity": "1.0",
+          "unit_price": "5",
+          "amount": "5.00",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "INC International Concepts Children Shoes nvyzc7, Black, Size Little Kid 2.5",
+          "quantity": "4.0",
+          "unit_price": "73.48",
+          "amount": "293.92",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "PLAE SAM 2.0 Shoes Sandals Breathable Summer Strap Navy Blue Size 12 Kid",
+          "quantity": "4.0",
+          "unit_price": "15",
+          "amount": "60.00",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Sperry Top Sider Billfish Boys US Size 3W Youth Childrens Shoes",
+          "quantity": "3.0",
+          "unit_price": "0.99",
+          "amount": "2.97",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "PUMA Boys Youth Universal FG Jr Soccer Cleats 5 White High Risk Red Black 5Y",
+          "quantity": "3.0",
+          "unit_price": "19.99",
+          "amount": "59.97",
+          "category": "other",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "453.86",
+      "tax": "45.39",
+      "tax_inclusive": false,
+      "total": "499.25",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency",
+      "invoice_date"
+    ],
+    "reasons": [],
+    "vendor": "Osborn-Ortiz",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2688,
+    "output_tokens": 728,
+    "latency_s": 2.661474000022281,
+    "cost_usd": "0.00084000"
+  },
+  "review": null
+}

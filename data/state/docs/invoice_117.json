@@ -1,0 +1,95 @@
+{
+  "doc": {
+    "doc_id": "invoice_117",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_117.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_117",
+      "vendor_name": "Edwards-Wells",
+      "invoice_number": "46213502",
+      "invoice_date_printed": "05/19/2014",
+      "invoice_date": "2014-05-19",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "NEW NWT OPEN BACK XHILERATION PLUM LACY DRESS WOMENS SIZE MEDIUM 10/12",
+          "quantity": "3.0",
+          "unit_price": "2.99",
+          "amount": "8.97",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "MARC JACOBS IVORY COTTON SHORT SLEEVE BEIGE SILK OVERLAY DRESS SMALL",
+          "quantity": "2.0",
+          "unit_price": "15.99",
+          "amount": "31.98",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Free People Lace Dress One Shoulder Size L",
+          "quantity": "1.0",
+          "unit_price": "12",
+          "amount": "12.00",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Boden Wren Ponte Midi Dress w/Color Block Hem NWT Size 10P Black Pink 10 Petite",
+          "quantity": "3.0",
+          "unit_price": "58.99",
+          "amount": "176.97",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Women Black Dress Mori Girl Puff Sleeve Korean Casual Loose Peter Pan Collar",
+          "quantity": "2.0",
+          "unit_price": "13.99",
+          "amount": "27.98",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "NWT Modcloth Blue Floral Formal Full Length Maxi Dress",
+          "quantity": "5.0",
+          "unit_price": "65",
+          "amount": "325.00",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Guess Dress Size 6",
+          "quantity": "2.0",
+          "unit_price": "20",
+          "amount": "40.00",
+          "category": "other",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "622.90",
+      "tax": "62.29",
+      "tax_inclusive": false,
+      "total": "685.19",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency"
+    ],
+    "reasons": [],
+    "vendor": "Edwards-Wells",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2736,
+    "output_tokens": 776,
+    "latency_s": 3.6201012089732103,
+    "cost_usd": "0.000876"
+  },
+  "review": null
+}

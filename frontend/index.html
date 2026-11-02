@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tally</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="brand"><div class="brand-mark">T</div><div><b>Tally</b><small>Spend workspace</small></div></div>
+    <a class="nav" href="#/overview" data-view="overview"><span class="ic">◐</span>Overview</a>
+    <a class="nav" href="#/inbox" data-view="inbox"><span class="ic">⇣</span>Inbox<span class="count soft" id="n-inbox"></span></a>
+    <a class="nav" href="#/review" data-view="review"><span class="ic">!</span>Review<span class="count" id="n-review"></span></a>
+    <a class="nav" href="#/lines" data-view="lines"><span class="ic">≡</span>Line items</a>
+    <a class="nav" href="#/vendors" data-view="vendors"><span class="ic">◎</span>Vendors</a>
+    <div class="nav-label">Insights</div>
+    <a class="nav" href="#/bench" data-view="bench"><span class="ic">⚖</span>Model benchmark</a>
+    <a class="nav" href="#/settings" data-view="settings"><span class="ic">⚙</span>Settings</a>
+    <div class="side-foot ghost" title="Not available yet">
+      Forward invoices by email
+      <span class="soon">Coming soon</span>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <label class="search">⌕ <input id="search" placeholder="Filter vendors, documents, line items" autocomplete="off"></label>
+      <div class="spacer"></div>
+      <select id="currency" class="btn btn-sm" title="Currency (amounts are never converted)"></select>
+      <div class="period">
+        <button class="btn btn-sm" id="prev-month" title="Previous month">‹</button>
+        <select class="btn btn-sm" id="month"></select>
+        <button class="btn btn-sm" id="next-month" title="Next month">›</button>
+      </div>
+      <a class="btn" href="/api/export.xlsx" download>Export .xlsx</a>
+      <button class="btn btn-primary" id="upload-btn">+ Upload</button>
+      <input type="file" id="upload-input" multiple accept=".pdf,.png,.jpg,.jpeg,.webp,.tif,.tiff,.bmp,.gif" hidden>
+    </div>
+    <div class="job-bar" id="job-bar" hidden></div>
+    <div class="content" id="view"></div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+{
+  "doc": {
+    "doc_id": "invoice_11",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_11.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_11",
+      "vendor_name": "Robertson Ltd",
+      "invoice_number": "89408136",
+      "invoice_date_printed": "05/23/2012",
+      "invoice_date": "2012-05-23",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "PS2 Slim Console System SCPH-77000 PINK Playstation 2 Tested",
+          "quantity": "4.0",
+          "unit_price": "252",
+          "amount": "1008.00",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Xbox One X 1 TB Console w/ Wireless Controller",
+          "quantity": "2.0",
+          "unit_price": "200",
+          "amount": "400.00",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Nintendo 64 Console W/ Oem Controller Ice Blue, Expansion Pack",
+          "quantity": "3.0",
+          "unit_price": "120",
+          "amount": "360.00",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Xbox Series X Console CONFIRMED PRE-ORDER",
+          "quantity": "2.0",
+          "unit_price": "750",
+          "amount": "1500.00",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "BRAND NEW Nintendo Switch Console with Neon Red Neon Blue Joy-Cons SHIPS TODAY!",
+          "quantity": "3.0",
+          "unit_price": "367",
+          "amount": "1101.00",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "B451 Nintendo DSi console Pink Japan NDS x",
+          "quantity": "4.0",
+          "unit_price": "9.99",
+          "amount": "39.96",
+          "category": "other",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "4408.96",
+      "tax": "440.90",
+      "tax_inclusive": false,
+      "total": "4849.86",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency"
+    ],
+    "reasons": [],
+    "vendor": "Robertson Ltd",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2649,
+    "output_tokens": 917,
+    "latency_s": 3.5239546250377316,
+    "cost_usd": "0.00094755"
+  },
+  "review": null
+}

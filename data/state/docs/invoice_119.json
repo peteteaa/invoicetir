@@ -1,0 +1,63 @@
+{
+  "doc": {
+    "doc_id": "invoice_119",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_119.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_119",
+      "vendor_name": "Reese Ltd",
+      "invoice_number": "87357193",
+      "invoice_date_printed": "09/15/2016",
+      "invoice_date": "2016-09-15",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Chindi Rugs Carpet New Design Bohemian Garden Yoga Mat Indian Kilim Coverlet",
+          "quantity": "4.0",
+          "unit_price": "29.99",
+          "amount": "119.96",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "3D Printed Illusion Rug Round Grid Vortex Carpet Anti-slip Mat Floor Home C4R0",
+          "quantity": "5.0",
+          "unit_price": "17.13",
+          "amount": "85.65",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Egg Shape Area Rugs Soft Cotton Carpet Floor Mat for Kids Study Playroom",
+          "quantity": "2.0",
+          "unit_price": "29.43",
+          "amount": "58.86",
+          "category": "other",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "264.47",
+      "tax": "26.45",
+      "tax_inclusive": false,
+      "total": "290.92",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency"
+    ],
+    "reasons": [],
+    "vendor": "Reese Ltd",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2466,
+    "output_tokens": 671,
+    "latency_s": 2.71618091702112,
+    "cost_usd": "0.0007725"
+  },
+  "review": null
+}

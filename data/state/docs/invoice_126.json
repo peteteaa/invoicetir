@@ -1,0 +1,71 @@
+{
+  "doc": {
+    "doc_id": "invoice_126",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_126.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_126",
+      "vendor_name": "Gray, Silva and Jones",
+      "invoice_number": "42442716",
+      "invoice_date_printed": "03/14/2013",
+      "invoice_date": "2013-03-14",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "24\"x24\" White Marble Top Counter Table 18\" Tall Multi Color Stone Elephant Art",
+          "quantity": "4.0",
+          "unit_price": "2788",
+          "amount": "11152.00",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "Multi Color Stones Inlay Art Coffee Table Top Marble Patio Sofa Table 27 Inches",
+          "quantity": "2.0",
+          "unit_price": "517.5",
+          "amount": "1035.00",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "12\" Marble Coffee Side Table Top Lapis Peacock Floral Inlay Bedroom Decors W019",
+          "quantity": "3.0",
+          "unit_price": "248.78",
+          "amount": "746.34",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "Semi Precious Stone Inlay Art Island Table Top Marble Dinning Table 36 Inches",
+          "quantity": "4.0",
+          "unit_price": "1751.25",
+          "amount": "7005.00",
+          "category": "office",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "19938.34",
+      "tax": "1993.83",
+      "tax_inclusive": false,
+      "total": "21932.17",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency"
+    ],
+    "reasons": [],
+    "vendor": "Gray, Silva and Jones",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2575,
+    "output_tokens": 862,
+    "latency_s": 3.399734707985772,
+    "cost_usd": "0.00090345"
+  },
+  "review": null
+}

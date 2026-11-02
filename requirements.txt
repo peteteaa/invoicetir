@@ -10,3 +10,7 @@ streamlit
 datasets
 pytest
 pyyaml
+fastapi
+uvicorn
+python-multipart
+httpx

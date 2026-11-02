@@ -1,0 +1,87 @@
+{
+  "doc": {
+    "doc_id": "invoice_116",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_116.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_116",
+      "vendor_name": "Dean Inc",
+      "invoice_number": "32702334",
+      "invoice_date_printed": "07/28/2016",
+      "invoice_date": "2016-07-28",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Microsoft Xbox One S 1TB Console - “All Digital” Edition (Games NOT Included)",
+          "quantity": "1.0",
+          "unit_price": "199.99",
+          "amount": "199.99",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Nintendo Wii New Super Mario Bros Console System Bundle Gamecube Compatible",
+          "quantity": "1.0",
+          "unit_price": "89.99",
+          "amount": "89.99",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "B310 Nintendo 3DS console Cosmo Black Japan x",
+          "quantity": "1.0",
+          "unit_price": "11.99",
+          "amount": "11.99",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "NEW Microsoft Xbox 360 Slim 4GB Black Console W/2 Games And Kinect Bundle +EXTRA",
+          "quantity": "1.0",
+          "unit_price": "275",
+          "amount": "275.00",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "PlayStation 5 Console Disc Version **PREORDER**ὒὒὒὒ!!!",
+          "quantity": "1.0",
+          "unit_price": "899.99",
+          "amount": "899.99",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Nintendo 64 N64 Console Black Japan Tested Working NUSHA",
+          "quantity": "2.0",
+          "unit_price": "49.99",
+          "amount": "99.98",
+          "category": "other",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "1576.94",
+      "tax": "157.69",
+      "tax_inclusive": false,
+      "total": "1734.63",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency"
+    ],
+    "reasons": [],
+    "vendor": "Dean Inc",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2680,
+    "output_tokens": 977,
+    "latency_s": 3.586950458033243,
+    "cost_usd": "0.00098820"
+  },
+  "review": null
+}

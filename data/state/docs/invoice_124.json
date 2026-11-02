@@ -1,0 +1,80 @@
+{
+  "doc": {
+    "doc_id": "invoice_124",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_124.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_124",
+      "vendor_name": "Brooks and Sons",
+      "invoice_number": "33936832",
+      "invoice_date_printed": "11/03/2014",
+      "invoice_date": "2014-11-03",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "12\" White Marble Coffee Table Top Lapis Turquoise Floral Inlay Home Decors W538",
+          "quantity": "3.0",
+          "unit_price": "295.73",
+          "amount": "887.19",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "4'x2' Marble Dining Table Top Pietra Dura Birds Inlay Art Furniture Decors B444",
+          "quantity": "3.0",
+          "unit_price": "1840.1",
+          "amount": "5520.30",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "12\" White Marble Coffee Table Top Marquetry Multi Inlay Beautiful Room Home Arts",
+          "quantity": "2.0",
+          "unit_price": "398.76",
+          "amount": "797.52",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "25 Inches Black Marble Center Table Top with Multi Stones Coffee Table for Home",
+          "quantity": "2.0",
+          "unit_price": "731.25",
+          "amount": "1462.50",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "Moves Furniture Tool Transport Shifter Moving Wheel Slider Remover Roller Heavy",
+          "quantity": "3.0",
+          "unit_price": "7.6",
+          "amount": "22.80",
+          "category": "office",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "8690.31",
+      "tax": "869.03",
+      "tax_inclusive": false,
+      "total": "9559.34",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency",
+      "invoice_date"
+    ],
+    "reasons": [],
+    "vendor": "Brooks and Sons",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2645,
+    "output_tokens": 1058,
+    "latency_s": 4.517656626005191,
+    "cost_usd": "0.00103155"
+  },
+  "review": null
+}

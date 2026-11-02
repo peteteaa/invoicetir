@@ -1,0 +1,72 @@
+{
+  "doc": {
+    "doc_id": "invoice_122",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_122.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_122",
+      "vendor_name": "Smith-Collier",
+      "invoice_number": "36541990",
+      "invoice_date_printed": "02/05/2016",
+      "invoice_date": "2016-02-05",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "27 Inches Black Marble Coffee Table Top Round Home Sofa Table with Marquetry Art",
+          "quantity": "5.0",
+          "unit_price": "596.25",
+          "amount": "2981.25",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "14 Inches Black Marble Coffee Cum Chess Board Table Top with Unique Design",
+          "quantity": "2.0",
+          "unit_price": "225.25",
+          "amount": "450.50",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "Coffe Table with Chessboard Handmade Wooden Pine Natural Tables Wood Chess Board",
+          "quantity": "3.0",
+          "unit_price": "590",
+          "amount": "1770.00",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "24\"x24\" Marble Black Top Coffee Table Inlaid Floral Art Christmas Gift Home Deco",
+          "quantity": "3.0",
+          "unit_price": "1150",
+          "amount": "3450.00",
+          "category": "office",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "8651.75",
+      "tax": "865.18",
+      "tax_inclusive": false,
+      "total": "9516.93",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency",
+      "invoice_date"
+    ],
+    "reasons": [],
+    "vendor": "Smith-Collier",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2560,
+    "output_tokens": 840,
+    "latency_s": 3.1579731249657925,
+    "cost_usd": "0.00088800"
+  },
+  "review": null
+}

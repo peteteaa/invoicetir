@@ -1,0 +1,79 @@
+{
+  "doc": {
+    "doc_id": "invoice_127",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_127.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_127",
+      "vendor_name": "Nolan-Jackson",
+      "invoice_number": "47043010",
+      "invoice_date_printed": "12/28/2011",
+      "invoice_date": "2011-12-28",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Gaming PC Computer RX 580 8GB Ryzen 5 2x8GB Ram",
+          "quantity": "5.0",
+          "unit_price": "400",
+          "amount": "2000.00",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "Dell OptiPlex 390 SFF Computer Windows 7 Pro i3 3.10GHz 4GB RAM 232GB HDD",
+          "quantity": "3.0",
+          "unit_price": "59.95",
+          "amount": "179.85",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "AMD Custom Ryzen 5 Quad Core Gaming PC 4.2GHZ Computer 8GB 1TB AM4 DDR4 Vega 11",
+          "quantity": "5.0",
+          "unit_price": "574.99",
+          "amount": "2874.95",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "10-Core Gaming Computer Desktop PC Tower 3TB Quad 16GB DDR4 AMD Graphics WIFI PC",
+          "quantity": "3.0",
+          "unit_price": "618.49",
+          "amount": "1855.47",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "AMD Custom Ryzen 5 Gaming Computer 15 core 4.2GHZ 8GB DDR4 Vega 11 upgradeable",
+          "quantity": "1.0",
+          "unit_price": "534.99",
+          "amount": "534.99",
+          "category": "office",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "7445.26",
+      "tax": "744.53",
+      "tax_inclusive": false,
+      "total": "8189.79",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency"
+    ],
+    "reasons": [],
+    "vendor": "Nolan-Jackson",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2715,
+    "output_tokens": 960,
+    "latency_s": 3.5207659160078038,
+    "cost_usd": "0.00098325"
+  },
+  "review": null
+}

@@ -1,0 +1,88 @@
+{
+  "doc": {
+    "doc_id": "invoice_115",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_115.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_115",
+      "vendor_name": "Andrews, Miller and Ramsey",
+      "invoice_number": "27934890",
+      "invoice_date_printed": "06/07/2019",
+      "invoice_date": "2019-06-07",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "18\"x18\" White Marble Top Coffee Table Carnelian Pietradura Floral Interior Art",
+          "quantity": "5.0",
+          "unit_price": "1045.95",
+          "amount": "5229.75",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "3'x2' Black Marvels Top Dining Table Italian Handmade Floral Art Christmas Gift",
+          "quantity": "3.0",
+          "unit_price": "2585",
+          "amount": "7755.00",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "30 Inches Marble Patio Table Top Malachite Stone Inlaid Coffee Table Home Decor",
+          "quantity": "5.0",
+          "unit_price": "1023.75",
+          "amount": "5118.75",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "Yellow Marble Royal Look Marble Inlay Table Top Handmade Dinning Table 60 Inches",
+          "quantity": "1.0",
+          "unit_price": "6076",
+          "amount": "6076.00",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "18\" Handmade White Table Chess Coffee Table Inlay Mosaic Art Christmas Gift Arts",
+          "quantity": "4.0",
+          "unit_price": "520",
+          "amount": "2080.00",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "34\"x34\" Marble Round Top Coffee Table Elephant Floral Inlaid Art Christmas Gifts",
+          "quantity": "3.0",
+          "unit_price": "1900",
+          "amount": "5700.00",
+          "category": "office",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "31959.50",
+      "tax": "3195.95",
+      "tax_inclusive": false,
+      "total": "35155.45",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency",
+      "invoice_date"
+    ],
+    "reasons": [],
+    "vendor": "Andrews, Miller and Ramsey",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2744,
+    "output_tokens": 1068,
+    "latency_s": 4.6869810829812195,
+    "cost_usd": "0.0010524"
+  },
+  "review": null
+}

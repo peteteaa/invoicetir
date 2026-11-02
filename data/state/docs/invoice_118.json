@@ -1,0 +1,48 @@
+{
+  "doc": {
+    "doc_id": "invoice_118",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_118.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_118",
+      "vendor_name": "Jackson, Maldonado and Copeland",
+      "invoice_number": "46592626",
+      "invoice_date_printed": "02/12/2011",
+      "invoice_date": "2011-02-12",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Dell OptiPlex 390 SFF Computer Windows 7 Pro i3 3.10GHz 4GB RAM 232GB HDD",
+          "quantity": "2.0",
+          "unit_price": "59.95",
+          "amount": "119.90",
+          "category": "office",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "119.90",
+      "tax": "11.99",
+      "tax_inclusive": false,
+      "total": "131.89",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency",
+      "invoice_date"
+    ],
+    "reasons": [],
+    "vendor": "Jackson, Maldonado and Copeland",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2361,
+    "output_tokens": 476,
+    "latency_s": 2.035730916017201,
+    "cost_usd": "0.00063975"
+  },
+  "review": null
+}

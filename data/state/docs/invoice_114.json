@@ -1,0 +1,47 @@
+{
+  "doc": {
+    "doc_id": "invoice_114",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_114.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_114",
+      "vendor_name": "Frey, Wilcox and Miller",
+      "invoice_number": "54563426",
+      "invoice_date_printed": "10/28/2013",
+      "invoice_date": "2013-10-28",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Western Chief Kids' Boys Classic Rain Boots w/ Pull Handles Navy Blue Size 12",
+          "quantity": "5.0",
+          "unit_price": "9.99",
+          "amount": "49.95",
+          "category": "other",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "49.95",
+      "tax": "5.00",
+      "tax_inclusive": false,
+      "total": "54.95",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency"
+    ],
+    "reasons": [],
+    "vendor": "Frey, Wilcox and Miller",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2337,
+    "output_tokens": 448,
+    "latency_s": 1.8899968340119813,
+    "cost_usd": "0.00061935"
+  },
+  "review": null
+}

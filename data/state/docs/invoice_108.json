@@ -1,0 +1,87 @@
+{
+  "doc": {
+    "doc_id": "invoice_108",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_108.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_108",
+      "vendor_name": "Smith-Bailey",
+      "invoice_number": "67315525",
+      "invoice_date_printed": "08/08/2011",
+      "invoice_date": "2011-08-08",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Ruby Rox Size 5 Black Strapless Evening Party Dress",
+          "quantity": "5.0",
+          "unit_price": "0.99",
+          "amount": "4.95",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Socialite White Black Striped A Line Dress With Pockets Large",
+          "quantity": "4.0",
+          "unit_price": "10",
+          "amount": "40.00",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Christmas Dress Grace Karin Sleeveless Christmas dress Red Black size Large",
+          "quantity": "4.0",
+          "unit_price": "9.99",
+          "amount": "39.96",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Escada Long Black Dress SZ 40 100% Silk Lining",
+          "quantity": "5.0",
+          "unit_price": "74.99",
+          "amount": "374.95",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "Coolibar Sun Protection Tunic Dress Cover Up Size Small S Pink Pattern UPF 50",
+          "quantity": "4.0",
+          "unit_price": "26.99",
+          "amount": "107.96",
+          "category": "other",
+          "page": 1
+        },
+        {
+          "description": "New Young Fabulous Broke Yfb Blue Ombre Overlay Halter Maxi Dress Sz Medium $286",
+          "quantity": "4.0",
+          "unit_price": "55",
+          "amount": "220.00",
+          "category": "other",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "787.82",
+      "tax": "78.78",
+      "tax_inclusive": false,
+      "total": "866.60",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency"
+    ],
+    "reasons": [],
+    "vendor": "Smith-Bailey",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2661,
+    "output_tokens": 978,
+    "latency_s": 4.062236959027359,
+    "cost_usd": "0.00098595"
+  },
+  "review": null
+}

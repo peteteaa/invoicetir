@@ -1,0 +1,79 @@
+{
+  "doc": {
+    "doc_id": "invoice_12",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_12.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_12",
+      "vendor_name": "Wiggins-Nunez",
+      "invoice_number": "41536140",
+      "invoice_date_printed": "09/16/2013",
+      "invoice_date": "2013-09-16",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "24 Inches Round Marble Coffee Table Top Inlay Sofa Table with Geometrical Design",
+          "quantity": "4.0",
+          "unit_price": "446.25",
+          "amount": "1785.00",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "18\" Handmade White Table Chess Coffee Table Inlay Mosaic Art Christmas Gift Arts",
+          "quantity": "2.0",
+          "unit_price": "520",
+          "amount": "1040.00",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "6'x3' Marvelous Marble Dining Outdoor Table Top Inlay Marquetry Design Art E842B",
+          "quantity": "4.0",
+          "unit_price": "5588.9",
+          "amount": "22355.60",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "34\"x34\" Marble Round Top Coffee Table Elephant Floral Inlaid Art Christmas Gifts",
+          "quantity": "3.0",
+          "unit_price": "1900",
+          "amount": "5700.00",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "Coffe Table with Chessboard Handmade Wooden Pine Natural Tables Wood Chess Board",
+          "quantity": "4.0",
+          "unit_price": "590",
+          "amount": "2360.00",
+          "category": "office",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "33240.60",
+      "tax": "3324.06",
+      "tax_inclusive": false,
+      "total": "36564.66",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency"
+    ],
+    "reasons": [],
+    "vendor": "Wiggins-Nunez",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2665,
+    "output_tokens": 855,
+    "latency_s": 3.73485329200048,
+    "cost_usd": "0.00091275"
+  },
+  "review": null
+}

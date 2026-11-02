@@ -1,0 +1,79 @@
+{
+  "doc": {
+    "doc_id": "invoice_109",
+    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_109.pdf",
+    "status": "verified",
+    "invoice": {
+      "doc_id": "invoice_109",
+      "vendor_name": "Jordan-Sanchez",
+      "invoice_number": "13240830",
+      "invoice_date_printed": "01/23/2018",
+      "invoice_date": "2018-01-23",
+      "currency_printed": "$",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Alarco Gaming PC Desktop Computer Intel i5✔ 8G✔ WIN 10✔1Tb✔ NVIDIA GTX 650 1GB",
+          "quantity": "3.0",
+          "unit_price": "500",
+          "amount": "1500.00",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "HP ProDesk 7th Gen. | 16GB | 2TB | SSD Windows 10 Pro Desktop Computer PC WiFi",
+          "quantity": "1.0",
+          "unit_price": "279",
+          "amount": "279.00",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "Dell Optiplex XE2 SFF Desktop Computer W10 Pro Licensed",
+          "quantity": "2.0",
+          "unit_price": "99",
+          "amount": "198.00",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "HP 6200 Pro Core i7 3.4GHz Quad Core 16GB 500GB Computer",
+          "quantity": "4.0",
+          "unit_price": "256.68",
+          "amount": "1026.72",
+          "category": "office",
+          "page": 1
+        },
+        {
+          "description": "Sentry Gaming Computer | Ryzen 3 3200G | 16 GB Ram | Build-to-Order",
+          "quantity": "3.0",
+          "unit_price": "594.99",
+          "amount": "1784.97",
+          "category": "office",
+          "page": 1
+        }
+      ],
+      "adjustments": [],
+      "subtotal": "4788.69",
+      "tax": "478.87",
+      "tax_inclusive": false,
+      "total": "5267.56",
+      "source_pages": [
+        1
+      ]
+    },
+    "uncertain_fields": [
+      "currency"
+    ],
+    "reasons": [],
+    "vendor": "Jordan-Sanchez",
+    "duplicate_of": null,
+    "model": "accounts/fireworks/models/gpt-oss-120b",
+    "escalated": false,
+    "input_tokens": 2694,
+    "output_tokens": 1027,
+    "latency_s": 3.9552820830140263,
+    "cost_usd": "0.00102030"
+  },
+  "review": null
+}
