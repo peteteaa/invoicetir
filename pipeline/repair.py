@@ -133,9 +133,11 @@ def run(doc: Document, model: Optional[str] = None, use_checks: bool = True,
     first = extract(doc, model=model, stage="extract")
     attempts.append(first)
     if not use_checks:
-        status = "verified" if first.result is not None else "flagged"
-        return Outcome(status, first.result, model, failures(first) if first.result is None else [],
-                       attempts)
+        # No checks, but an answer without an invoice (invalid, or "unreadable") is still not one
+        # to count: verified documents must have an invoice for clean, categorize and aggregate.
+        usable = first.result is not None and first.result.invoice is not None
+        return Outcome("verified" if usable else "flagged", first.result, model,
+                       [] if usable else failures(first), attempts)
 
     seen: list[str] = []   # every failure, in order, for the escalation prompt and the reasons
     last = first

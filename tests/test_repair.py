@@ -6,12 +6,14 @@ Cost per run: about $0.02.
 """
 from decimal import Decimal
 from pathlib import Path
+from types import SimpleNamespace
 
 import pymupdf
 import pytest
 
 import config
 from pipeline import ingest, repair
+from pipeline.extract import Attempt
 from schemas import ExtractionResult, Invoice, LineItem
 
 DOCS = Path(__file__).resolve().parent.parent / "data" / "docs" / "Samples of electronic invoices"
@@ -93,3 +95,10 @@ def test_unprinted_vendor_is_flagged_without_retries(monkeypatch):
     outcome = repair.run(ingest.load(CORD / "cord_test_011.png"))
     assert outcome.status == "flagged" and len(outcome.attempts) == 1 and not outcome.escalated
     assert outcome.reasons[0].startswith("not printed (or not read): vendor_name, invoice_date")
+
+
+def test_no_checks_still_flags_an_answer_without_an_invoice(monkeypatch):
+    unreadable = Attempt("m", ExtractionResult(unreadable=True), None, "{}")
+    monkeypatch.setattr(repair, "extract", lambda doc, **kwargs: unreadable)
+    outcome = repair.run(SimpleNamespace(doc_id="x"), model="m", use_checks=False)
+    assert (outcome.status, outcome.reasons) == ("flagged", ["model reported the document as unreadable"])
