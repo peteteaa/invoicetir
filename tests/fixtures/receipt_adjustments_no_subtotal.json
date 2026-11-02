@@ -1,0 +1,17 @@
+{
+  "doc_id": "receipt_adjustments_no_subtotal",
+  "vendor_name": "Blue Door Cafe",
+  "invoice_date": "2026-10-14",
+  "currency": "USD",
+  "line_items": [
+    {"description": "Flat white", "quantity": "2", "unit_price": "4.75", "amount": "9.50"},
+    {"description": "Avocado toast", "amount": "12.00"}
+  ],
+  "adjustments": [
+    {"label": "Loyalty discount", "amount": "-2.00"},
+    {"label": "Tip", "amount": "3.50"}
+  ],
+  "subtotal": null,
+  "tax": "1.80",
+  "total": "24.80"
+}

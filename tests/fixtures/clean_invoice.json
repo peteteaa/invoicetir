@@ -1,0 +1,19 @@
+{
+  "doc_id": "clean_invoice",
+  "vendor_name": "Jacobs, Russell and Perry",
+  "invoice_number": "30362538",
+  "invoice_date_printed": "08/12/2013",
+  "invoice_date": "2013-08-12",
+  "currency_printed": "$",
+  "currency": "USD",
+  "line_items": [
+    {"description": "6'x3' Black Marble Dining Table", "quantity": "1", "unit_price": "7847.32", "amount": "7847.32", "page": 1},
+    {"description": "4'x2' Marble Black Center Top Table", "quantity": "4", "unit_price": "3288.00", "amount": "13152.00", "page": 1}
+  ],
+  "adjustments": [],
+  "subtotal": "20999.32",
+  "tax": "2099.93",
+  "tax_inclusive": false,
+  "total": "23099.25",
+  "source_pages": [1]
+}

@@ -1,0 +1,14 @@
+{
+  "doc_id": "receipt_tax_inclusive",
+  "vendor_name": "Buchhandlung Muller",
+  "invoice_date": "2026-03-02",
+  "currency": "EUR",
+  "line_items": [
+    {"description": "Notizbuch A5", "quantity": "3", "unit_price": "4.99", "amount": "14.97"},
+    {"description": "Kugelschreiber", "quantity": "0.5", "unit_price": "3.125", "amount": "1.56"}
+  ],
+  "subtotal": "16.53",
+  "tax": "2.64",
+  "tax_inclusive": true,
+  "total": "16.53"
+}

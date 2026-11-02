@@ -1,0 +1,14 @@
+{
+  "doc_id": "printed_math_wrong",
+  "vendor_name": "Northside Office Supply",
+  "invoice_number": "A-1042",
+  "invoice_date": "2026-09-30",
+  "currency": "USD",
+  "line_items": [
+    {"description": "Printer paper, case", "quantity": "4", "unit_price": "12.50", "amount": "48.00"},
+    {"description": "Toner cartridge", "quantity": "1", "unit_price": "89.99", "amount": "89.99"}
+  ],
+  "subtotal": "137.99",
+  "tax": "11.04",
+  "total": "149.03"
+}
