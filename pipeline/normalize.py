@@ -1,7 +1,13 @@
-"""Turn the date as printed into ISO 8601, deterministically.
+"""Turn printed dates and currencies into ISO values, deterministically.
 
-The model copies the printed date (invoice_date_printed) and also gives its own ISO reading.
-Python decides:
+The model copies what is printed (invoice_date_printed, currency_printed) and also gives its
+own ISO reading. Python decides.
+
+Currency: an ISO code or an unambiguous symbol (EUR, €, £, ₩, Rp...) maps directly. A shared
+symbol like `$` or `¥` keeps the model's code if it is one the symbol can mean (else the
+symbol's most common code) and is marked uncertain.
+
+Dates:
 - an unambiguous printed date (year first, a month name, or a day above 12) is parsed directly;
 - an ambiguous numeric date like 07/10/2020 uses config.AMBIGUOUS_DATE_ORDER ("auto": month
   first for USD documents, day first otherwise; or "MDY" / "DMY") and is marked uncertain;
@@ -12,6 +18,33 @@ from datetime import date
 from typing import Optional
 
 import config
+
+SYMBOLS = {  # unambiguous symbols and prefixes
+    "€": "EUR", "£": "GBP", "₩": "KRW", "₹": "INR", "₱": "PHP", "₫": "VND", "฿": "THB",
+    "₺": "TRY", "₪": "ILS", "₦": "NGN", "₴": "UAH", "₽": "RUB", "zł": "PLN", "rp": "IDR",
+    "us$": "USD", "c$": "CAD", "ca$": "CAD", "a$": "AUD", "au$": "AUD", "nz$": "NZD",
+    "hk$": "HKD", "s$": "SGD", "r$": "BRL", "mx$": "MXN",
+}
+SHARED = {  # symbol -> (codes it can mean, most common)
+    "$": ({"USD", "CAD", "AUD", "NZD", "HKD", "SGD", "MXN", "TWD"}, "USD"),
+    "¥": ({"JPY", "CNY"}, "JPY"),
+    "kr": ({"SEK", "NOK", "DKK", "ISK"}, "SEK"),
+}
+
+
+def currency(printed, model_code):
+    """Return (ISO code or None, uncertain)."""
+    s = (printed or "").strip()
+    code = (model_code or "").strip().upper() or None
+    if len(s) == 3 and s.isalpha():
+        return s.upper(), False
+    if s.lower() in SYMBOLS:
+        return SYMBOLS[s.lower()], False
+    if s.lower() in SHARED:
+        options, common = SHARED[s.lower()]
+        return (code if code in options else common), True
+    return code, True  # nothing printed, or a symbol we don't know: keep the model's reading
+
 
 MONTHS = {m: i for i, m in enumerate(
     ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
@@ -65,15 +98,21 @@ def to_iso(printed: Optional[str], currency: Optional[str] = None) -> tuple[Opti
     return None, False
 
 
+def _mark(uncertain_fields: list[str], name: str, uncertain: bool) -> None:
+    if uncertain and name not in uncertain_fields:
+        uncertain_fields.append(name)
+    elif not uncertain and name in uncertain_fields:
+        uncertain_fields.remove(name)
+
+
 def resolve(invoice, uncertain_fields: list[str]) -> None:
-    """Set invoice.invoice_date from invoice_date_printed, in place; update uncertain_fields."""
+    """Set invoice.currency and invoice.invoice_date from what is printed, in place."""
+    invoice.currency, unsure = currency(invoice.currency_printed, invoice.currency)
+    _mark(uncertain_fields, "currency", unsure)
+
     iso, ambiguous = to_iso(invoice.invoice_date_printed, invoice.currency)
     if iso:
         invoice.invoice_date = iso
-        if ambiguous:
-            if "invoice_date" not in uncertain_fields:
-                uncertain_fields.append("invoice_date")
-        elif "invoice_date" in uncertain_fields:
-            uncertain_fields.remove("invoice_date")
-    elif invoice.invoice_date_printed and "invoice_date" not in uncertain_fields:
-        uncertain_fields.append("invoice_date")  # unrecognised format: keep the model's reading
+        _mark(uncertain_fields, "invoice_date", ambiguous)
+    elif invoice.invoice_date_printed:
+        _mark(uncertain_fields, "invoice_date", True)  # unrecognised format: keep the model's reading

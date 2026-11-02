@@ -15,7 +15,7 @@ import pymupdf
 
 import config
 import llm
-from pipeline import dates
+from pipeline import normalize
 from pipeline.ingest import Document, page_rect, render_page
 from schemas import ExtractionResult
 
@@ -155,7 +155,7 @@ def extract(doc: Document, model: Optional[str] = None, stage: str = "extract",
     final = calls[-1]
     result = final.parsed
     if result is not None and result.invoice is not None:
-        dates.resolve(result.invoice, result.uncertain_fields)
+        normalize.resolve(result.invoice, result.uncertain_fields)
         result.invoice.doc_id = doc.doc_id
         result.invoice.source_pages = [p.number for p in doc.pages]
         if len(doc.pages) == 1:  # provenance, not a document value: there is only one page

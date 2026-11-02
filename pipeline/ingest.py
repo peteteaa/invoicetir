@@ -65,8 +65,9 @@ def layout_text(page: pymupdf.Page) -> str:
         for w in sorted(line, key=lambda w: w[0]):
             if prev_x1 is not None and w[0] - prev_x1 < char_w * 1.5:
                 text += " " + w[4]  # same phrase: one space
-            else:  # new column: pad to the word's x position
-                text += " " * max(int(w[0] / char_w) - len(text), 1 if text else 0) + w[4]
+            else:  # new column: pad to the word's x position, and never less than 3 spaces,
+                # so a long description never runs into the Qty column ("Marble 5,00 each")
+                text += " " * max(int(w[0] / char_w) - len(text), 3 if text else 0) + w[4]
             prev_x1 = w[2]
         out.append(text.rstrip())
     return "\n".join(out)

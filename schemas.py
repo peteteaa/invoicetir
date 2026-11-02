@@ -5,7 +5,8 @@ LineItem          description, quantity (default 1), unit_price, amount, categor
 Adjustment        label, amount: invoice-level discounts (negative), service charges, shipping, tips
 Invoice           doc_id, vendor_name (exactly as printed), invoice_number (optional),
                   invoice_date_printed (as printed), invoice_date (ISO 8601, set by
-                  pipeline/normalize.py), currency (ISO 4217), line_items, adjustments, subtotal,
+                  pipeline/normalize.py), currency_printed (as printed), currency (ISO 4217,
+                  set by pipeline/normalize.py), line_items, adjustments, subtotal,
                   tax, tax_inclusive (tax printed as already included in the total), total,
                   source_pages
 ExtractionResult  invoice (or null), uncertain_fields, unreadable
@@ -52,6 +53,7 @@ class Invoice(BaseModel):
     invoice_number: Optional[str] = None
     invoice_date_printed: Optional[str] = None
     invoice_date: Optional[str] = None
+    currency_printed: Optional[str] = None  # symbol or code as printed, e.g. "$"
     currency: Optional[str] = None
     line_items: list[LineItem] = []
     adjustments: list[Adjustment] = []
