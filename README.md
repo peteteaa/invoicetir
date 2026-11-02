@@ -86,6 +86,19 @@ printed. The checks decide whether a missing value is a failure.
    `ESCALATION_MODEL` with every failure so far. If it still fails, flag for human review
    with the reason. Never guess. A document the small model calls unreadable goes straight
    to escalation.
+
+   **The escalation model can also escalate to a human.** Passing the checks is not enough
+   if `ESCALATION_MODEL` says it is unsure. Its extraction goes to human review, with the
+   uncertain fields as the reason, when it:
+   - marks the document `unreadable`, or
+   - lists, in `uncertain_fields`, any field that changes the spend numbers or who they're
+     attributed to: `vendor_name`, `total`, `subtotal`, `tax`, an adjustment, or a line
+     item's `quantity`, `unit_price`, `amount` or `description`.
+
+   Some uncertainty comes from fixed normalization rules, not from the model: a `$` that
+   could be several currencies, or an ambiguous date like `07/10/2020`. It does not send a
+   document to review on its own; it stays recorded in `uncertain_fields`, which is kept in
+   the output. A flagged document is never counted in the totals until a person verifies it.
 5. **`clean.py`:** normalize vendor names with rapidfuzz against a registry of seen vendors
    (`data/state/vendors.json`). Scores in the configurable ambiguous band are decided by the
    model. Duplicates: same normalized vendor + invoice number, or same vendor + total with
