@@ -226,8 +226,12 @@ def run_large_all(cases: list[Case]) -> tuple[dict, dict]:
                     {"role": "user", "content": content + [{"type": "text", "text": f"That was all {len(batch)} documents."}]}]
         parsed = None
         for _ in range(1 + config.MAX_RETRIES):
-            c = llm.call(doc_id=f"batch{n}", stage="large_all", model=config.ESCALATION_MODEL,
-                         messages=messages, schema=schema)
+            try:
+                c = llm.call(doc_id=f"batch{n}", stage="large_all", model=config.ESCALATION_MODEL,
+                             messages=messages, schema=schema)
+            except Exception as e:  # e.g. a request over the size limit: a failed batch, not a lost eval
+                print(f"  large_all batch {n} failed: {type(e).__name__}: {e}", flush=True)
+                break
             calls.append(c)
             if c.parsed is not None:
                 parsed = c.parsed
