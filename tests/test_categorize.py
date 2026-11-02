@@ -6,6 +6,7 @@ import pydantic
 import pytest
 
 import config
+import llm
 from pipeline import categorize
 from schemas import Invoice, LineItem
 
@@ -43,3 +44,12 @@ def test_model_assigns_clear_categories_and_memory_learns():
     again = invoice("Acme Cloud", "aws ec2 compute HOURS")
     assert categorize.categorize(again, memory=memory) == []
     assert again.line_items[0].category == "cloud"
+
+
+def test_api_failure_falls_back_to_other_instead_of_stopping(monkeypatch):
+    def fail(**kwargs):
+        raise TimeoutError("Fireworks down")
+    monkeypatch.setattr(llm, "call", fail)
+    inv = invoice("Acme Cloud", "Compute hours")
+    assert categorize.categorize(inv) == []
+    assert inv.line_items[0].category == "other"

@@ -5,6 +5,7 @@ from decimal import Decimal
 import pytest
 
 import config
+import llm
 from pipeline import clean
 from schemas import Invoice, ProcessedDoc
 
@@ -129,3 +130,11 @@ def test_flagged_document_never_names_or_joins_a_vendor():
     assert clean.clean(docs, registry) == []
     assert registry == {"Starbucks Coffee": ["Starbucks Coffee"]}
     assert [d.vendor for d in docs] == ["Starbuckz Coffee", "Starbucks Coffee", "Zenith Supplies"]
+
+
+def test_api_failure_keeps_vendors_apart_instead_of_stopping(monkeypatch):
+    def fail(**kwargs):
+        raise TimeoutError("Fireworks down")
+    monkeypatch.setattr(llm, "call", fail)
+    registry = {"Starbucks": ["Starbucks"]}
+    assert clean.match_vendor("Starbucks Coffee #1234", registry) == ("Starbucks Coffee #1234", [])

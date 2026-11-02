@@ -63,8 +63,11 @@ def _same_vendor(name: str, known: str, doc_id: Optional[str], model: Optional[s
                 {"role": "user", "content": f"Name A: {known}\nName B: {name}"}]
     calls = []
     for _ in range(1 + config.MAX_RETRIES):  # invalid JSON uses the same budget
-        c = llm.call(doc_id=doc_id, stage="vendor_match", model=model or config.TEXT_MODEL,
-                     messages=messages, schema=VendorMatch)
+        try:
+            c = llm.call(doc_id=doc_id, stage="vendor_match", model=model or config.TEXT_MODEL,
+                         messages=messages, schema=VendorMatch)
+        except Exception:  # API failure after the client's own retries: never stop the batch
+            return False, calls
         calls.append(c)
         if c.parsed is not None:
             return c.parsed.same, calls
