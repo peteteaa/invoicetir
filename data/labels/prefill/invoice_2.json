@@ -1,0 +1,67 @@
+{
+  "model": "accounts/fireworks/models/kimi-k3",
+  "error": null,
+  "unreadable": false,
+  "uncertain_fields": [
+    "currency"
+  ],
+  "invoice": {
+    "doc_id": "invoice_2",
+    "vendor_name": "Mccoy, Wise and Mullen",
+    "invoice_number": "88431628",
+    "invoice_date_printed": "07/26/2014",
+    "invoice_date": "2014-07-26",
+    "currency_printed": "$",
+    "currency": "USD",
+    "line_items": [
+      {
+        "description": "Chef Pattern Kitchen Floor Rugs Carpet Blanket Area Mats Home Supply 40x60cm",
+        "quantity": "2.0",
+        "unit_price": "15.96",
+        "amount": "31.92",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Chindi Area Rugs Carpet New Design Bohemian Hippi Garden Yoga Mat Indian Kilim",
+        "quantity": "3.0",
+        "unit_price": "29.99",
+        "amount": "89.97",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Rug Beni Ourain, Moroccan Handmade 100% Wool Area Rug Berber Beni Ouarain Carpet",
+        "quantity": "1.0",
+        "unit_price": "450",
+        "amount": "450.00",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Fashion Home Rectangle Area Rug Door Floor Bedroom Livingroom Carpet Mat 60*90cm",
+        "quantity": "5.0",
+        "unit_price": "34.19",
+        "amount": "170.95",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Watercolor Butterfly Carpets Kitchen Rug Anti Slip Mat Art Living Room Carpets",
+        "quantity": "1.0",
+        "unit_price": "14.39",
+        "amount": "14.39",
+        "category": "other",
+        "page": 1
+      }
+    ],
+    "adjustments": [],
+    "subtotal": "757.23",
+    "tax": "75.72",
+    "tax_inclusive": false,
+    "total": "832.95",
+    "source_pages": [
+      1
+    ]
+  }
+}

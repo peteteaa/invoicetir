@@ -142,7 +142,13 @@ Assumes one invoice per document.
   gitignored, so the PDFs stay out of the repo.
 - **`label_app.py`:** Streamlit labeling tool. Shows the document next to an editable form
   pre-filled by `ESCALATION_MODEL`'s extraction. A human verifies or corrects every field
-  and saves to `data/labels/`. Tracks which fields were corrected.
+  and saves to `data/labels/`. Tracks which fields were corrected (`corrected_fields`,
+  compared by value against the pre-fill). The pre-fill, extraction plus line-item
+  categories, is cached in `data/labels/prefill/` so reopening a document costs nothing
+  (about 1.6¢ per new document with kimi-k3). The form runs `checks.py` live; set "printed
+  math is wrong" (`expected_flag`) only when the document itself prints the math wrong.
+  "Save and next" jumps to the next unlabeled document. To label in parallel, each person
+  takes a different range of documents and commits their `data/labels/` files.
 - **`data/load_cord.py`** (optional): downloads the CORD receipts dataset from Hugging Face
   (verify the ID, likely `naver-clova-ix/cord-v2`), maps line items, subtotal, tax and total
   to our schema, and writes images and labels into `data/docs/` and `data/labels/`. Fields

@@ -1,0 +1,60 @@
+{
+  "model": "accounts/fireworks/models/kimi-k3",
+  "error": null,
+  "unreadable": false,
+  "uncertain_fields": [
+    "invoice_date",
+    "currency"
+  ],
+  "invoice": {
+    "doc_id": "invoice_3",
+    "vendor_name": "Ross-Warren",
+    "invoice_number": "86542663",
+    "invoice_date_printed": "12/04/2013",
+    "invoice_date": "2013-12-04",
+    "currency_printed": "$",
+    "currency": "USD",
+    "line_items": [
+      {
+        "description": "Sony PlayStation 3 PS3 Super Slim Black Console 20 GB *Tested* Console & Cables",
+        "quantity": "1",
+        "unit_price": "99.95",
+        "amount": "99.95",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "Super Nintendo Entertainment System SNES Console Bundle W/ 2 Controllers & Games",
+        "quantity": "3",
+        "unit_price": "129.99",
+        "amount": "389.97",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "Microsoft Xbox Series X 1TB Video Game Console - Black, Preorder Confirm PRESALE",
+        "quantity": "4",
+        "unit_price": "729.98",
+        "amount": "2919.92",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "Nintendo Wii U 32GB Black Console Deluxe Set with 21 games!",
+        "quantity": "5",
+        "unit_price": "400",
+        "amount": "2000.00",
+        "category": "office",
+        "page": 1
+      }
+    ],
+    "adjustments": [],
+    "subtotal": "5409.84",
+    "tax": "540.98",
+    "tax_inclusive": false,
+    "total": "5950.82",
+    "source_pages": [
+      1
+    ]
+  }
+}
