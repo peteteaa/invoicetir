@@ -119,8 +119,11 @@ printed. The checks decide whether a missing value is a failure.
    verified invoices. `aggregate(docs)` returns a `Spend`: `rows` (one per line item, tax,
    adjustment, with doc_id and page), `by_category`, `by_vendor`, `by_month`, `summary`.
 8. **`output.py`:** xlsx with sheets Summary, By category, By vendor, By month, Line items
-   (every row keeps doc_id and page) and Flagged (with reasons). Plotly Sankey
-   total → category → vendor, saved as HTML.
+   (every row keeps doc_id and page), Flagged (with reasons) and Duplicates. Plotly Sankey
+   total → category → vendor, saved as HTML, one figure per currency; vendors past the top 12
+   are grouped as "Other vendors", and tax and adjustments end at their own node.
+   `output.write(docs)` writes `out/spend.xlsx` and `out/sankey.html`; `write_xlsx` also
+   takes a `BytesIO` for a download button, and `sankey(spend, currency)` returns the figure.
 
 `run.py` runs the stages in order and is used by the demo and the eval. `llm.py` is the only
 module that calls Fireworks; it validates replies and writes the call log.
