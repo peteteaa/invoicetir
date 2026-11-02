@@ -1,0 +1,30 @@
+{
+  "doc_id": "invoice_525",
+  "vendor_name": "Becker, Moreno and Floyd",
+  "invoice_number": "83935695",
+  "invoice_date_printed": "10/19/2013",
+  "invoice_date": "2013-10-19",
+  "currency_printed": "$",
+  "currency": "USD",
+  "line_items": [
+    {
+      "description": "Lilly Pulitzer Lillywood California 8 Shift Dress",
+      "quantity": "2.00",
+      "unit_price": "76.00",
+      "amount": "152.00",
+      "category": "other",
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "152.00",
+  "tax": "15.20",
+  "tax_inclusive": false,
+  "total": "167.20",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": false,
+  "corrected_fields": []
+}

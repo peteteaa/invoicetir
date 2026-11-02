@@ -1,0 +1,83 @@
+{
+  "model": "accounts/fireworks/models/kimi-k3",
+  "error": null,
+  "unreadable": false,
+  "uncertain_fields": [
+    "currency"
+  ],
+  "invoice": {
+    "doc_id": "invoice_827",
+    "vendor_name": "Herrera Inc",
+    "invoice_number": "91536786",
+    "invoice_date_printed": "07/14/2014",
+    "invoice_date": "2014-07-14",
+    "currency_printed": "$",
+    "currency": "USD",
+    "line_items": [
+      {
+        "description": "Nintendo 3DS Handheld Console Purple",
+        "quantity": "1.0",
+        "unit_price": "98.99",
+        "amount": "98.99",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "Retro Arcade Game Console All In One 128G Raspberry PI 4 Model B 4GB Plug Play",
+        "quantity": "1.0",
+        "unit_price": "149.99",
+        "amount": "149.99",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "Nintendo Wii Console RVL-001 Complete Hookups W/ Mario&Sonic; Tested / Working",
+        "quantity": "2.0",
+        "unit_price": "78.88",
+        "amount": "157.76",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "Microsoft X01267-001 Xbox *Console Only*",
+        "quantity": "2.0",
+        "unit_price": "49.99",
+        "amount": "99.98",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "Xbox 360 console with games",
+        "quantity": "5.0",
+        "unit_price": "41",
+        "amount": "205.00",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "Nintendo Wii Console - 2 sets controllers Plus All Cables Included Works Great",
+        "quantity": "4.0",
+        "unit_price": "99.99",
+        "amount": "399.96",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "SONY Playstation2 Slim Console set \" SCPH-90000 / White \" / TESTED Working 11194",
+        "quantity": "1.0",
+        "unit_price": "90",
+        "amount": "90.00",
+        "category": "office",
+        "page": 1
+      }
+    ],
+    "adjustments": [],
+    "subtotal": "1201.68",
+    "tax": "120.17",
+    "tax_inclusive": false,
+    "total": "1321.85",
+    "source_pages": [
+      1
+    ]
+  }
+}

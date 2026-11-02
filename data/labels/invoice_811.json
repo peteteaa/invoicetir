@@ -1,0 +1,32 @@
+{
+  "doc_id": "invoice_811",
+  "vendor_name": "Copeland, Delgado and Carney",
+  "invoice_number": "81414051",
+  "invoice_date_printed": "10/01/2011",
+  "invoice_date": "2011-10-01",
+  "currency_printed": "$",
+  "currency": "USD",
+  "line_items": [
+    {
+      "description": "Iron Glass Holder Organizer Wall Mounted Kitchen Bar 5 Bottles Wine Rack Display",
+      "quantity": "4.00",
+      "unit_price": "44.33",
+      "amount": "177.32",
+      "category": "other",
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "177.32",
+  "tax": "17.73",
+  "tax_inclusive": false,
+  "total": "195.05",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": false,
+  "corrected_fields": [
+    "line_items[0].category"
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "model": "accounts/fireworks/models/kimi-k3",
+  "error": null,
+  "unreadable": false,
+  "uncertain_fields": [
+    "currency",
+    "invoice_date"
+  ],
+  "invoice": {
+    "doc_id": "invoice_922",
+    "vendor_name": "Morgan, Mclaughlin and Campbell",
+    "invoice_number": "75771384",
+    "invoice_date_printed": "07/06/2012",
+    "invoice_date": "2012-07-06",
+    "currency_printed": "$",
+    "currency": "USD",
+    "line_items": [
+      {
+        "description": "Andrea Polizzi Women's Sleeveless Shift Dress Silver Size 8",
+        "quantity": "1",
+        "unit_price": "0.99",
+        "amount": "0.99",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Cherry Halter Rockabilly Black Summer Dress Size 3/4",
+        "quantity": "4",
+        "unit_price": "3.5",
+        "amount": "14.00",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Lilly Pulitzer Lillywood California 8 Shift Dress",
+        "quantity": "5",
+        "unit_price": "76",
+        "amount": "380.00",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "MARC JACOBS IVORY COTTON SHORT SLEEVE BEIGE SILK OVERLAY DRESS SMALL",
+        "quantity": "4",
+        "unit_price": "15.99",
+        "amount": "63.96",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Unbranded Dress Sleeveless Cowl Neck Gold Silver Purple Metallic Size 6 S",
+        "quantity": "4",
+        "unit_price": "10",
+        "amount": "40.00",
+        "category": "other",
+        "page": 1
+      }
+    ],
+    "adjustments": [],
+    "subtotal": "498.95",
+    "tax": "49.90",
+    "tax_inclusive": false,
+    "total": "548.85",
+    "source_pages": [
+      1
+    ]
+  }
+}

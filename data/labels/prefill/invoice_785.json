@@ -1,0 +1,83 @@
+{
+  "model": "accounts/fireworks/models/kimi-k3",
+  "error": null,
+  "unreadable": false,
+  "uncertain_fields": [
+    "currency"
+  ],
+  "invoice": {
+    "doc_id": "invoice_785",
+    "vendor_name": "Carter, Cole and Lutz",
+    "invoice_number": "72643216",
+    "invoice_date_printed": "01/26/2019",
+    "invoice_date": "2019-01-26",
+    "currency_printed": "$",
+    "currency": "USD",
+    "line_items": [
+      {
+        "description": "Hyperkin RetroN 3 HD Console for NES SNES Super Famicom Genesis/Mega Drive Black",
+        "quantity": "5.0",
+        "unit_price": "40",
+        "amount": "200.00",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Sony PlayStation 5 Console - White - Disc Version - CONFIRMED PRE ORDER PS5",
+        "quantity": "1.0",
+        "unit_price": "499.99",
+        "amount": "499.99",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "VTech Game Console Bundle- Console, Art Studio, Games, 2 Controllers- TESTED!",
+        "quantity": "4.0",
+        "unit_price": "219.99",
+        "amount": "879.96",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Nintendo Switch 32 GB Black - Console Only - Works Perfect Fast Shipping!",
+        "quantity": "5.0",
+        "unit_price": "179.99",
+        "amount": "899.95",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "New Nintendo Switch 32GB Console - AW1134",
+        "quantity": "1.0",
+        "unit_price": "299.99",
+        "amount": "299.99",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Microsoft Xbox One 1 - 500 GB Console - Black w/ Controller & Power Supply GOOD",
+        "quantity": "4.0",
+        "unit_price": "175",
+        "amount": "700.00",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Nintendo 64 Console with Box, Foam and extra oem controller",
+        "quantity": "5.0",
+        "unit_price": "120",
+        "amount": "600.00",
+        "category": "other",
+        "page": 1
+      }
+    ],
+    "adjustments": [],
+    "subtotal": "4079.89",
+    "tax": "407.99",
+    "tax_inclusive": false,
+    "total": "4487.88",
+    "source_pages": [
+      1
+    ]
+  }
+}

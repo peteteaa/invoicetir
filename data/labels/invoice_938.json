@@ -1,0 +1,38 @@
+{
+  "doc_id": "invoice_938",
+  "vendor_name": "Benson-Harrison",
+  "invoice_number": "92888150",
+  "invoice_date_printed": "06/14/2015",
+  "invoice_date": "2015-06-14",
+  "currency_printed": "$",
+  "currency": "USD",
+  "line_items": [
+    {
+      "description": "Photosynthesis by Rabinowitch",
+      "quantity": "2.00",
+      "unit_price": "11.31",
+      "amount": "22.62",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "Gulag archipelago / Gulag Archipelago Volume 2 / 1st edition paperbacks",
+      "quantity": "2.00",
+      "unit_price": "30.00",
+      "amount": "60.00",
+      "category": "other",
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "82.62",
+  "tax": "8.26",
+  "tax_inclusive": false,
+  "total": "90.88",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": false,
+  "corrected_fields": []
+}

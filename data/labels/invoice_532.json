@@ -1,0 +1,78 @@
+{
+  "doc_id": "invoice_532",
+  "vendor_name": "Sutton and Sons",
+  "invoice_number": "22108854",
+  "invoice_date_printed": "03/08/2013",
+  "invoice_date": "2013-03-08",
+  "currency_printed": "$",
+  "currency": "USD",
+  "line_items": [
+    {
+      "description": "Lotto Youth Boys Fuerzapura L500 Jr Soccer Cleats Size 2.5 White Blue M6147 2.5Y",
+      "quantity": "5.00",
+      "unit_price": "19.99",
+      "amount": "99.95",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "PUMA RS DREAMER SUPER MARIO 64 NINTENDO Little Kids US 2.5",
+      "quantity": "2.00",
+      "unit_price": "125.00",
+      "amount": "250.00",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "Joma Youth Boy Supercopa 201 Soccer Cleats 4.5 Negro Verde Multitaco Black Green",
+      "quantity": "1.00",
+      "unit_price": "19.99",
+      "amount": "19.99",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "Star Wars Childs Slippers - NWT",
+      "quantity": "2.00",
+      "unit_price": "2.25",
+      "amount": "4.50",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "Saucony Boys' Ride ISO Sneaker, White/Blue/Vizi Red, 7 M US Little Kid",
+      "quantity": "3.00",
+      "unit_price": "27.99",
+      "amount": "83.97",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "Joma Youth Boys Gol 205 Piso Multitaco Soccer Cleats 1.5 White Blue Yellow NEW",
+      "quantity": "1.00",
+      "unit_price": "19.99",
+      "amount": "19.99",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "Joma Boys Youth Super Copa 102 Soccer Cleats 2.5 White Yellow Blue Futbol NEW",
+      "quantity": "5.00",
+      "unit_price": "19.99",
+      "amount": "99.95",
+      "category": "other",
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "578.35",
+  "tax": "57.83",
+  "tax_inclusive": false,
+  "total": "636.18",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": false,
+  "corrected_fields": []
+}

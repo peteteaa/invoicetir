@@ -1,0 +1,75 @@
+{
+  "model": "accounts/fireworks/models/kimi-k3",
+  "error": null,
+  "unreadable": false,
+  "uncertain_fields": [
+    "currency"
+  ],
+  "invoice": {
+    "doc_id": "invoice_858",
+    "vendor_name": "Davis-Eaton",
+    "invoice_number": "10505125",
+    "invoice_date_printed": "12/29/2019",
+    "invoice_date": "2019-12-29",
+    "currency_printed": "$",
+    "currency": "USD",
+    "line_items": [
+      {
+        "description": "New Sony Playstation 4 Slim 1TB 3 Game Bundle Console. Sealed!!!",
+        "quantity": "3.0",
+        "unit_price": "399.99",
+        "amount": "1199.97",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "SONY PlayStation 3 Fat Console Bundle | Cords 2 DualShock 3 Controllers 7 Games",
+        "quantity": "5.0",
+        "unit_price": "119.99",
+        "amount": "599.95",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Nintendo DS Lite Onyx Black System Console & 6 games Mario Charger Stylus",
+        "quantity": "4.0",
+        "unit_price": "69.99",
+        "amount": "279.96",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "B361 Nintendo 2DS console Clear Black Japan",
+        "quantity": "1.0",
+        "unit_price": "29.99",
+        "amount": "29.99",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Gold PlayStation 4 Slim Limited Edition 1TB Console with Original Box + Bundle",
+        "quantity": "3.0",
+        "unit_price": "420",
+        "amount": "1260.00",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Nintendo Switch Animal Crossing: New Horizon Special Edition Console BRAND NEW",
+        "quantity": "1.0",
+        "unit_price": "399",
+        "amount": "399.00",
+        "category": "other",
+        "page": 1
+      }
+    ],
+    "adjustments": [],
+    "subtotal": "3768.87",
+    "tax": "376.89",
+    "tax_inclusive": false,
+    "total": "4145.76",
+    "source_pages": [
+      1
+    ]
+  }
+}

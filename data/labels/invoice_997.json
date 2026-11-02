@@ -1,0 +1,54 @@
+{
+  "doc_id": "invoice_997",
+  "vendor_name": "Conley, Nguyen and Lambert",
+  "invoice_number": "57415538",
+  "invoice_date_printed": "04/21/2013",
+  "invoice_date": "2013-04-21",
+  "currency_printed": "$",
+  "currency": "USD",
+  "line_items": [
+    {
+      "description": "Women Black Dress Mori Girl Puff Sleeve Korean Casual Loose Peter Pan Collar",
+      "quantity": "5.00",
+      "unit_price": "13.99",
+      "amount": "69.95",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "Lily Pulitzer Beach Fit & Flare Dress 8 New",
+      "quantity": "2.00",
+      "unit_price": "68.00",
+      "amount": "136.00",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "NEW!! Free People: layered Gray Dress NWT (Size Small) $128 Long Sleeve Rayon",
+      "quantity": "2.00",
+      "unit_price": "39.99",
+      "amount": "79.98",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "S.L. Fashions Size 16 Stretch Bodice Dress",
+      "quantity": "1.00",
+      "unit_price": "15.50",
+      "amount": "15.50",
+      "category": "other",
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "301.43",
+  "tax": "30.14",
+  "tax_inclusive": false,
+  "total": "331.57",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": false,
+  "corrected_fields": []
+}

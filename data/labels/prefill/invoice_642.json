@@ -1,0 +1,75 @@
+{
+  "model": "accounts/fireworks/models/kimi-k3",
+  "error": null,
+  "unreadable": false,
+  "uncertain_fields": [
+    "currency"
+  ],
+  "invoice": {
+    "doc_id": "invoice_642",
+    "vendor_name": "Hughes, Lewis and Romero",
+    "invoice_number": "97004654",
+    "invoice_date_printed": "08/16/2020",
+    "invoice_date": "2020-08-16",
+    "currency_printed": "$",
+    "currency": "USD",
+    "line_items": [
+      {
+        "description": "Nintendo 2DS Console Blue Japan model Combine Shipping available 2",
+        "quantity": "3.0",
+        "unit_price": "54.99",
+        "amount": "164.97",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "Nintendo Switch Lite Gray CONSOLE ONLY - No Accessories or Charger [B5-1]",
+        "quantity": "2.0",
+        "unit_price": "135",
+        "amount": "270.00",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "Nintendo Switch Lite Console 32gb Gray",
+        "quantity": "3.0",
+        "unit_price": "229",
+        "amount": "687.00",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "Nintendo Wii Console Complete Bundle w/extras tested",
+        "quantity": "1.0",
+        "unit_price": "104.99",
+        "amount": "104.99",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "Hyperkin RetroN 3 HD Console for NES SNES Super Famicom Genesis/Mega Drive Black",
+        "quantity": "3.0",
+        "unit_price": "40",
+        "amount": "120.00",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "NEC PC Engine INTERFACE UNIT IFU-30 CD ROM Console PI-TG001 Tested Japan",
+        "quantity": "5.0",
+        "unit_price": "159.99",
+        "amount": "799.95",
+        "category": "office",
+        "page": 1
+      }
+    ],
+    "adjustments": [],
+    "subtotal": "2146.91",
+    "tax": "214.69",
+    "tax_inclusive": false,
+    "total": "2361.60",
+    "source_pages": [
+      1
+    ]
+  }
+}

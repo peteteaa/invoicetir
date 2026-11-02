@@ -1,0 +1,30 @@
+{
+  "doc_id": "invoice_274",
+  "vendor_name": "Berg, Robinson and Jenkins",
+  "invoice_number": "43332484",
+  "invoice_date_printed": "04/20/2011",
+  "invoice_date": "2011-04-20",
+  "currency_printed": "$",
+  "currency": "USD",
+  "line_items": [
+    {
+      "description": "How to Get an Asian Girlfriend by Derek Strong (English) Paperback Book Free Shi",
+      "quantity": "1.00",
+      "unit_price": "15.44",
+      "amount": "15.44",
+      "category": "other",
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "15.44",
+  "tax": "1.54",
+  "tax_inclusive": false,
+  "total": "16.98",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": false,
+  "corrected_fields": []
+}

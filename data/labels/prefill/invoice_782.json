@@ -1,0 +1,60 @@
+{
+  "model": "accounts/fireworks/models/kimi-k3",
+  "error": null,
+  "unreadable": false,
+  "uncertain_fields": [
+    "currency",
+    "invoice_date"
+  ],
+  "invoice": {
+    "doc_id": "invoice_782",
+    "vendor_name": "Glass, Warner and Woodard",
+    "invoice_number": "45084706",
+    "invoice_date_printed": "05/07/2018",
+    "invoice_date": "2018-05-07",
+    "currency_printed": "$",
+    "currency": "USD",
+    "line_items": [
+      {
+        "description": "Custom Build Dell Desktop Computer i5 | 16GB | 2TB | SSD Windows 10 PC WiFi DVD",
+        "quantity": "5.0",
+        "unit_price": "99",
+        "amount": "495.00",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "Qaud core J3160 Dual Lan industrial mini PC,AES NI Linux ubuntu desktop computer",
+        "quantity": "5.0",
+        "unit_price": "245",
+        "amount": "1225.00",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "10-Core Gaming Computer Desktop PC Tower SSD Quad 16GB R7 Graphic CUSTOM BUILT",
+        "quantity": "2.0",
+        "unit_price": "439.98",
+        "amount": "879.96",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "Custom Build Dell Desktop Computer i5 | 16GB | 1TB SSD | HDMI Windows 10 PC WiFi",
+        "quantity": "4.0",
+        "unit_price": "99",
+        "amount": "396.00",
+        "category": "office",
+        "page": 1
+      }
+    ],
+    "adjustments": [],
+    "subtotal": "2995.96",
+    "tax": "299.60",
+    "tax_inclusive": false,
+    "total": "3295.56",
+    "source_pages": [
+      1
+    ]
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "model": "accounts/fireworks/models/kimi-k3",
+  "error": null,
+  "unreadable": false,
+  "uncertain_fields": [
+    "currency"
+  ],
+  "invoice": {
+    "doc_id": "invoice_873",
+    "vendor_name": "Brown, Parrish and Smith",
+    "invoice_number": "45943327",
+    "invoice_date_printed": "12/19/2017",
+    "invoice_date": "2017-12-19",
+    "currency_printed": "$",
+    "currency": "USD",
+    "line_items": [
+      {
+        "description": "52\"x26\" White Marble Top Center Table Carnelian Pietradura Inlaid Halloween Gift",
+        "quantity": "2.0",
+        "unit_price": "7777",
+        "amount": "15554.00",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "Cottage Crafts Marble Dinning Table Top Round Conference Table Size 60 Inches",
+        "quantity": "1.0",
+        "unit_price": "5596",
+        "amount": "5596.00",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "7'x4' Marble Side Dining Outdoor Table Top Lapis Pietra Dura Inlay Hallway E960",
+        "quantity": "1.0",
+        "unit_price": "14721.08",
+        "amount": "14721.08",
+        "category": "office",
+        "page": 1
+      }
+    ],
+    "adjustments": [],
+    "subtotal": "35871.08",
+    "tax": "3587.11",
+    "tax_inclusive": false,
+    "total": "39458.19",
+    "source_pages": [
+      1
+    ]
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "model": "accounts/fireworks/models/kimi-k3",
+  "error": null,
+  "unreadable": false,
+  "uncertain_fields": [
+    "currency"
+  ],
+  "invoice": {
+    "doc_id": "invoice_497",
+    "vendor_name": "Alexander-Harper",
+    "invoice_number": "54410005",
+    "invoice_date_printed": "06/23/2015",
+    "invoice_date": "2015-06-23",
+    "currency_printed": "$",
+    "currency": "USD",
+    "line_items": [
+      {
+        "description": "Chindi Rugs Carpet New Design Bohemian Garden Yoga Mat Indian Kilim Counterpane",
+        "quantity": "4.0",
+        "unit_price": "29.99",
+        "amount": "119.96",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "3D Printed Mat Vortex Illusion Living room Rug Carpet Floors Doors Round Mat",
+        "quantity": "3.0",
+        "unit_price": "11.63",
+        "amount": "34.89",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "3D Bottomless Hole Optical Illusion Area Rug Carpet Sofa Door Mats Non-slip Home",
+        "quantity": "4.0",
+        "unit_price": "13.76",
+        "amount": "55.04",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "YILONG 4'x6' Traditional Handmade Carpet Parlor Home Hand Knotted Silk Rugs 084B",
+        "quantity": "1.0",
+        "unit_price": "3600",
+        "amount": "3600.00",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "Romantic Rose Flowers Area Rugs Kitchen Living Room Floor Mat Non-slip Carpets",
+        "quantity": "4.0",
+        "unit_price": "13.37",
+        "amount": "53.48",
+        "category": "office",
+        "page": 1
+      }
+    ],
+    "adjustments": [],
+    "subtotal": "3863.37",
+    "tax": "386.34",
+    "tax_inclusive": false,
+    "total": "4249.71",
+    "source_pages": [
+      1
+    ]
+  }
+}

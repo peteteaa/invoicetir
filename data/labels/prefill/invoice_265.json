@@ -1,0 +1,36 @@
+{
+  "model": "accounts/fireworks/models/kimi-k3",
+  "error": null,
+  "unreadable": false,
+  "uncertain_fields": [
+    "currency",
+    "invoice_date"
+  ],
+  "invoice": {
+    "doc_id": "invoice_265",
+    "vendor_name": "Long, Brown and Gray",
+    "invoice_number": "64281956",
+    "invoice_date_printed": "05/04/2020",
+    "invoice_date": "2020-05-04",
+    "currency_printed": "$",
+    "currency": "USD",
+    "line_items": [
+      {
+        "description": "Moonshine Still 8Gal/30L Water Alcohol Distiller Home Brew Wine Making Kit 3 Pot",
+        "quantity": "5.0",
+        "unit_price": "89.99",
+        "amount": "449.95",
+        "category": "other",
+        "page": 1
+      }
+    ],
+    "adjustments": [],
+    "subtotal": "449.95",
+    "tax": "45.00",
+    "tax_inclusive": false,
+    "total": "494.95",
+    "source_pages": [
+      1
+    ]
+  }
+}

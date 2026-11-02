@@ -1,0 +1,54 @@
+{
+  "doc_id": "invoice_506",
+  "vendor_name": "Roberts Inc",
+  "invoice_number": "92883102",
+  "invoice_date_printed": "02/10/2017",
+  "invoice_date": "2017-02-10",
+  "currency_printed": "$",
+  "currency": "USD",
+  "line_items": [
+    {
+      "description": "Durango Lil' Little Kid Western Casual Western Purple Boys - Size 2 M",
+      "quantity": "4.00",
+      "unit_price": "68.00",
+      "amount": "272.00",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "Sperry Boys shoes Size 2M",
+      "quantity": "3.00",
+      "unit_price": "4.99",
+      "amount": "14.97",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "Egyptian Comfort 1800 Count 4 Piece Bed Sheet Set Deep Pocket Bed Sheets",
+      "quantity": "2.00",
+      "unit_price": "22.99",
+      "amount": "45.98",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "Nike Air Jordan 1 Mid Obsidian 640735-174 Toddler Kids Children Size 8C Blue",
+      "quantity": "5.00",
+      "unit_price": "24.99",
+      "amount": "124.95",
+      "category": "other",
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "457.90",
+  "tax": "45.79",
+  "tax_inclusive": false,
+  "total": "503.69",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": false,
+  "corrected_fields": []
+}

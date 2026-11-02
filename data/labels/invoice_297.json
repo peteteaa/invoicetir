@@ -1,0 +1,46 @@
+{
+  "doc_id": "invoice_297",
+  "vendor_name": "Hall-Jones",
+  "invoice_number": "62913185",
+  "invoice_date_printed": "06/18/2016",
+  "invoice_date": "2016-06-18",
+  "currency_printed": "$",
+  "currency": "USD",
+  "line_items": [
+    {
+      "description": "Rug Jute Natural Handmade Vintage Oriental Reversible Oval Shaped Floor Carpet",
+      "quantity": "4.00",
+      "unit_price": "49.36",
+      "amount": "197.44",
+      "category": "office",
+      "page": 1
+    },
+    {
+      "description": "Black+White Rectangle Shape Area Rug Carpet Floor Pad Doormat Mats Non-slip Z4F9",
+      "quantity": "3.00",
+      "unit_price": "21.10",
+      "amount": "63.30",
+      "category": "office",
+      "page": 1
+    },
+    {
+      "description": "3pcs Faux Fur Seat Pads 30cm Round Cushions Fleece Floor Carpets Decorative",
+      "quantity": "4.00",
+      "unit_price": "14.66",
+      "amount": "58.64",
+      "category": "office",
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "319.38",
+  "tax": "31.94",
+  "tax_inclusive": false,
+  "total": "351.32",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": false,
+  "corrected_fields": []
+}

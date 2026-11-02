@@ -1,0 +1,32 @@
+{
+  "doc_id": "invoice_232",
+  "vendor_name": "Walsh, Craig and Villa",
+  "invoice_number": "81427931",
+  "invoice_date_printed": "05/02/2017",
+  "invoice_date": "2017-05-02",
+  "currency_printed": "$",
+  "currency": "USD",
+  "line_items": [
+    {
+      "description": "Nintendo Wii Console RVL-001 GameCube Compatible Bundle w Controllers Games Cord",
+      "quantity": "4.00",
+      "unit_price": "94.95",
+      "amount": "379.80",
+      "category": "other",
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "379.80",
+  "tax": "37.98",
+  "tax_inclusive": false,
+  "total": "417.78",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": false,
+  "corrected_fields": [
+    "line_items[0].category"
+  ]
+}

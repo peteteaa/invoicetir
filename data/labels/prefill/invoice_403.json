@@ -1,0 +1,75 @@
+{
+  "model": "accounts/fireworks/models/kimi-k3",
+  "error": null,
+  "unreadable": false,
+  "uncertain_fields": [
+    "currency"
+  ],
+  "invoice": {
+    "doc_id": "invoice_403",
+    "vendor_name": "Good LLC",
+    "invoice_number": "63256490",
+    "invoice_date_printed": "05/22/2017",
+    "invoice_date": "2017-05-22",
+    "currency_printed": "$",
+    "currency": "USD",
+    "line_items": [
+      {
+        "description": "Refinery Wine Opener",
+        "quantity": "5",
+        "unit_price": "10",
+        "amount": "50.00",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Wine Bottle Holder",
+        "quantity": "3",
+        "unit_price": "26",
+        "amount": "78.00",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Gold Band Wine Glasses Clear glass round stems 2 12 ounce elegant stems",
+        "quantity": "3",
+        "unit_price": "1.99",
+        "amount": "5.97",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Wine Glasses Set Of 4",
+        "quantity": "2",
+        "unit_price": "6",
+        "amount": "12.00",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "New without boxes heavy duty plastic wine glasses lot of 16",
+        "quantity": "5",
+        "unit_price": "12.95",
+        "amount": "64.75",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "1Pc Wine Glass Holder Beautiful Goblet Storage Cup Draining Rack (Black)",
+        "quantity": "3",
+        "unit_price": "17.45",
+        "amount": "52.35",
+        "category": "other",
+        "page": 1
+      }
+    ],
+    "adjustments": [],
+    "subtotal": "263.07",
+    "tax": "26.31",
+    "tax_inclusive": false,
+    "total": "289.38",
+    "source_pages": [
+      1
+    ]
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "model": "accounts/fireworks/models/kimi-k3",
+  "error": null,
+  "unreadable": false,
+  "uncertain_fields": [
+    "currency"
+  ],
+  "invoice": {
+    "doc_id": "invoice_606",
+    "vendor_name": "Silva, Pierce and Jones",
+    "invoice_number": "27546934",
+    "invoice_date_printed": "12/13/2019",
+    "invoice_date": "2019-12-13",
+    "currency_printed": "$",
+    "currency": "USD",
+    "line_items": [
+      {
+        "description": "Wine Glass Holder Shelf Japanese Style Bar Iron Under Cabinet Stemware Rack",
+        "quantity": "3",
+        "unit_price": "15.19",
+        "amount": "45.57",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Wine Bottle Holder From Costa Rica Has A Parrot Painted On It",
+        "quantity": "2",
+        "unit_price": "5",
+        "amount": "10.00",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Bicycle Wine Bottle Holder/Excellent Condition",
+        "quantity": "2",
+        "unit_price": "4.99",
+        "amount": "9.98",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Birthday Girl Wine Glass by Lolita",
+        "quantity": "1",
+        "unit_price": "23.75",
+        "amount": "23.75",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Yeti Rambler 30 oz and 10oz wine tumbler Sea Foam",
+        "quantity": "2",
+        "unit_price": "59.99",
+        "amount": "119.98",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Rabbit Wine Tool Kit 6 Piece Set. Open box Sealed",
+        "quantity": "1",
+        "unit_price": "24.2",
+        "amount": "24.20",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Frosted Satin Wine Goblet Glasses Crooked Stem Set Of 3",
+        "quantity": "4",
+        "unit_price": "32",
+        "amount": "128.00",
+        "category": "other",
+        "page": 1
+      }
+    ],
+    "adjustments": [],
+    "subtotal": "361.48",
+    "tax": "36.15",
+    "tax_inclusive": false,
+    "total": "397.63",
+    "source_pages": [
+      1
+    ]
+  }
+}

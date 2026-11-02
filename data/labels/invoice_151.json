@@ -1,0 +1,62 @@
+{
+  "doc_id": "invoice_151",
+  "vendor_name": "Oconnor-Stephens",
+  "invoice_number": "14046389",
+  "invoice_date_printed": "03/15/2020",
+  "invoice_date": "2020-03-15",
+  "currency_printed": "$",
+  "currency": "USD",
+  "line_items": [
+    {
+      "description": "3~ Beautiful Yellow Handpainted Flowers Crystal Wine Glasses",
+      "quantity": "1.00",
+      "unit_price": "9.99",
+      "amount": "9.99",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "9.5 Inch Dinosaur Bones Wine Bottle Holder",
+      "quantity": "5.00",
+      "unit_price": "24.00",
+      "amount": "120.00",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "Frosted Satin Wine Goblet Glasses Crooked Stem Set Of 3",
+      "quantity": "5.00",
+      "unit_price": "32.00",
+      "amount": "160.00",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "Kamenstein Natural Hardwood Foldable 5 Bottle Wine Rack",
+      "quantity": "5.00",
+      "unit_price": "5.00",
+      "amount": "25.00",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "Bicycle Wine Bottle Holder/Excellent Condition",
+      "quantity": "2.00",
+      "unit_price": "4.99",
+      "amount": "9.98",
+      "category": "other",
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "324.97",
+  "tax": "32.50",
+  "tax_inclusive": false,
+  "total": "357.47",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": false,
+  "corrected_fields": []
+}

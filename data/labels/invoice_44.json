@@ -1,0 +1,62 @@
+{
+  "doc_id": "invoice_44",
+  "vendor_name": "Dudley, Diaz and Hammond",
+  "invoice_number": "67591686",
+  "invoice_date_printed": "05/21/2015",
+  "invoice_date": "2015-05-21",
+  "currency_printed": "$",
+  "currency": "USD",
+  "line_items": [
+    {
+      "description": "AMD Custom Built Quad Core Ryzen 5 Gaming PC Computer 8GB DDR4 Vega 11 SSD",
+      "quantity": "5.00",
+      "unit_price": "599.99",
+      "amount": "2999.95",
+      "category": "office",
+      "page": 1
+    },
+    {
+      "description": "10-Core Gaming Computer Desktop PC Tower 500 GB Quad 8GB AMD R7 GRAPHICS NEW",
+      "quantity": "1.00",
+      "unit_price": "501.32",
+      "amount": "501.32",
+      "category": "office",
+      "page": 1
+    },
+    {
+      "description": "AMD Custom Ryzen 5 Quad Core Gaming PC 4.2GHZ Computer 8GB 1TB AM4 DDR4 Vega 11",
+      "quantity": "2.00",
+      "unit_price": "574.99",
+      "amount": "1149.98",
+      "category": "office",
+      "page": 1
+    },
+    {
+      "description": "Custom Build Dell Optiplex 5040 MT i7-6700 3.40GHz Desktop Computer PC",
+      "quantity": "2.00",
+      "unit_price": "354.99",
+      "amount": "709.98",
+      "category": "office",
+      "page": 1
+    },
+    {
+      "description": "Dell Desktop Computer Tower Quad Intel Core i5 8GB 1TB HD DVD Wifi Windows 10 PC",
+      "quantity": "5.00",
+      "unit_price": "149.95",
+      "amount": "749.75",
+      "category": "office",
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "6110.98",
+  "tax": "611.10",
+  "tax_inclusive": false,
+  "total": "6722.08",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": false,
+  "corrected_fields": []
+}

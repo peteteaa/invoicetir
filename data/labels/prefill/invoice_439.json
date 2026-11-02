@@ -1,0 +1,67 @@
+{
+  "model": "accounts/fireworks/models/kimi-k3",
+  "error": null,
+  "unreadable": false,
+  "uncertain_fields": [
+    "currency"
+  ],
+  "invoice": {
+    "doc_id": "invoice_439",
+    "vendor_name": "Mcdaniel, Johnson and Gallagher",
+    "invoice_number": "64640789",
+    "invoice_date_printed": "07/19/2019",
+    "invoice_date": "2019-07-19",
+    "currency_printed": "$",
+    "currency": "USD",
+    "line_items": [
+      {
+        "description": "The Key to Rebecca by Ken Follett",
+        "quantity": "1",
+        "unit_price": "5.17",
+        "amount": "5.17",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "The Ultimate Guide to U.S. Army Survival: Skills, Tactics, and Techniques (Paper",
+        "quantity": "2",
+        "unit_price": "22.37",
+        "amount": "44.74",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Q&A a Day: 5-Year Journal",
+        "quantity": "5",
+        "unit_price": "4.49",
+        "amount": "22.45",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Gulag archipelago / Gulag Archipelago Volume 2 / 1st edition paperbacks",
+        "quantity": "2",
+        "unit_price": "30",
+        "amount": "60.00",
+        "category": "other",
+        "page": 1
+      },
+      {
+        "description": "Breaking Free from Depression: Pathways to Wellness by Jesse H. Wright (English)",
+        "quantity": "4",
+        "unit_price": "32.94",
+        "amount": "131.76",
+        "category": "other",
+        "page": 1
+      }
+    ],
+    "adjustments": [],
+    "subtotal": "264.12",
+    "tax": "26.41",
+    "tax_inclusive": false,
+    "total": "290.53",
+    "source_pages": [
+      1
+    ]
+  }
+}

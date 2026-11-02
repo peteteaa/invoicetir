@@ -1,0 +1,54 @@
+{
+  "doc_id": "invoice_949",
+  "vendor_name": "Bailey-Smith",
+  "invoice_number": "70158959",
+  "invoice_date_printed": "09/25/2012",
+  "invoice_date": "2012-09-25",
+  "currency_printed": "$",
+  "currency": "USD",
+  "line_items": [
+    {
+      "description": "Clear Purple 10 Levels brightness Backlit V2 iPS LCD GameBoy Advance GBA Console",
+      "quantity": "2.00",
+      "unit_price": "109.00",
+      "amount": "218.00",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "Pre SEGA TOYS Game Console ASTRO CITY mini GAME",
+      "quantity": "2.00",
+      "unit_price": "189.00",
+      "amount": "378.00",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "Nintendo 64 N64 Console Complete in Box Mint Beautiful! From Japan!",
+      "quantity": "2.00",
+      "unit_price": "269.99",
+      "amount": "539.98",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "Microsoft Xbox Series X Console Pre-Order - CONFIRMED",
+      "quantity": "1.00",
+      "unit_price": "849.99",
+      "amount": "849.99",
+      "category": "other",
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "1985.97",
+  "tax": "198.60",
+  "tax_inclusive": false,
+  "total": "2184.57",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": false,
+  "corrected_fields": []
+}

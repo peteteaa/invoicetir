@@ -1,0 +1,51 @@
+{
+  "model": "accounts/fireworks/models/kimi-k3",
+  "error": null,
+  "unreadable": false,
+  "uncertain_fields": [
+    "currency"
+  ],
+  "invoice": {
+    "doc_id": "invoice_319",
+    "vendor_name": "Lowe-Sheppard",
+    "invoice_number": "11676628",
+    "invoice_date_printed": "11/22/2019",
+    "invoice_date": "2019-11-22",
+    "currency_printed": "$",
+    "currency": "USD",
+    "line_items": [
+      {
+        "description": "Nintendo Wii New Super Mario Bros Console System Bundle Gamecube Compatible",
+        "quantity": "4.0",
+        "unit_price": "89.99",
+        "amount": "359.96",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "Nintendo 3DS LL super famicom Edition Japan Limited Console Game USED ER",
+        "quantity": "2.0",
+        "unit_price": "269.89",
+        "amount": "539.78",
+        "category": "office",
+        "page": 1
+      },
+      {
+        "description": "SONY PlayStation 3 Fat Console Bundle | Cords 2 DualShock 3 Controllers 7 Games",
+        "quantity": "5.0",
+        "unit_price": "119.99",
+        "amount": "599.95",
+        "category": "office",
+        "page": 1
+      }
+    ],
+    "adjustments": [],
+    "subtotal": "1499.69",
+    "tax": "149.97",
+    "tax_inclusive": false,
+    "total": "1649.66",
+    "source_pages": [
+      1
+    ]
+  }
+}

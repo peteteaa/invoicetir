@@ -1,0 +1,41 @@
+{
+  "doc_id": "invoice_152",
+  "vendor_name": "Spencer and Sons",
+  "invoice_number": "51441151",
+  "invoice_date_printed": "10/01/2016",
+  "invoice_date": "2016-10-01",
+  "currency_printed": "$",
+  "currency": "USD",
+  "line_items": [
+    {
+      "description": "Super SNES SFC Mini Family TV Video Game Console Retro AV Out Built-in 620 Games",
+      "quantity": "2.00",
+      "unit_price": "24.69",
+      "amount": "49.38",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "SONY Playstation2 Console SCPH-50000 \" Peal Color \" / TESTED 11176",
+      "quantity": "2.00",
+      "unit_price": "45.00",
+      "amount": "90.00",
+      "category": "other",
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "139.38",
+  "tax": "13.94",
+  "tax_inclusive": false,
+  "total": "153.32",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": false,
+  "corrected_fields": [
+    "line_items[0].category",
+    "line_items[1].category"
+  ]
+}

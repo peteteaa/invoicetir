@@ -1,0 +1,35 @@
+{
+  "model": "accounts/fireworks/models/kimi-k3",
+  "error": null,
+  "unreadable": false,
+  "uncertain_fields": [
+    "currency"
+  ],
+  "invoice": {
+    "doc_id": "invoice_423",
+    "vendor_name": "Kane, Brock and Neal",
+    "invoice_number": "65045107",
+    "invoice_date_printed": "08/21/2016",
+    "invoice_date": "2016-08-21",
+    "currency_printed": "$",
+    "currency": "USD",
+    "line_items": [
+      {
+        "description": "crewcuts shoes",
+        "quantity": "1",
+        "unit_price": "12",
+        "amount": "12.00",
+        "category": "other",
+        "page": 1
+      }
+    ],
+    "adjustments": [],
+    "subtotal": "12.00",
+    "tax": "1.20",
+    "tax_inclusive": false,
+    "total": "13.20",
+    "source_pages": [
+      1
+    ]
+  }
+}

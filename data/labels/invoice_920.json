@@ -1,0 +1,46 @@
+{
+  "doc_id": "invoice_920",
+  "vendor_name": "Dyer-Harris",
+  "invoice_number": "60985659",
+  "invoice_date_printed": "08/30/2011",
+  "invoice_date": "2011-08-30",
+  "currency_printed": "$",
+  "currency": "USD",
+  "line_items": [
+    {
+      "description": "2 Cakebread Cellars Napa Valley Wine Glasses",
+      "quantity": "3.00",
+      "unit_price": "29.95",
+      "amount": "89.85",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "Vintage Bronze Textured Black Iron Scroll Design 6 Bottle Wine Holder*",
+      "quantity": "3.00",
+      "unit_price": "12.99",
+      "amount": "38.97",
+      "category": "other",
+      "page": 1
+    },
+    {
+      "description": "USB Charging Bar Home Pumps Wine Opener Bottles Electric Automatic Kitchen Tool",
+      "quantity": "2.00",
+      "unit_price": "35.27",
+      "amount": "70.54",
+      "category": "other",
+      "page": 1
+    }
+  ],
+  "adjustments": [],
+  "subtotal": "199.36",
+  "tax": "19.94",
+  "tax_inclusive": false,
+  "total": "219.30",
+  "source_pages": [
+    1
+  ],
+  "is_duplicate_of": null,
+  "expected_flag": false,
+  "corrected_fields": []
+}
