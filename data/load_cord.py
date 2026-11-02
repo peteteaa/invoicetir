@@ -121,16 +121,19 @@ def main(argv=None) -> int:
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
     LABELS_DIR.mkdir(parents=True, exist_ok=True)
 
-    written = skipped = 0
+    written = skipped = images = 0
     math_ok, problems = 0, []
     for i, row in enumerate(data):
         doc_id = f"cord_{args.split}_{i:03d}"
         label_path = LABELS_DIR / f"{doc_id}.json"
+        suffix = Path(row["image"].get("path") or "x.png").suffix.lower() or ".png"
+        image = DOCS_DIR / f"{doc_id}{suffix}"
+        if not image.exists():  # always: the labels are in git, the images (gitignored) are not
+            image.write_bytes(row["image"]["bytes"])
+            images += 1
         if label_path.exists() and not args.overwrite:
             skipped += 1   # may have been corrected by hand in label_app.py
             continue
-        suffix = Path(row["image"].get("path") or "x.png").suffix.lower() or ".png"
-        (DOCS_DIR / f"{doc_id}{suffix}").write_bytes(row["image"]["bytes"])
         parse = json.loads(row["ground_truth"])["gt_parse"]
         label = to_label(doc_id, parse)
         label_path.write_text(label.model_dump_json(indent=2) + "\n")
@@ -141,7 +144,7 @@ def main(argv=None) -> int:
         else:
             math_ok += 1
 
-    print(f"{written} receipts written to {DOCS_DIR} and {LABELS_DIR}"
+    print(f"{images} images written to {DOCS_DIR}, {written} labels to {LABELS_DIR}"
           + (f"; {skipped} existing labels kept (use --overwrite)" if skipped else ""))
     if written:
         print(f"{math_ok}/{written} have printed math our checks accept (ignoring the fields CORD lacks). "
