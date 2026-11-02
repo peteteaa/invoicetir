@@ -60,6 +60,8 @@ REQUEST_TIMEOUT_S = float(_env("REQUEST_TIMEOUT_S", "120"))
 API_MAX_RETRIES = int(_env("API_MAX_RETRIES", "6"))   # rate limits / server errors, with backoff
 
 MAX_RETRIES = int(_env("MAX_RETRIES", "2"))
+# Escalate when the small model passes the checks but is unsure about a money or vendor field.
+ESCALATE_ON_UNCERTAIN = _env("ESCALATE_ON_UNCERTAIN", "true").lower() in ("1", "true", "yes")
 ZOOM_ENABLED = _env("ZOOM_ENABLED", "false").lower() in ("1", "true", "yes")
 MAX_ZOOMS = int(_env("MAX_ZOOMS", "4"))            # zoom tool calls allowed per attempt
 
