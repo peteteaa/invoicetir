@@ -100,9 +100,14 @@ printed. The checks decide whether a missing value is a failure.
    document to review on its own; it stays recorded in `uncertain_fields`, which is kept in
    the output. A flagged document is never counted in the totals until a person verifies it.
 5. **`clean.py`:** normalize vendor names with rapidfuzz against a registry of seen vendors
-   (`data/state/vendors.json`). Scores in the configurable ambiguous band are decided by the
-   model. Duplicates: same normalized vendor + invoice number, or same vendor + total with
-   dates within 3 days.
+   (`data/state/vendors.json`, canonical name → every name printed for it). Names are compared
+   lowercased, without punctuation or legal suffixes (Inc, LLC, GmbH...). A score of
+   `VENDOR_MATCH_HIGH` or more is the same vendor, below `VENDOR_MATCH_LOW` a new one, and in
+   between the model decides (unsure or unusable answer = different vendors). Every answer
+   adds the name to the registry, so a name is never asked about twice.
+   Duplicates: same normalized vendor + invoice number (ignoring spaces and punctuation), or
+   same vendor + total with dates within 3 days. Two invoices with different invoice numbers
+   are never duplicates. The first one seen is the original; duplicates point to it.
 6. **`categorize.py`:** categories and their descriptions live in `categories.yaml`
    (software, cloud, travel, meals, contractors, office, marketing, other). The model assigns
    a category per line item, reusing a vendor's prior category for similar descriptions.
