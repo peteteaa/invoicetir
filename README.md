@@ -113,8 +113,11 @@ printed. The checks decide whether a missing value is a failure.
    a category per line item, reusing a vendor's prior category for similar descriptions.
 7. **`aggregate.py`:** pandas spend by vendor, category and month, kept per currency (no
    conversion). Tax and adjustments are their own buckets so category totals add up exactly.
-   Duplicates and flagged invoices are excluded. Asserts that all totals equal the exact sum
-   of verified invoices.
+   A `rounding` bucket takes the cent or two that checks' tolerance allows between the parts
+   and the printed total. Tax-inclusive tax is not added again. Duplicates and flagged
+   invoices are excluded (only counted). Asserts that all totals equal the exact sum of
+   verified invoices. `aggregate(docs)` returns a `Spend`: `rows` (one per line item, tax,
+   adjustment, with doc_id and page), `by_category`, `by_vendor`, `by_month`, `summary`.
 8. **`output.py`:** xlsx with sheets Summary, By category, By vendor, By month, Line items
    (every row keeps doc_id and page) and Flagged (with reasons). Plotly Sankey
    total → category → vendor, saved as HTML.
