@@ -63,7 +63,7 @@ def _source(doc_id: str) -> Path:
     stored = store.get(doc_id)
     if stored is None:
         raise HTTPException(404, f"no document {doc_id}")
-    return Path(stored.doc.source_path)
+    return store.source(stored.doc)
 
 
 # --- processing --------------------------------------------------------------------------
@@ -180,9 +180,8 @@ def doc(doc_id: str):
     if stored is None:
         raise HTTPException(404, f"no document {doc_id}")
     current = store.effective(stored)
-    path = Path(stored.doc.source_path)
     try:
-        with pymupdf.open(path) as f:
+        with pymupdf.open(store.source(stored.doc)) as f:
             pages = f.page_count
     except Exception:
         pages = 0
@@ -408,7 +407,9 @@ def stats():
     docs = [store.effective(s) for s in stored]
     costs = [d.cost_usd for d in docs]
     latencies = [s.doc.latency_s for s in stored if s.doc.latency_s]
-    eval_rows = pd.read_csv(RESULTS_CSV).astype(str).to_dict("records") if RESULTS_CSV.exists() else None
+    # As text, as written: a metric that doesn't apply is blank in the CSV, and NaN isn't JSON
+    eval_rows = (pd.read_csv(RESULTS_CSV, dtype=str, keep_default_na=False).to_dict("records")
+                 if RESULTS_CSV.exists() else None)
     return {"documents": len(docs), "status": dict(Counter(d.status for d in docs)),
             "reviewed": sum(s.review is not None for s in stored),
             "escalated": sum(s.doc.escalated for s in stored),

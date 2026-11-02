@@ -65,7 +65,29 @@ def get(doc_id: str, directory: Optional[Path] = None) -> Optional[StoredDoc]:
     return StoredDoc.model_validate_json(path.read_text()) if path.exists() else None
 
 
+def relative(path: str) -> str:
+    """Paths inside the repo are stored relative to it, so a store committed on one machine
+    works on every clone."""
+    try:
+        return Path(path).resolve().relative_to(config.ROOT).as_posix()
+    except ValueError:
+        return path
+
+
+def source(doc: ProcessedDoc) -> Path:
+    """The document's file on this machine. An absolute path from another clone (stored before
+    paths were relative) falls back to the same place under this repo's data/."""
+    path = Path(doc.source_path)
+    if not path.is_absolute():
+        return config.ROOT / path
+    parts = path.parts
+    if not path.exists() and "data" in parts:
+        return config.ROOT.joinpath(*parts[len(parts) - 1 - parts[::-1].index("data"):])
+    return path
+
+
 def save(stored: StoredDoc, directory: Optional[Path] = None) -> None:
+    stored.doc.source_path = relative(stored.doc.source_path)
     path = _dir(directory) / f"{stored.doc.doc_id}.json"
     with _lock:
         path.parent.mkdir(parents=True, exist_ok=True)

@@ -658,11 +658,32 @@ async function bench(el) {
     </div>
     <div class="card" style="margin-top:16px">
       <div class="card-head"><div class="card-title">Small vs. large model on labeled documents</div><div class="card-note">out/results.csv</div></div>
-      ${s.eval ? `<div class="scroll-x"><table><thead><tr>${Object.keys(s.eval[0] || {}).map(k => `<th>${esc(k)}</th>`).join('')}</tr></thead>
-          <tbody>${s.eval.map(r => `<tr>${Object.values(r).map(v => `<td class="num">${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`
+      ${s.eval ? evalTable(s.eval)
         : `<div class="empty"><b>No eval results yet</b>Label documents with <code>streamlit run label_app.py</code>, then run
            <code>python -m eval.run_eval --config all</code>. Its results appear here.</div>`}
     </div>`;
+}
+
+// The columns of out/results.csv worth a glance; the CSV has them all. Blank = doesn't apply.
+const EVAL_COLUMNS = [
+  ['config', 'Config'], ['docs', 'Docs', 'int'], ['field_accuracy', 'Field accuracy', 'pct'],
+  ['line_item_accuracy', 'Line items', 'pct'], ['total_spend_accuracy', 'Total spend', 'pct'],
+  ['dollar_error', '$ error by category', 'usd'], ['escalated', 'Escalated', 'int'], ['flagged', 'Flagged', 'int'],
+  ['cost_per_doc_usd', 'Cost / doc', 'cost'], ['p50_latency_s', 'p50', 'sec'], ['p95_latency_s', 'p95', 'sec'],
+  ['notes', 'Notes'],
+];
+const EVAL_FORMAT = {
+  pct: v => `${(Number(v) * 100).toFixed(1)}%`, usd: v => money(v, 'USD'), int: v => String(Math.round(Number(v))),
+  cost: v => `$${Number(v).toFixed(4)}`, sec: v => `${Number(v).toFixed(1)}s`,
+};
+
+function evalTable(rows) {
+  const columns = EVAL_COLUMNS.filter(([key]) => key in rows[0]);
+  return `<div class="scroll-x"><table>
+    <thead><tr>${columns.map(([key, label, kind]) => `<th class="${kind ? 'r' : ''}">${label}</th>`).join('')}</tr></thead>
+    <tbody>${rows.map(r => `<tr${r.config === 'small_escalate' ? ' style="background:var(--lime-soft)"' : ''}>${columns.map(([key, , kind]) =>
+      `<td class="${kind ? 'r num' : ''}">${r[key] === '' ? '<span class="muted">—</span>' : kind ? EVAL_FORMAT[kind](r[key]) : esc(r[key])}</td>`).join('')}</tr>`).join('')}</tbody>
+  </table></div>`;
 }
 
 // --- settings ----------------------------------------------------------------------------

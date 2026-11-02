@@ -79,6 +79,21 @@ def test_clear_review_restores_the_pipeline_status(tmp_path):
     assert store.effective(store.clear_review("a", tmp_path)).status == "flagged"
 
 
+def test_paths_inside_the_repo_are_saved_relative(tmp_path):
+    stored = put(tmp_path, "a")
+    stored.doc.source_path = str(store.config.ROOT / "data" / "docs" / "a.pdf")
+    store.save(stored, tmp_path)
+    doc = store.get("a", tmp_path).doc
+    assert doc.source_path == "data/docs/a.pdf"
+    assert store.source(doc) == store.config.ROOT / "data" / "docs" / "a.pdf"
+
+
+def test_an_absolute_path_from_another_clone_falls_back_to_this_repo():
+    doc = ProcessedDoc(doc_id="a", status="verified",
+                       source_path="/Users/someone/elsewhere/fireworksai/data/docs/uploads/a.pdf")
+    assert store.source(doc) == store.config.ROOT / "data" / "docs" / "uploads" / "a.pdf"
+
+
 def test_load_all_sorts_doc_ids_naturally(tmp_path):
     for doc_id in ["invoice_10", "invoice_2", "invoice_1"]:
         put(tmp_path, doc_id)

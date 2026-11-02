@@ -1,7 +1,7 @@
 {
   "doc": {
     "doc_id": "invoice_106",
-    "source_path": "/Users/leozhang/Desktop/Projects/fireworksai/data/docs/invoice_106.pdf",
+    "source_path": "data/docs/invoice_106.pdf",
     "status": "verified",
     "invoice": {
       "doc_id": "invoice_106",
