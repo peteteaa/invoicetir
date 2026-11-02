@@ -4,3 +4,6 @@ logs/
 __pycache__/
 .pytest_cache/
 out/
+data/docs/*
+!data/docs/.gitkeep
+.DS_Store
