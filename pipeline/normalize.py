@@ -46,6 +46,8 @@ def currency(printed, model_code):
     if s.lower() in SHARED:
         options, common = SHARED[s.lower()]
         return (code if code in options else common), True
+    if not s and code is None and config.DEFAULT_CURRENCY:
+        return config.DEFAULT_CURRENCY, True  # nothing printed or read: the configured default
     return code, True  # nothing printed, or a symbol we don't know: keep the model's reading
 
 

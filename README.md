@@ -32,6 +32,7 @@ cp .env.example .env    # fill in the key, model IDs and prices
 | `TEXT_MODEL` | cheap text model for PDFs with a text layer |
 | `ESCALATION_MODEL` | large model for failed documents and the baseline |
 | `<ROLE>_INPUT_PRICE`, `<ROLE>_OUTPUT_PRICE` | USD per million tokens, per model, for cost tracking |
+| `DEFAULT_CURRENCY` | ISO code for documents that print no currency (marked uncertain); the eval uses `IDR` for the CORD receipts |
 
 Also `MAX_RETRIES = 2`, `ZOOM_ENABLED` (off by default) and the vendor fuzzy-match ambiguous
 score band. Model IDs come from the Fireworks model library.

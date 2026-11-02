@@ -80,6 +80,11 @@ MAX_ZOOMS = int(_env("MAX_ZOOMS", "4"))            # zoom tool calls allowed per
 # documents, day first otherwise; or force "MDY" / "DMY". Such dates are always marked uncertain.
 AMBIGUOUS_DATE_ORDER = _env("AMBIGUOUS_DATE_ORDER", "auto")
 
+# ISO code for documents that print no currency at all, e.g. IDR for the CORD receipts (they
+# never print one). Used only when nothing is printed and the model reads none; always marked
+# uncertain. Empty = no default: such a document fails the checks ("currency missing").
+DEFAULT_CURRENCY = _env("DEFAULT_CURRENCY").upper()
+
 # Ingest
 TEXT_LAYER_MIN_CHARS = int(_env("TEXT_LAYER_MIN_CHARS", "30"))   # per page
 RENDER_DPI = int(_env("RENDER_DPI", "150"))        # page images sent to the vision model
