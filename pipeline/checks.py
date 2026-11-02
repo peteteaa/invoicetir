@@ -8,6 +8,8 @@ Checks (money tolerance 0.01):
   - tax_inclusive: sum of line amounts + adjustments = total (tax is already inside the prices)
   - no subtotal printed: sum of line amounts + adjustments + tax = total
 - invoice_date is a real ISO 8601 date (YYYY-MM-DD); currency is an ISO 4217 code
+- in whole-unit currencies (IDR, VND, KRW), no total or line amount is below the smallest real
+  amount: that is a thousands separator read as a decimal point
 - the fields in config.REQUIRED_FIELDS (default vendor_name, invoice_date, currency, total) are
   present; there is at least one line item
 
@@ -61,6 +63,27 @@ def _close(a: Decimal, b: Decimal) -> bool:
     return abs(a - b) <= TOLERANCE
 
 
+# Currencies whose prices are whole units, with the smallest amount anything can cost. A total
+# or line amount below it is a misread separator: "63.000" (63,000 rupiah) read as 63.00. The
+# other checks can't see that when every number on the receipt is misread the same way.
+SMALLEST_AMOUNT = {"IDR": Decimal(100), "VND": Decimal(100), "KRW": Decimal(10)}
+
+
+def _implausibly_small(invoice: Invoice) -> list[str]:
+    floor = SMALLEST_AMOUNT.get(invoice.currency or "")
+    if floor is None:
+        return []
+    hint = (f"below the smallest {invoice.currency} amount ({floor}); a dot or comma followed by "
+            f"three digits is a thousands separator, e.g. 63.000 is 63000")
+    found = []
+    if invoice.total is not None and 0 < abs(invoice.total) < floor:
+        found.append(f"total {money(invoice.total)} {invoice.currency} is {hint}")
+    for n, item in enumerate(invoice.line_items, 1):
+        if item.amount is not None and 0 < abs(item.amount) < floor:
+            found.append(f"line {n}: amount {money(item.amount)} {invoice.currency} is {hint}")
+    return found
+
+
 def _valid_date(value: str) -> bool:
     try:
         return date.fromisoformat(value).isoformat() == value  # exactly YYYY-MM-DD
@@ -89,6 +112,8 @@ def check_invoice(invoice: Invoice, required: Optional[list[str]] = None) -> lis
         failures.append("total missing")
     if not invoice.line_items:
         failures.append("no line items")
+
+    failures += _implausibly_small(invoice)
 
     # Each line.
     for n, item in enumerate(invoice.line_items, 1):

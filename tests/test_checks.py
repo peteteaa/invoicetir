@@ -5,7 +5,9 @@ from pathlib import Path
 import pytest
 
 from pipeline.checks import check_invoice, check_result
-from schemas import ExtractionResult, Invoice
+from decimal import Decimal
+
+from schemas import ExtractionResult, Invoice, LineItem
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -169,3 +171,22 @@ def test_required_fields_can_be_relaxed_but_present_values_must_still_be_valid()
 def test_missing_field_pattern(failure, absent):
     from pipeline.checks import MISSING_FIELD
     assert bool(MISSING_FIELD.match(failure)) is absent
+
+
+# --- thousands separator read as a decimal point -------------------------------------------
+
+def test_rupiah_amounts_below_100_are_a_misread_separator():
+    """cord_test_015: '63.000' read as 63.00 on every line; the sums still add up."""
+    invoice = Invoice(vendor_name="Warung", invoice_date="2024-01-02", currency="IDR", total=Decimal("63.00"),
+                      line_items=[LineItem(description="Nasi", amount=Decimal("45.00")),
+                                  LineItem(description="Teh", amount=Decimal("18.00"))])
+    failures = check_invoice(invoice)
+    assert failures[0].startswith("total 63.00 IDR is below the smallest IDR amount (100)")
+    assert len(failures) == 3   # the total and both lines
+    fixed = invoice.model_copy(update={"total": Decimal("63000"), "line_items": [
+        LineItem(description="Nasi", amount=Decimal("45000")), LineItem(description="Teh", amount=Decimal("18000"))]})
+    assert check_invoice(fixed) == []
+
+
+def test_small_amounts_are_fine_in_currencies_with_cents():
+    assert check_invoice(load("clean_invoice", total="23099.25", currency="USD")) == []
