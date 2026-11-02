@@ -146,3 +146,24 @@ def test_check_endpoint_runs_checks_without_saving(client, tmp_path):
 def test_processing_needs_an_api_key(client):
     assert client.post("/api/process", json={}).status_code == 400
     assert client.post("/api/upload", files=[("files", ("x.pdf", b"x"))]).status_code == 400
+
+
+def test_approve_needs_an_amount_on_every_line_or_the_totals_would_fail(tmp_path):
+    put(tmp_path, "a", status="flagged")
+    edited = invoice("clean_invoice")
+    edited.line_items[1].amount = None
+    with pytest.raises(ValueError, match="line 2 amount"):
+        store.review("a", "approve", edited, directory=tmp_path)
+    with pytest.raises(ValueError, match="invoice_date"):
+        store.review("a", "approve", invoice("clean_invoice", invoice_date="20130812"), directory=tmp_path)
+
+
+def test_pipeline_save_keeps_a_review_made_while_the_job_ran(tmp_path):
+    put(tmp_path, "a", status="flagged")
+    loaded_by_job = store.load_all(tmp_path)[0]            # the job loads every document...
+    store.review("a", "approve", directory=tmp_path)       # ...a reviewer approves one meanwhile...
+    loaded_by_job.doc.vendor = "Jacobs Russell & Perry"    # ...and the job saves its changes
+    store.save_pipeline_version(loaded_by_job.doc, tmp_path)
+    stored = store.get("a", tmp_path)
+    assert stored.review is not None and stored.review.action == "approve"
+    assert stored.doc.vendor == "Jacobs Russell & Perry"

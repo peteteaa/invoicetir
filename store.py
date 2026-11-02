@@ -29,7 +29,9 @@ DOCS_DIR = config.ROOT / "data" / "state" / "docs"
 COMPARED = ["vendor_name", "invoice_number", "invoice_date", "currency", "subtotal", "tax",
             "tax_inclusive", "total", "line_items", "adjustments"]
 
-_lock = threading.Lock()  # the server writes from request threads and the processing thread
+# The server writes from request threads and the processing thread. Re-entrant, so a
+# read-modify-write (review, save_pipeline_version) can hold it across save().
+_lock = threading.RLock()
 
 
 class Review(BaseModel):
@@ -94,13 +96,26 @@ def save(stored: StoredDoc, directory: Optional[Path] = None) -> None:
         path.write_text(stored.model_dump_json(indent=2))
 
 
+def save_pipeline_version(doc: ProcessedDoc, directory: Optional[Path] = None) -> None:
+    """Store what the pipeline made of a document, keeping its review: the processing thread
+    saves documents it loaded earlier, and a reviewer may have approved one in the meantime."""
+    with _lock:
+        existing = get(doc.doc_id, directory)
+        save(StoredDoc(doc=doc, review=existing.review if existing else None), directory)
+
+
 def missing_for_totals(invoice: Invoice) -> list[str]:
-    """What aggregate.py needs to count an invoice: a total, a currency and an ISO date."""
+    """What aggregate.py needs to count an invoice: a total, a currency, a YYYY-MM-DD date and an
+    amount on every line and adjustment. Without one, the totals of every document would fail."""
     missing = [f for f in ("total", "currency") if getattr(invoice, f) in (None, "")]
     try:
-        date.fromisoformat(invoice.invoice_date or "")
+        valid = date.fromisoformat(invoice.invoice_date or "").isoformat() == invoice.invoice_date
     except ValueError:
+        valid = False  # fromisoformat alone also takes 20130812 and 2013-W33-1
+    if not valid:
         missing.append("invoice_date")
+    missing += [f"line {n} amount" for n, item in enumerate(invoice.line_items, 1) if item.amount is None]
+    missing += [f"adjustment {n} amount" for n, a in enumerate(invoice.adjustments, 1) if a.amount is None]
     return missing
 
 
@@ -113,6 +128,11 @@ def changed_fields(before: Optional[Invoice], after: Invoice) -> list[str]:
 
 def review(doc_id: str, action: str, invoice: Optional[Invoice] = None, vendor: Optional[str] = None,
            note: Optional[str] = None, directory: Optional[Path] = None) -> StoredDoc:
+    with _lock:
+        return _review(doc_id, action, invoice, vendor, note, directory)
+
+
+def _review(doc_id, action, invoice, vendor, note, directory) -> StoredDoc:
     stored = get(doc_id, directory)
     if stored is None:
         raise KeyError(doc_id)
@@ -135,12 +155,13 @@ def review(doc_id: str, action: str, invoice: Optional[Invoice] = None, vendor: 
 
 
 def clear_review(doc_id: str, directory: Optional[Path] = None) -> StoredDoc:
-    stored = get(doc_id, directory)
-    if stored is None:
-        raise KeyError(doc_id)
-    stored.review = None
-    save(stored, directory)
-    return stored
+    with _lock:
+        stored = get(doc_id, directory)
+        if stored is None:
+            raise KeyError(doc_id)
+        stored.review = None
+        save(stored, directory)
+        return stored
 
 
 def effective(stored: StoredDoc) -> ProcessedDoc:

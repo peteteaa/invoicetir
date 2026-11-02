@@ -69,7 +69,7 @@ def _source(doc_id: str) -> Path:
 # --- processing --------------------------------------------------------------------------
 
 def _saved(done: int, total: int, doc: ProcessedDoc) -> None:
-    store.save(store.StoredDoc(doc=doc))       # shows up in the inbox right away
+    store.save_pipeline_version(doc)           # shows up in the inbox right away
     _job.update(done=done)
 
 
@@ -89,8 +89,8 @@ def _process(files: list[Path]) -> None:
                 run._add_usage(doc, categorize.categorize(doc.invoice, vendor=doc.vendor, memory=memory))
         clean.save_registry(registry)
         categorize.save_memory(memory)
-        for s in stored:                       # vendor, duplicate and category changes
-            store.save(s)
+        for s in stored:                       # vendor, duplicate and category changes,
+            store.save_pipeline_version(s.doc)  # keeping reviews made while this job ran
     except Exception as e:
         _job["error"] = f"{type(e).__name__}: {e}"
     finally:
