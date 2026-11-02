@@ -7,7 +7,7 @@ Pure functions over (prediction, truth) pairs; run_eval.py does the model calls.
   strings. A field whose truth is None (not labelled, e.g. CORD has no vendor) is skipped.
 - Line items are paired before comparing (pair_items), so one skipped or extra row costs one
   item, not every row after it. A pair is correct when description, quantity, unit price and
-  amount all match. Accuracy = correct / max(truth rows, predicted rows), summed over documents.
+  amount all match; a unit price the label doesn't have is not scored. Accuracy = correct / max(truth rows, predicted rows), summed over documents.
 - Spend per category uses aggregate.spend_rows, the same bucketing as the real output (line
   items by category, tax, adjustments, rounding). Dollar error = sum over categories of
   |predicted - true|, per currency; spend accuracy = 1 - dollar error / true spend.
@@ -35,9 +35,15 @@ def field_results(pred: Optional[Invoice], truth: Invoice) -> dict[str, bool]:
             for f in FIELDS if getattr(truth, f) is not None}
 
 
+def _same_price(pred: LineItem, truth: LineItem) -> bool:
+    """A unit price the label doesn't have isn't scored (CORD often leaves it out), like any
+    other unlabelled field."""
+    return truth.unit_price is None or pred.unit_price == truth.unit_price
+
+
 def item_correct(pred: LineItem, truth: LineItem) -> bool:
     return (_norm(pred.description) == _norm(truth.description) and pred.quantity == truth.quantity
-            and pred.unit_price == truth.unit_price and pred.amount == truth.amount)
+            and _same_price(pred, truth) and pred.amount == truth.amount)
 
 
 def pair_items(pred: list[LineItem], truth: list[LineItem]) -> list[tuple[int, int]]:
@@ -72,7 +78,7 @@ MONEY_FIELDS = ["subtotal", "tax", "total"]
 
 def item_money_correct(pred: LineItem, truth: LineItem) -> bool:
     """Quantity, unit price and amount match; the description may differ."""
-    return pred.quantity == truth.quantity and pred.unit_price == truth.unit_price and pred.amount == truth.amount
+    return pred.quantity == truth.quantity and _same_price(pred, truth) and pred.amount == truth.amount
 
 
 def money_correct(pred: Optional[Invoice], truth: Invoice) -> bool:

@@ -23,14 +23,20 @@ from sample_docs import DOCS  # noqa: E402
     (["currency", "invoice_date"], []),                                   # normalization rules only
     (["invoice_number"], []),
     (["total"], ["total"]),
-    (["vendor_name", "currency"], ["vendor_name"]),
-    (["line_items[2].amount", "line_items[0].description"], ["line_items[2].amount", "line_items[0].description"]),
+    (["vendor_name", "currency"], []),                                     # text doubts: not material
+    (["line_items[2].amount", "line_items[0].description"], ["line_items[2].amount"]),
     (["line_items[1].category", "line_items[1].page"], []),
     (["line_items"], ["line_items"]),
     (["adjustments[0].amount", "tax"], ["adjustments[0].amount", "tax"]),
 ])
 def test_material_uncertain(fields, material):
     assert repair.material_uncertain(ExtractionResult(uncertain_fields=fields)) == material
+
+
+def test_text_doubts_are_material_when_review_text_doubts_is_on(monkeypatch):
+    monkeypatch.setattr(config, "REVIEW_TEXT_DOUBTS", True)
+    fields = ["vendor_name", "line_items[0].description", "currency"]
+    assert repair.material_uncertain(ExtractionResult(uncertain_fields=fields)) == fields[:2]
 
 
 def test_material_uncertain_without_result():

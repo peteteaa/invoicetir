@@ -70,6 +70,9 @@ REQUIRED_FIELDS = [f.strip() for f in _env("REQUIRED_FIELDS", "vendor_name,invoi
 DEFAULT_CURRENCY = _env("DEFAULT_CURRENCY").upper() or None
 # Escalate when the small model passes the checks but is unsure about a money or vendor field.
 ESCALATE_ON_UNCERTAIN = _env("ESCALATE_ON_UNCERTAIN", "true").lower() in ("1", "true", "yes")
+# Also escalate / review over doubts about text that can't change an amount (item names, the
+# vendor). Off: on real receipts those doubts were mostly false alarms.
+REVIEW_TEXT_DOUBTS = _env("REVIEW_TEXT_DOUBTS", "false").lower() in ("1", "true", "yes")
 ZOOM_ENABLED = _env("ZOOM_ENABLED", "false").lower() in ("1", "true", "yes")
 MAX_ZOOMS = int(_env("MAX_ZOOMS", "4"))            # zoom tool calls allowed per attempt
 

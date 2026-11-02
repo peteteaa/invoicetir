@@ -11,8 +11,11 @@
 3. Flag for human review, with the reasons, when the escalation model still fails the checks,
    calls the document unreadable, or is itself unsure about a material field. Never guess.
 
-Material fields change the spend numbers or who they are attributed to: vendor, total,
-subtotal, tax, adjustments, and line-item unit price, amount and description.
+Material fields are the ones that change a spend number: total, subtotal, tax, adjustments, and
+line-item unit price and amount. Doubts about text (an item name, the vendor) don't send a
+document to review unless config.REVIEW_TEXT_DOUBTS is on: on 100 real CORD receipts they caused
+16 of the 23 false alarms and could not change an amount. The math checks still stop every wrong
+total, and clean.py reconciles vendor names.
 Uncertainty that comes from normalize.py's fixed rules ("$" could be several currencies, an
 ambiguous date) is not material on its own.
 
@@ -34,8 +37,9 @@ from pipeline.extract import Attempt, default_model, extract
 from pipeline.ingest import Document
 from schemas import ExtractionResult
 
-MATERIAL = {"vendor_name", "total", "subtotal", "tax"}
-MATERIAL_LINE_FIELDS = {"unit_price", "amount", "description"}
+MATERIAL = {"total", "subtotal", "tax"}
+MATERIAL_LINE_FIELDS = {"unit_price", "amount"}
+TEXT_FIELDS, TEXT_LINE_FIELDS = {"vendor_name"}, {"description"}   # only with REVIEW_TEXT_DOUBTS
 _UNKNOWN = object()   # a field name that doesn't resolve to a value of the invoice
 
 
@@ -69,8 +73,11 @@ def material_uncertain(result: Optional[ExtractionResult]) -> list[str]:
     found = []
     for name in result.uncertain_fields:
         path = re.sub(r"\[\d+\]", "", name).split(".")
-        if not (path[0] in MATERIAL or path[0] == "adjustments"
-                or (path[0] == "line_items" and (len(path) == 1 or path[1] in MATERIAL_LINE_FIELDS))):
+        top, line = MATERIAL, MATERIAL_LINE_FIELDS
+        if config.REVIEW_TEXT_DOUBTS:
+            top, line = top | TEXT_FIELDS, line | TEXT_LINE_FIELDS
+        if not (path[0] in top or path[0] == "adjustments"
+                or (path[0] == "line_items" and (len(path) == 1 or path[1] in line))):
             continue
         if _value(result.invoice, name) is None:   # not printed: checks.py's call, not doubt
             continue

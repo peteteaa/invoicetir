@@ -368,12 +368,22 @@ def save_predictions(docs: list[ProcessedDoc], folder: Path) -> None:
         (folder / f"{d.doc_id}.json").write_text(d.model_dump_json(indent=1))
 
 
+def load_predictions(cases: list[Case], folder: Path) -> list[ProcessedDoc]:
+    missing = [c.doc_id for c in cases if not (folder / f"{c.doc_id}.json").exists()]
+    if missing:
+        raise SystemExit(f"--rescore: {len(missing)} predictions missing in {folder}, e.g. {missing[:3]}")
+    return [ProcessedDoc.model_validate_json((folder / f"{c.doc_id}.json").read_text()) for c in cases]
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Compare the pipeline configs on labelled documents.")
     ap.add_argument("--config", default="all", help=f"all, or a comma list of {', '.join(CONFIGS)}")
     ap.add_argument("--source", default="auto", choices=["auto", "labels", "template"])
     ap.add_argument("--limit", type=int, default=50, help="seeded sample size; 0 = every labelled document")
     ap.add_argument("--seed", type=int, default=7)
+    ap.add_argument("--rescore", action="store_true",
+                    help="score the predictions saved in OUT/predictions again, without extraction calls "
+                         "(per-document configs; summary configs keep their row from OUT/results.csv)")
     ap.add_argument("--only", default="", help="only doc_ids starting with this, e.g. cord_")
     ap.add_argument("--as-images", action="store_true", help="render PDFs to PNG (tests the vision model)")
     ap.add_argument("--out", default=str(OUT_DIR))
@@ -400,7 +410,14 @@ def main(argv=None) -> int:
     for name in names:
         start = time.monotonic()
         print(f"{name}:")
-        if name in SUMMARY:
+        if name in SUMMARY and args.rescore:
+            previous = pd.read_csv(out / "results.csv") if (out / "results.csv").exists() else None
+            if previous is not None and name in set(previous.config):
+                rows.append(previous[previous.config == name].iloc[0].to_dict())
+                print("  kept from the previous results.csv")
+            else:
+                print("  nothing saved to rescore; skipped")
+        elif name in SUMMARY:
             # it only produces spend, so it only runs on labels that say what the spend is
             spend_cases = [c for c in cases if metrics.spendable(c.truth)]
             if len(spend_cases) < len(cases):
@@ -408,8 +425,11 @@ def main(argv=None) -> int:
             spend, usage = run_large_all(spend_cases, SUMMARY[name])
             rows.append(score_large_all(spend, usage, spend_cases, name))
         else:
-            docs = run_per_doc(name, cases)
-            save_predictions(docs, out / "predictions" / name)
+            if args.rescore:   # score saved answers again: no model calls
+                docs = load_predictions(cases, out / "predictions" / name)
+            else:
+                docs = run_per_doc(name, cases)
+                save_predictions(docs, out / "predictions" / name)
             row, d = score_per_doc(name, docs, cases, categorize_cost)
             rows.append(row)
             details += d

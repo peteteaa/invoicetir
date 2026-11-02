@@ -91,9 +91,13 @@ printed. The checks decide whether a missing value is a failure.
    if `ESCALATION_MODEL` says it is unsure. Its extraction goes to human review, with the
    uncertain fields as the reason, when it:
    - marks the document `unreadable`, or
-   - lists, in `uncertain_fields`, any field that changes the spend numbers or who they're
-     attributed to: `vendor_name`, `total`, `subtotal`, `tax`, an adjustment, or a line
-     item's `quantity`, `unit_price`, `amount` or `description`.
+   - lists, in `uncertain_fields`, a field that changes a spend number: `total`,
+     `subtotal`, `tax`, an adjustment, or a line item's `unit_price` or `amount`.
+
+   Doubts about text that can't change an amount (an item name, the vendor) don't send a
+   document to review unless `REVIEW_TEXT_DOUBTS=true`. On 100 real CORD receipts they were
+   16 of the 23 false alarms; the math checks still stop every wrong total, and `clean.py`
+   reconciles vendor names.
 
    Some uncertainty comes from fixed normalization rules, not from the model: a `$` that
    could be several currencies, or an ambiguous date like `07/10/2020`. It does not send a
