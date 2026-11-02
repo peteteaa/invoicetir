@@ -12,11 +12,11 @@ the registry, so the same name is never asked about twice.
 
 Two invoices with different invoice numbers are never duplicates, even with the same total and
 dates: a coffee shop's two receipts for 4.50 on consecutive days are two purchases.
-The first invoice of a duplicate group (in input order) is the original.
+The first invoice of a duplicate group (in input order) is the original. Only verified documents
+take part: a flagged one is not counted in the totals, so it can't be an original either.
 """
 import json
 import re
-from dataclasses import dataclass
 from datetime import date, timedelta
 from pathlib import Path
 from typing import Optional
@@ -27,7 +27,7 @@ from rapidfuzz import fuzz, process
 import config
 import llm
 from pipeline.checks import money
-from schemas import Invoice
+from schemas import Invoice, ProcessedDoc
 
 REGISTRY_PATH = config.ROOT / "data" / "state" / "vendors.json"
 DUPLICATE_DAYS = timedelta(days=3)
@@ -37,13 +37,6 @@ SUFFIXES = {"inc", "incorporated", "llc", "llp", "lp", "ltd", "limited", "co", "
 
 class VendorMatch(BaseModel):
     same: bool
-
-
-@dataclass
-class Cleaned:
-    vendor: Optional[str]               # canonical name from the registry; None if none printed
-    duplicate_of: Optional[str] = None  # doc_id of the original
-    reason: str = ""                    # why it is a duplicate
 
 
 def load_registry(path: Path = REGISTRY_PATH) -> dict:
@@ -134,20 +127,36 @@ def find_duplicate(invoice: Invoice, vendor: Optional[str], originals: list):
     return None
 
 
-def clean(invoices: list[Invoice], registry: Optional[dict] = None, model: Optional[str] = None):
-    """Return (one Cleaned per invoice, in order; llm.CallResult of every model call).
+def _add_usage(doc: ProcessedDoc, calls: list) -> None:
+    for c in calls:
+        doc.input_tokens += c.input_tokens
+        doc.output_tokens += c.output_tokens
+        doc.latency_s += c.latency_s
+        doc.cost_usd = None if doc.cost_usd is None or c.cost_usd is None else doc.cost_usd + c.cost_usd
 
-    registry is updated in place; pass load_registry() to keep vendors across runs.
+
+def clean(docs: list[ProcessedDoc], registry: Optional[dict] = None, model: Optional[str] = None) -> list:
+    """Set vendor on every document with an invoice and mark duplicates, in place.
+
+    A duplicate gets status "duplicate", duplicate_of and the reason. The model calls' tokens,
+    latency and cost are added to their document; the calls are also returned. registry is
+    updated in place; pass load_registry() to keep vendors across runs.
     """
     registry = {} if registry is None else registry
-    results, calls, originals = [], [], []
-    for inv in invoices:
-        vendor, c = match_vendor(inv.vendor_name, registry, inv.doc_id, model)
-        calls += c
-        duplicate = find_duplicate(inv, vendor, originals)
+    calls, originals = [], []
+    for doc in docs:
+        if doc.invoice is None:
+            continue
+        doc.vendor, doc_calls = match_vendor(doc.invoice.vendor_name, registry, doc.doc_id, model)
+        _add_usage(doc, doc_calls)
+        calls += doc_calls
+        if doc.status != "verified":
+            continue
+        duplicate = find_duplicate(doc.invoice, doc.vendor, originals)
         if duplicate:
-            results.append(Cleaned(vendor, *duplicate))
+            doc.status = "duplicate"
+            doc.duplicate_of, reason = duplicate
+            doc.reasons.append(reason)
         else:
-            results.append(Cleaned(vendor))
-            originals.append((inv, vendor))
-    return results, calls
+            originals.append((doc.invoice, doc.vendor))
+    return calls

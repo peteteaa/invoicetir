@@ -7,7 +7,7 @@ import pytest
 import config
 import llm
 from pipeline import clean
-from schemas import Invoice
+from schemas import Invoice, ProcessedDoc
 
 
 @pytest.fixture
@@ -22,17 +22,25 @@ def fake_llm(monkeypatch):
     def call(*, messages, schema, **kwargs):
         calls.append(messages)
         reply = replies.pop(0)
+        usage = {"input_tokens": 50, "output_tokens": 5, "latency_s": 0.5, "cost_usd": Decimal("0.0001")}
         if reply is None:
-            return SimpleNamespace(parsed=None, error="invalid JSON", text="oops")
-        return SimpleNamespace(parsed=schema.model_validate(reply), error=None, text="{}")
+            return SimpleNamespace(parsed=None, error="invalid JSON", text="oops", **usage)
+        return SimpleNamespace(parsed=schema.model_validate(reply), error=None, text="{}", **usage)
 
     monkeypatch.setattr(llm, "call", call)
     return replies, calls
 
 
-def inv(doc_id, vendor="Acme Corp", number=None, total="100.00", day="2024-03-01"):
-    return Invoice(doc_id=doc_id, vendor_name=vendor, invoice_number=number,
-                   total=Decimal(total), invoice_date=day)
+def doc(doc_id, vendor="Acme Corp", number=None, total="100.00", day="2024-03-01", status="verified"):
+    invoice = Invoice(doc_id=doc_id, vendor_name=vendor, invoice_number=number,
+                      total=Decimal(total), invoice_date=day)
+    return ProcessedDoc(doc_id=doc_id, source_path=f"{doc_id}.pdf", status=status, invoice=invoice,
+                        cost_usd=Decimal("0.001"))
+
+
+def duplicates(docs):
+    clean.clean(docs)
+    return [d.duplicate_of for d in docs]
 
 
 # --- vendors --------------------------------------------------------------------------------
@@ -80,27 +88,44 @@ def test_unusable_model_answers_keep_vendors_apart(fake_llm):
 # --- duplicates -----------------------------------------------------------------------------
 
 def test_same_invoice_number_with_different_formatting_is_a_duplicate(fake_llm):
-    results, _ = clean.clean([inv("a", number="INV-001"), inv("b", "ACME CORP.", "inv 001", total="99.00")])
-    assert results[1].duplicate_of == "a"
-    assert "invoice number" in results[1].reason
+    docs = [doc("a", number="INV-001"), doc("b", "ACME CORP.", "inv 001", total="99.00")]
+    assert duplicates(docs) == [None, "a"]
+    assert docs[1].status == "duplicate"
+    assert "invoice number" in docs[1].reasons[0]
 
 
 def test_same_total_within_3_days_is_a_duplicate(fake_llm):
-    results, _ = clean.clean([inv("a"), inv("b", day="2024-03-04"), inv("c", day="2024-03-05")])
-    assert [r.duplicate_of for r in results] == [None, "a", None]
-    assert results[1].reason == "same vendor and total 100.00, dates 2024-03-01 and 2024-03-04"
+    docs = [doc("a"), doc("b", day="2024-03-04"), doc("c", day="2024-03-05")]
+    assert duplicates(docs) == [None, "a", None]
+    assert docs[1].reasons == ["same vendor and total 100.00, dates 2024-03-01 and 2024-03-04"]
 
 
 def test_different_invoice_numbers_are_never_duplicates(fake_llm):
-    results, _ = clean.clean([inv("a", number="1001"), inv("b", number="1002")])
-    assert [r.duplicate_of for r in results] == [None, None]
+    assert duplicates([doc("a", number="1001"), doc("b", number="1002")]) == [None, None]
 
 
 def test_different_vendors_are_never_duplicates(fake_llm):
-    results, _ = clean.clean([inv("a"), inv("b", vendor="Zenith Supplies")])
-    assert [r.duplicate_of for r in results] == [None, None]
+    assert duplicates([doc("a"), doc("b", vendor="Zenith Supplies")]) == [None, None]
 
 
 def test_duplicate_points_to_the_original(fake_llm):
-    results, _ = clean.clean([inv("a"), inv("b", day="2024-03-02"), inv("c", day="2024-03-03")])
-    assert [r.duplicate_of for r in results] == [None, "a", "a"]
+    assert duplicates([doc("a"), doc("b", day="2024-03-02"), doc("c", day="2024-03-03")]) == [None, "a", "a"]
+
+
+def test_flagged_document_gets_a_vendor_but_is_never_an_original(fake_llm):
+    docs = [doc("a", vendor="ACME CORP.", status="flagged"), doc("b"), ProcessedDoc(
+        doc_id="c", source_path="c.pdf", status="flagged")]
+    assert duplicates(docs) == [None, None, None]
+    assert [d.vendor for d in docs] == ["ACME CORP.", "ACME CORP.", None]
+    assert [d.status for d in docs] == ["flagged", "verified", "flagged"]
+
+
+def test_model_call_usage_is_added_to_its_document(fake_llm):
+    replies, _ = fake_llm
+    replies.append({"same": True})
+    docs = [doc("a", vendor="Starbucks"), doc("b", vendor="Starbucks Coffee #1234")]
+    calls = clean.clean(docs)
+    assert len(calls) == 1
+    assert (docs[1].input_tokens, docs[1].output_tokens, docs[1].latency_s, docs[1].cost_usd) == (
+        50, 5, 0.5, Decimal("0.0011"))
+    assert docs[0].input_tokens == 0
