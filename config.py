@@ -76,8 +76,8 @@ ZOOM_DPI = int(_env("ZOOM_DPI", "300"))            # crops returned by the zoom 
 MAX_IMAGE_SIDE = int(_env("MAX_IMAGE_SIDE", "2000"))  # photos are shrunk to fit this
 
 # Vendor normalization (clean.py): scores in [LOW, HIGH) are decided by the model.
-VENDOR_MATCH_LOW = int(_env("VENDOR_MATCH_LOW", "80"))
-VENDOR_MATCH_HIGH = int(_env("VENDOR_MATCH_HIGH", "92"))
+VENDOR_MATCH_LOW = int(_env("VENDOR_MATCH_LOW", "85"))
+VENDOR_MATCH_HIGH = int(_env("VENDOR_MATCH_HIGH", "95"))
 
 PROMPTS_DIR = ROOT / "prompts"
 LOG_PATH = ROOT / "logs" / "calls.jsonl"

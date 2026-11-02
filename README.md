@@ -101,10 +101,14 @@ printed. The checks decide whether a missing value is a failure.
    the output. A flagged document is never counted in the totals until a person verifies it.
 5. **`clean.py`:** normalize vendor names with rapidfuzz against a registry of seen vendors
    (`data/state/vendors.json`, canonical name → every name printed for it). Names are compared
-   lowercased, without punctuation or legal suffixes (Inc, LLC, GmbH...). A score of
-   `VENDOR_MATCH_HIGH` or more is the same vendor, below `VENDOR_MATCH_LOW` a new one, and in
-   between the model decides (unsure or unusable answer = different vendors). Every answer
-   adds the name to the registry, so a name is never asked about twice.
+   lowercased, without punctuation or legal suffixes (Inc, LLC, GmbH...), scored with
+   `fuzz.ratio`. A score of `VENDOR_MATCH_HIGH` (95) or more is the same vendor. The model
+   decides when the score is `VENDOR_MATCH_LOW` (85) or more, or when one name is the other
+   plus more words ("Starbucks" / "Starbucks Coffee #1234"); unsure or unusable answer =
+   different vendors. Anything else is a new vendor. Every answer adds the name to the
+   registry, so a name is never asked about twice. (`WRatio` was tried first: on the 991
+   sample invoices it merged 11 different companies, e.g. "Gates and Sons" into "Yates and
+   Sons", and sent 80% of names to the model. `ratio` with this rule: 0 wrong merges.)
    Duplicates: same normalized vendor + invoice number (ignoring spaces and punctuation), or
    same vendor + total with dates within 3 days. Two invoices with different invoice numbers
    are never duplicates. The first one seen is the original; duplicates point to it.

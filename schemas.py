@@ -10,7 +10,8 @@ Invoice           doc_id, vendor_name (exactly as printed), invoice_number (opti
                   tax, tax_inclusive (tax printed as already included in the total), total,
                   source_pages
 ExtractionResult  invoice (or null), uncertain_fields, unreadable
-Label             ground truth: Invoice plus optional is_duplicate_of (doc_id) and expected_flag
+Label             ground truth: Invoice plus optional is_duplicate_of (doc_id), expected_flag
+                  (None = not labelled) and corrected_fields (from label_app.py)
 ProcessedDoc      one document after the pipeline: status (verified / flagged / duplicate), the
                   invoice, reasons, normalized vendor, and the cost and latency of its model calls.
                   pipeline/run.py builds these; clean.py, aggregate.py and output.py read them.
@@ -19,7 +20,7 @@ Model-output fields may be null: the prompt says to return null for anything not
 checks.py decides whether a missing value is a failure. Dates and currency codes are plain
 strings for the same reason; checks.py validates them.
 """
-from decimal import ROUND_HALF_UP, Decimal
+from decimal import Decimal
 from typing import Annotated, Literal, Optional
 
 from pydantic import AfterValidator, BaseModel, BeforeValidator
@@ -28,7 +29,16 @@ CENT = Decimal("0.01")
 
 
 def _to_cents(v: Optional[Decimal]) -> Optional[Decimal]:
-    return None if v is None else v.quantize(CENT, rounding=ROUND_HALF_UP)
+    """Quantize to cents. A value with sub-cent digits is rejected, not rounded: printed money
+    has at most two decimals, so 12.345 is a misread, and rejecting it makes it a retry."""
+    if v is None:
+        return None
+    if not v.is_finite():
+        raise ValueError("must be a finite number")
+    cents = v.quantize(CENT)
+    if cents != v:
+        raise ValueError(f"{v} has more than 2 decimal places")
+    return cents
 
 
 Money = Annotated[Decimal, AfterValidator(_to_cents)]
@@ -75,7 +85,10 @@ class ExtractionResult(BaseModel):
 
 class Label(Invoice):
     is_duplicate_of: Optional[str] = None  # doc_id of the original
-    expected_flag: bool = False            # the document's own printed math is wrong
+    # True: the document's own printed math is wrong. None: not labelled (excluded from flag
+    # precision/recall), which is different from False: checked, and the printed math is right.
+    expected_flag: Optional[bool] = None
+    corrected_fields: list[str] = []       # fields the human changed in label_app.py
 
 
 class ProcessedDoc(BaseModel):

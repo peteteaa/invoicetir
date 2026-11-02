@@ -6,9 +6,10 @@ Duplicates: same normalized vendor + invoice number, or same vendor + total with
 
 The registry maps canonical name -> every name printed for that vendor. The canonical name is the
 first one seen. Names are compared by vendor_key(): lowercase, no punctuation, "&" as "and", no
-legal suffix (Inc, LLC, GmbH...). A name scoring VENDOR_MATCH_HIGH or more is the same vendor,
-below VENDOR_MATCH_LOW a new one, and in between the model decides. Every answer adds the name to
-the registry, so the same name is never asked about twice.
+legal suffix (Inc, LLC, GmbH...). Scores are fuzz.ratio: VENDOR_MATCH_HIGH or more is the same
+vendor; the model decides when the score is VENDOR_MATCH_LOW or more, or when one name is the
+other plus more words ("Starbucks" / "Starbucks Coffee #1234"); anything else is a new vendor.
+Every answer adds the name to the registry, so the same name is never asked about twice.
 
 Two invoices with different invoice numbers are never duplicates, even with the same total and
 dates: a coffee shop's two receipts for 4.50 on consecutive days are two purchases.
@@ -71,18 +72,41 @@ def _same_vendor(name: str, known: str, doc_id: Optional[str], model: Optional[s
     return False, calls
 
 
+def _word_prefix(a: str, b: str) -> bool:
+    """One name is the other plus more words: 'starbucks' / 'starbucks coffee 1234'."""
+    short, long = sorted((a.split(), b.split()), key=len)
+    return len(short) < len(long) and long[:len(short)] == short
+
+
+def _candidate(key: str, aliases: dict):
+    """The known name to compare against, with its score, or None.
+
+    fuzz.ratio, not WRatio: WRatio's partial matching scores unrelated names that share words
+    ('brooks and sons' / 'jacobs russell and perry' = 86) and merged different companies
+    ('gates and sons' / 'yates and sons' = 93). A name that is another plus extra words
+    ('starbucks coffee 1234') scores low on ratio, so it is sent to the model as well.
+    """
+    if not aliases:
+        return None
+    best = process.extractOne(key, aliases.keys(), scorer=fuzz.ratio)
+    if best[1] >= config.VENDOR_MATCH_LOW:
+        return best[0], best[1]
+    prefixed = next((k for k in aliases if _word_prefix(key, k)), None)
+    return (prefixed, fuzz.ratio(key, prefixed)) if prefixed else None
+
+
 def match_vendor(name: Optional[str], registry: dict, doc_id: Optional[str] = None,
                  model: Optional[str] = None):
     """Return (canonical name, calls) and add name to the registry, in place."""
     if not name:
         return None, []
     aliases = {vendor_key(a): (canonical, a) for canonical, names in registry.items() for a in names}
-    match = process.extractOne(vendor_key(name), aliases.keys(), scorer=fuzz.WRatio,
-                               score_cutoff=config.VENDOR_MATCH_LOW) if aliases else None
+    key = vendor_key(name)
     canonical, calls = None, []
-    if match:
-        known_canonical, known_name = aliases[match[0]]
-        if match[1] >= config.VENDOR_MATCH_HIGH:
+    candidate = _candidate(key, aliases)
+    if candidate:
+        known_canonical, known_name = aliases[candidate[0]]
+        if candidate[1] >= config.VENDOR_MATCH_HIGH:
             canonical = known_canonical
         else:
             same, calls = _same_vendor(name, known_name, doc_id, model)
