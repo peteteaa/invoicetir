@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tally · Audit Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Mock C: audit console. Three panes: documents, the document itself, extracted fields + checks + model trace. Linear inspired. -->
+<style>
+  :root {
+    --bg: #0e0f11;
+    --panel: #15161a;
+    --panel-2: #1b1c21;
+    --hover: #202128;
+    --sel: #262833;
+    --line: #26272d;
+    --line-2: #1f2025;
+    --ink: #eceef2;
+    --ink-2: #a9adb8;
+    --muted: #6d717c;
+    --accent: #8b8cf6;
+    --accent-soft: rgba(139,140,246,.14);
+    --good: #3ccf6e;
+    --good-soft: rgba(60,207,110,.12);
+    --warn: #fab219;
+    --warn-soft: rgba(250,178,25,.12);
+    --crit: #f06363;
+    --crit-soft: rgba(240,99,99,.13);
+    --info: #5aa2f0;
+    --info-soft: rgba(90,162,240,.13);
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 13px/1.45 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .num, .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 12px; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+
+  header {
+    height: 44px; flex: none; display: flex; align-items: center; gap: 14px; padding: 0 14px;
+    border-bottom: 1px solid var(--line); background: var(--panel);
+  }
+  .logo { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .logo i { width: 18px; height: 18px; border-radius: 5px; background: linear-gradient(135deg, #8b8cf6, #5a5bd0); display: inline-block; }
+  .crumbs { color: var(--muted); }
+  .crumbs b { color: var(--ink); font-weight: 500; }
+  .spacer { flex: 1; }
+  .stat { display: flex; align-items: center; gap: 6px; color: var(--ink-2); padding: 3px 8px; border: 1px solid var(--line); border-radius: 6px; }
+  .stat b { color: var(--ink); font-weight: 500; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+  .btn { border: 1px solid var(--line); background: var(--panel-2); border-radius: 6px; padding: 4px 10px; font-weight: 500; }
+  .btn:hover { background: var(--hover); }
+  .btn-primary { background: var(--accent); border-color: var(--accent); color: #101018; }
+  .btn-primary:hover { background: #9d9ef8; }
+  kbd { font: 10.5px var(--mono); color: var(--ink-2); background: var(--panel-2); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 4px; }
+
+  .panes { flex: 1; display: grid; grid-template-columns: 300px 1fr 420px; min-height: 0; }
+  .pane { min-height: 0; overflow: auto; border-right: 1px solid var(--line); }
+  .pane:last-child { border-right: 0; }
+  .pane-head { position: sticky; top: 0; z-index: 2; background: var(--panel); border-bottom: 1px solid var(--line); padding: 8px 12px; display: flex; align-items: center; gap: 8px; }
+  .pane-title { font-weight: 600; }
+  .filters { display: flex; gap: 4px; padding: 8px 10px; border-bottom: 1px solid var(--line-2); flex-wrap: wrap; background: var(--bg); position: sticky; top: 37px; z-index: 2; }
+  .filters button { border: 1px solid var(--line); background: none; border-radius: 12px; padding: 1px 9px; color: var(--ink-2); font-size: 12px; }
+  .filters button.on { background: var(--accent-soft); border-color: transparent; color: var(--accent); }
+
+  /* doc list */
+  .doc { display: grid; grid-template-columns: 16px 1fr auto; gap: 8px; align-items: center; padding: 7px 12px; border-bottom: 1px solid var(--line-2); cursor: pointer; }
+  .doc:hover { background: var(--hover); }
+  .doc.on { background: var(--sel); box-shadow: inset 2px 0 0 var(--accent); }
+  .doc .v { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .doc .f { color: var(--muted); font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--mono); }
+  .doc .amt { text-align: right; color: var(--ink-2); }
+  .doc .amt small { display: block; color: var(--muted); font-size: 10.5px; }
+  .si { width: 14px; height: 14px; border-radius: 50%; display: grid; place-items: center; font-size: 9px; font-weight: 700; }
+  .si.verified, .si.repaired { background: var(--good-soft); color: var(--good); }
+  .si.escalated { background: var(--accent-soft); color: var(--accent); }
+  .si.flagged { background: var(--crit-soft); color: var(--crit); }
+  .si.duplicate { background: var(--info-soft); color: var(--info); }
+
+  /* viewer */
+  .viewer { background: #0b0c0e; }
+  .viewer .pane-head { justify-content: space-between; }
+  .canvas { padding: 28px; display: flex; justify-content: center; }
+  .paper {
+    background: #fbfbf8; color: #222; width: 520px; max-width: 100%; padding: 40px 44px; border-radius: 2px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.5); font-size: 12.5px; position: relative;
+  }
+  .paper .hd { display: flex; justify-content: space-between; margin-bottom: 26px; }
+  .paper .brand { font-size: 20px; font-weight: 700; letter-spacing: -.02em; }
+  .paper table { width: 100%; border-collapse: collapse; margin-top: 18px; }
+  .paper th { text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: .05em; color: #888; border-bottom: 1px solid #ddd; padding: 6px 4px; }
+  .paper td { padding: 7px 4px; border-bottom: 1px solid #eee; }
+  .paper .r { text-align: right; }
+  .paper .sum { width: 220px; margin-left: auto; margin-top: 14px; }
+  .paper .sum div { display: flex; justify-content: space-between; padding: 4px 4px; }
+  .paper .total { font-weight: 700; font-size: 14px; border-top: 2px solid #222; margin-top: 4px; padding-top: 8px !important; }
+  .bbox { position: relative; }
+  .bbox::after { content: ""; position: absolute; inset: -3px -5px; border: 1.5px solid; border-radius: 3px; pointer-events: none; }
+  .bbox.ok::after { border-color: rgba(60,180,100,.55); background: rgba(60,180,100,.06); }
+  .bbox.bad::after { border-color: #e04848; background: rgba(224,72,72,.08); }
+  .bbox .tag { position: absolute; right: -6px; bottom: -17px; font: 600 9.5px var(--mono); color: #fff; background: #e04848; border-radius: 3px; padding: 0 4px; z-index: 1; }
+  .viewer-tools { display: flex; gap: 4px; align-items: center; color: var(--ink-2); }
+  .page-strip { display: flex; gap: 8px; justify-content: center; padding-bottom: 24px; color: var(--muted); }
+
+  /* inspector */
+  .section { border-bottom: 1px solid var(--line); }
+  .section-h { display: flex; align-items: center; gap: 8px; padding: 10px 14px 6px; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+  .section-h .n { margin-left: auto; text-transform: none; letter-spacing: 0; font-weight: 500; }
+  .kv { display: grid; grid-template-columns: 112px 1fr auto; gap: 8px; padding: 4px 14px; align-items: center; }
+  .kv:hover { background: var(--hover); }
+  .kv .k { color: var(--muted); }
+  .kv .v { font-family: var(--mono); font-size: 12px; }
+  .kv .c { font-size: 11px; }
+  .kv .c.unsure { color: var(--warn); }
+  .lines { padding: 2px 14px 10px; }
+  .lines table { width: 100%; border-collapse: collapse; }
+  .lines th { text-align: left; color: var(--muted); font-weight: 500; font-size: 11px; padding: 4px 4px; border-bottom: 1px solid var(--line); }
+  .lines td { padding: 5px 4px; border-bottom: 1px solid var(--line-2); }
+  .lines .r { text-align: right; }
+
+  .chk { display: grid; grid-template-columns: 16px 1fr; gap: 8px; padding: 4px 14px; align-items: start; }
+  .chk .i { font-weight: 700; }
+  .chk.ok .i { color: var(--good); }
+  .chk.bad .i { color: var(--crit); }
+  .chk.bad .m { color: var(--crit); }
+  .chk .m { font-family: var(--mono); font-size: 12px; }
+  .chk .d { color: var(--muted); font-size: 11.5px; font-family: Inter, system-ui, sans-serif; }
+
+  .trace { padding: 4px 14px 14px; }
+  .call { position: relative; padding: 0 0 12px 22px; }
+  .call::before { content: ""; position: absolute; left: 6px; top: 16px; bottom: 0; width: 1px; background: var(--line); }
+  .call:last-child::before { display: none; }
+  .call .nd { position: absolute; left: 0; top: 3px; width: 13px; height: 13px; border-radius: 50%; border: 2px solid; background: var(--panel); }
+  .call.fail .nd { border-color: var(--crit); }
+  .call.esc .nd { border-color: var(--accent); }
+  .call.flag .nd { border-color: var(--warn); background: var(--warn); }
+  .call .t { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+  .call .t b { font-weight: 600; }
+  .model { font-family: var(--mono); font-size: 11px; padding: 0 5px; border-radius: 3px; background: var(--panel-2); border: 1px solid var(--line); color: var(--ink-2); }
+  .model.big { color: var(--accent); border-color: rgba(139,140,246,.35); }
+  .call .meta { color: var(--muted); font-family: var(--mono); font-size: 11px; margin-top: 2px; }
+  .call .res { margin-top: 4px; font-family: var(--mono); font-size: 11.5px; color: var(--crit); }
+  .call .res.warn { color: var(--warn); }
+  .verdict { margin: 0 14px 14px; padding: 10px 12px; border-radius: 6px; background: var(--warn-soft); border: 1px solid rgba(250,178,25,.3); }
+  .verdict b { color: var(--warn); }
+  .verdict p { margin: 4px 0 0; color: var(--ink-2); }
+
+  .tabs { display: flex; gap: 2px; }
+  .tabs button { border: 0; background: none; padding: 3px 8px; border-radius: 5px; color: var(--muted); font-weight: 500; }
+  .tabs button.on { background: var(--panel-2); color: var(--ink); }
+
+  .actions { position: sticky; bottom: 0; background: var(--panel); border-top: 1px solid var(--line); padding: 10px 14px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .actions .btn { display: inline-flex; align-items: center; gap: 6px; }
+
+  footer {
+    height: 28px; flex: none; display: flex; align-items: center; gap: 16px; padding: 0 14px;
+    border-top: 1px solid var(--line); background: var(--panel); color: var(--muted); font-size: 11.5px; overflow: hidden; white-space: nowrap;
+  }
+  footer span { display: inline-flex; gap: 5px; align-items: center; }
+
+  @media (max-width: 1100px) {
+    .panes { grid-template-columns: 260px 1fr; }
+    .inspector { grid-column: 1 / -1; border-top: 1px solid var(--line); }
+  }
+  @media (max-width: 720px) {
+    body { overflow: auto; height: auto; }
+    .panes { display: block; }
+    .pane { overflow: visible; border-right: 0; border-bottom: 1px solid var(--line); }
+    .doclist { max-height: 300px; overflow: auto; }
+    .canvas { padding: 16px; }
+    .paper { padding: 24px 20px; }
+    header .stat, header .crumbs { display: none; }
+    footer { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><i></i>Tally</div>
+  <div class="crumbs">Kestrel Studio / Runs / <b>#14 · Nov 2, 2:41 PM</b></div>
+  <div class="spacer"></div>
+  <div class="stat"><span class="dot" style="background:var(--good)"></span><b>13</b> verified</div>
+  <div class="stat"><span class="dot" style="background:var(--crit)"></span><b>2</b> flagged</div>
+  <div class="stat"><span class="dot" style="background:var(--info)"></span><b>1</b> duplicate</div>
+  <div class="stat mono"><b>$0.1607</b> · p50 3.0s · p95 13.1s</div>
+  <button class="btn">Export</button>
+</header>
+
+<div class="panes">
+  <!-- documents -->
+  <div class="pane doclist">
+    <div class="pane-head"><span class="pane-title">Documents</span><span class="mono" style="color:var(--muted);margin-left:auto">16</span></div>
+    <div class="filters">
+      <button>All</button><button class="on">Flagged 2</button><button>Escalated 1</button><button>Retried 2</button><button>Dup 1</button>
+    </div>
+    <div id="docs"></div>
+  </div>
+
+  <!-- viewer -->
+  <div class="pane viewer">
+    <div class="pane-head">
+      <span class="mono" style="color:var(--ink-2)">d13 · wework-oct.pdf</span>
+      <div class="viewer-tools">
+        <span class="mono">TEXT layer ✓</span>
+        <button class="btn">−</button><span class="mono">100%</span><button class="btn">+</button>
+        <button class="btn">Boxes ✓</button>
+      </div>
+    </div>
+    <div class="canvas">
+      <div class="paper">
+        <div class="hd">
+          <div><div class="brand bbox ok">WeWork</div><div style="color:#777;margin-top:4px">115 W 18th St · New York, NY 10011</div></div>
+          <div style="text-align:right">
+            <div style="font-weight:700;letter-spacing:.08em">INVOICE</div>
+            <div class="bbox ok" style="margin-top:4px">No. WW-88213</div>
+            <div class="bbox ok" style="margin-top:6px">Oct 1, 2026</div>
+          </div>
+        </div>
+        <div style="color:#777">Bill to</div>
+        <div><b>Kestrel Studio</b><br>2201 Mission St, San Francisco</div>
+        <table>
+          <thead><tr><th>Description</th><th class="r">Qty</th><th class="r">Rate</th><th class="r">Amount</th></tr></thead>
+          <tbody>
+            <tr><td><span class="bbox ok">Dedicated desk — October</span></td><td class="r">1</td><td class="r">450.00</td><td class="r">450.00</td></tr>
+            <tr><td><span class="bbox ok">Meeting room credits</span></td><td class="r">10</td><td class="r">15.00</td><td class="r">150.00</td></tr>
+          </tbody>
+        </table>
+        <div class="sum">
+          <div class="bbox ok"><span>Subtotal</span><span>600.00</span></div>
+          <div class="bbox ok"><span>Sales tax (8%)</span><span>48.00</span></div>
+          <div class="total bbox bad"><span class="tag">≠ 648.00</span><span>Total due (USD)</span><span>650.00</span></div>
+        </div>
+        <div style="color:#999;margin-top:30px;font-size:11px">Payment due Oct 31, 2026 · Questions? billing@wework.example</div>
+      </div>
+    </div>
+    <div class="page-strip mono">page 1 / 1</div>
+  </div>
+
+  <!-- inspector -->
+  <div class="pane inspector">
+    <div class="pane-head">
+      <div class="tabs"><button class="on">Inspect</button><button>JSON</button><button>History</button></div>
+      <span class="spacer"></span>
+      <span class="mono" style="color:var(--crit)">● flagged</span>
+    </div>
+
+    <div class="section">
+      <div class="section-h">Extracted <span class="n mono">ESCALATION_MODEL · final</span></div>
+      <div class="kv"><span class="k">vendor_name</span><span class="v">"WeWork"</span><span class="c" style="color:var(--muted)">→ WeWork</span></div>
+      <div class="kv"><span class="k">invoice_number</span><span class="v">"WW-88213"</span><span></span></div>
+      <div class="kv"><span class="k">invoice_date</span><span class="v">2026-10-01</span><span></span></div>
+      <div class="kv"><span class="k">currency</span><span class="v">USD</span><span></span></div>
+      <div class="kv"><span class="k">subtotal</span><span class="v">600.00</span><span></span></div>
+      <div class="kv"><span class="k">tax</span><span class="v">48.00</span><span class="c" style="color:var(--muted)">exclusive</span></div>
+      <div class="kv"><span class="k">adjustments</span><span class="v">[]</span><span></span></div>
+      <div class="kv"><span class="k">total</span><span class="v" style="color:var(--crit)">650.00</span><span class="c unsure">checked 4×</span></div>
+      <div class="lines">
+        <table>
+          <thead><tr><th>#</th><th>description</th><th class="r">qty</th><th class="r">unit</th><th class="r">amount</th><th>cat</th></tr></thead>
+          <tbody class="mono">
+            <tr><td>1</td><td style="font-family:Inter,sans-serif">Dedicated desk — October</td><td class="r">1</td><td class="r">450.00</td><td class="r">450.00</td><td>office</td></tr>
+            <tr><td>2</td><td style="font-family:Inter,sans-serif">Meeting room credits</td><td class="r">10</td><td class="r">15.00</td><td class="r">150.00</td><td>office</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-h">Checks <span class="n mono" style="color:var(--crit)">6 / 7 pass</span></div>
+      <div class="chk ok"><span class="i">✓</span><span class="m">line 1: 1 × 450.00 = 450.00</span></div>
+      <div class="chk ok"><span class="i">✓</span><span class="m">line 2: 10 × 15.00 = 150.00</span></div>
+      <div class="chk ok"><span class="i">✓</span><span class="m">Σ lines 600.00 = subtotal 600.00</span></div>
+      <div class="chk bad"><span class="i">✕</span><span class="m">subtotal 600.00 + adj 0.00 + tax 48.00 = 648.00 ≠ total 650.00<br><span class="d">off by +2.00 · tolerance 0.01</span></span></div>
+      <div class="chk ok"><span class="i">✓</span><span class="m">invoice_date is valid ISO 8601</span></div>
+      <div class="chk ok"><span class="i">✓</span><span class="m">currency USD is valid ISO 4217</span></div>
+      <div class="chk ok"><span class="i">✓</span><span class="m">vendor, total, date, currency present</span></div>
+    </div>
+
+    <div class="section">
+      <div class="section-h">Model trace <span class="n mono">4 calls · 10.1s · $0.0417</span></div>
+      <div class="trace">
+        <div class="call fail"><span class="nd"></span>
+          <div class="t"><b>extract</b><span class="model">TEXT_MODEL</span></div>
+          <div class="meta">1,842 in · 412 out · 1.3s · $0.0008</div>
+          <div class="res">1 check failed: total 650.00 ≠ 648.00</div>
+        </div>
+        <div class="call fail"><span class="nd"></span>
+          <div class="t"><b>repair 1/2</b><span class="model">TEXT_MODEL</span></div>
+          <div class="meta">2,104 in · 398 out · 1.2s · $0.0009</div>
+          <div class="res">same value re-read: 650.00</div>
+        </div>
+        <div class="call fail"><span class="nd"></span>
+          <div class="t"><b>repair 2/2</b><span class="model">TEXT_MODEL</span></div>
+          <div class="meta">2,231 in · 401 out · 1.2s · $0.0009</div>
+          <div class="res">same value re-read: 650.00</div>
+        </div>
+        <div class="call esc"><span class="nd"></span>
+          <div class="t"><b>escalate</b><span class="model big">ESCALATION_MODEL</span></div>
+          <div class="meta">2,388 in · 421 out · 6.4s · $0.0391</div>
+          <div class="res">confirms printed total 650.00 · uncertain_fields: []</div>
+        </div>
+        <div class="call flag"><span class="nd"></span>
+          <div class="t"><b>flag for human review</b></div>
+          <div class="res warn">reason: printed math is inconsistent on the document</div>
+        </div>
+      </div>
+      <div class="verdict">
+        <b>Not guessed.</b>
+        <p>Two models read the same 650.00 four times, so the error is most likely on the invoice. Excluded from the $7,166.01 total until someone resolves it.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-h">Duplicate scan <span class="n mono" style="color:var(--good)">clear</span></div>
+      <div class="chk ok"><span class="i">✓</span><span class="m">no other WeWork · WW-88213</span></div>
+      <div class="chk ok"><span class="i">✓</span><span class="m">no WeWork · 650.00 within ±3 days</span></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary">Accept printed total <kbd>A</kbd></button>
+      <button class="btn">Override value <kbd>E</kbd></button>
+      <button class="btn">Mark as expected flag <kbd>F</kbd></button>
+      <button class="btn">Exclude <kbd>X</kbd></button>
+      <button class="btn">Save as label <kbd>L</kbd></button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span><kbd>J</kbd><kbd>K</kbd> next / prev</span>
+  <span><kbd>A</kbd> accept</span>
+  <span><kbd>E</kbd> edit field</span>
+  <span><kbd>B</kbd> toggle boxes</span>
+  <span><kbd>⌘K</kbd> command</span>
+  <span class="spacer"></span>
+  <span class="mono">small 13 · escalated 3 · human 2</span>
+  <span class="mono">tokens 41.2k in · 7.9k out</span>
+  <span class="mono">VISION_MODEL · TEXT_MODEL · ESCALATION_MODEL</span>
+</footer>
+
+<script>
+const DOCS = [
+  ['d13','wework-oct.pdf','WeWork',650.00,'USD','flagged','retry ×2 · escalated'],
+  ['d14','IMG_4471.heic','Unreadable',null,'USD','flagged','unreadable · escalated'],
+  ['d12','uber-1014.png','Uber',27.43,'USD','escalated','retry ×2 · escalated'],
+  ['d06','marriott-folio-scan.pdf','Marriott',638.24,'USD','repaired','retry ×1'],
+  ['d08','staples-1009.jpg','Staples',214.87,'USD','repaired','retry ×1'],
+  ['d11','figma-INV-2291 (1).pdf','Figma',180.00,'USD','duplicate','dup of d02'],
+  ['d01','aws-invoice-oct.pdf','Amazon Web Services',1284.37,'USD','verified','text'],
+  ['d02','figma-INV-2291.pdf','Figma',180.00,'USD','verified','text'],
+  ['d03','notion-receipt-1022.pdf','Notion Labs',96.00,'USD','verified','text'],
+  ['d04','priya-raman-inv-017.pdf','Priya Raman Design',3200.00,'USD','verified','text'],
+  ['d05','delta-eticket.jpg','Delta Air Lines',412.60,'USD','verified','vision'],
+  ['d07','blue-bottle-1012.jpg','Blue Bottle Coffee',38.50,'USD','verified','vision'],
+  ['d09','google-ads-oct.pdf','Google Ads',950.00,'USD','verified','text'],
+  ['d10','warung-made.jpg','Warung Made',385000,'IDR','verified','vision'],
+  ['d15','vercel-oct.pdf','Vercel',40.00,'USD','verified','text'],
+  ['d16','github-receipt.pdf','GitHub',84.00,'USD','verified','text'],
+];
+const ICON = {verified:'✓',repaired:'✓',escalated:'↑',flagged:'!',duplicate:'⧉'};
+const money = (v, cur) => v == null ? '—' : cur === 'IDR' ? 'Rp' + (v / 1000) + 'k' :
+  v.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const list = document.getElementById('docs');
+list.innerHTML = DOCS.map(([id, f, v, amt, cur, st, note], i) =>
+  `<div class="doc${i === 0 ? ' on' : ''}"><span class="si ${st}">${ICON[st]}</span>
+    <div style="min-width:0"><div class="v">${v}</div><div class="f">${id} · ${f}</div></div>
+    <div class="amt num">${money(amt, cur)}<small>${note}</small></div></div>`).join('');
+// Ghost interaction: selecting a row only moves the highlight.
+list.addEventListener('click', e => {
+  const row = e.target.closest('.doc');
+  if (!row) return;
+  list.querySelectorAll('.doc').forEach(d => d.classList.toggle('on', d === row));
+});
+</script>
+</body>
+</html>

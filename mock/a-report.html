@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tally · Spend Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Mock A: one-shot report. Upload → live pipeline → results, on one scrolling page. Stripe-dashboard inspired. -->
+<style>
+  :root {
+    --page: #f6f8fa;
+    --card: #ffffff;
+    --ink: #0a2540;
+    --ink-2: #425466;
+    --muted: #8792a2;
+    --line: #e3e8ee;
+    --line-2: #eef1f5;
+    --accent: #5b5bd6;
+    --accent-soft: #eeeefc;
+    --good: #0ca30c;
+    --good-soft: #e7f6e7;
+    --warn: #b97800;
+    --warn-soft: #fdf3dc;
+    --crit: #d03b3b;
+    --crit-soft: #fbeaea;
+    --info: #2a78d6;
+    --info-soft: #e6f0fb;
+
+    --c-software: #2a78d6;
+    --c-cloud: #eb6834;
+    --c-travel: #1baf7a;
+    --c-meals: #eda100;
+    --c-contractors: #e87ba4;
+    --c-office: #008300;
+    --c-marketing: #6250d6;
+    --c-other: #e34948;
+    --c-tax: #a3a29c;
+    --c-adjustments: #c3c2b7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--page); color: var(--ink);
+    font: 14px/1.45 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .num { font-variant-numeric: tabular-nums; }
+  a { color: var(--accent); text-decoration: none; }
+  button { font: inherit; cursor: pointer; }
+
+  header.top {
+    background: var(--card); border-bottom: 1px solid var(--line);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .top-inner {
+    max-width: 1120px; margin: 0 auto; padding: 12px 24px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 16px; }
+  .logo-mark {
+    width: 24px; height: 24px; border-radius: 6px; background: var(--accent);
+    color: #fff; display: grid; place-items: center; font-size: 13px;
+  }
+  .workspace { color: var(--ink-2); padding-left: 16px; border-left: 1px solid var(--line); }
+  .spacer { flex: 1; }
+  .btn {
+    border: 1px solid var(--line); background: var(--card); color: var(--ink);
+    border-radius: 6px; padding: 6px 12px; font-weight: 500;
+    box-shadow: 0 1px 1px rgba(10,37,64,.04);
+  }
+  .btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn-sm { padding: 3px 9px; font-size: 13px; }
+
+  main { max-width: 1120px; margin: 0 auto; padding: 24px; }
+
+  .steps { display: flex; gap: 8px; align-items: center; margin-bottom: 24px; flex-wrap: wrap; }
+  .step { display: flex; align-items: center; gap: 8px; color: var(--muted); font-weight: 500; }
+  .step .dot {
+    width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center;
+    font-size: 12px; background: var(--line); color: var(--ink-2);
+  }
+  .step.done .dot { background: var(--good-soft); color: var(--good); }
+  .step.done { color: var(--ink-2); }
+  .step.current .dot { background: var(--accent); color: #fff; }
+  .step.current { color: var(--ink); }
+  .step-sep { width: 32px; height: 1px; background: var(--line); }
+
+  h1 { font-size: 24px; margin: 0 0 4px; letter-spacing: -.01em; }
+  h2 { font-size: 16px; margin: 0; }
+  .sub { color: var(--ink-2); margin: 0; }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 32px 0 12px; flex-wrap: wrap; }
+
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(10,37,64,.04);
+  }
+  .card-head { padding: 14px 18px; border-bottom: 1px solid var(--line-2); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .card-body { padding: 18px; }
+  .card-title { font-weight: 600; }
+  .card-note { color: var(--muted); font-size: 13px; }
+
+  /* upload */
+  .drop {
+    border: 1.5px dashed #c1c9d6; border-radius: 8px; padding: 22px; text-align: center;
+    background: #fbfcfd;
+  }
+  .drop strong { display: block; font-size: 15px; margin-bottom: 2px; }
+  .file-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 12px;
+    background: var(--line-2); border-radius: 4px; padding: 3px 8px; color: var(--ink-2);
+  }
+  .chip .ext { font-weight: 600; color: var(--ink); text-transform: uppercase; font-size: 10px; }
+  .alt-in { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 14px; color: var(--ink-2); font-size: 13px; }
+  .alt-in code { background: var(--accent-soft); color: var(--accent); padding: 1px 6px; border-radius: 4px; }
+
+  /* pipeline table */
+  .progress { height: 6px; background: var(--line-2); border-radius: 3px; overflow: hidden; margin-top: 10px; }
+  .progress > div { height: 100%; width: 100%; background: var(--accent); }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 12px; font-weight: 500; color: var(--muted); padding: 8px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td { padding: 9px 12px; border-bottom: 1px solid var(--line-2); vertical-align: middle; }
+  tr:last-child td { border-bottom: 0; }
+  td.r, th.r { text-align: right; }
+  .file { font-weight: 500; }
+  .file small { display: block; color: var(--muted); font-weight: 400; font-size: 12px; }
+  .route { font-size: 11px; font-weight: 600; letter-spacing: .02em; padding: 2px 6px; border-radius: 4px; }
+  .route.text { background: var(--line-2); color: var(--ink-2); }
+  .route.vision { background: var(--accent-soft); color: var(--accent); }
+  .stages { display: flex; align-items: center; gap: 3px; }
+  .stage {
+    width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center;
+    font-size: 10px; font-weight: 700;
+  }
+  .stage.ok { background: var(--good-soft); color: var(--good); }
+  .stage.fail { background: var(--crit-soft); color: var(--crit); }
+  .stage.skip { background: transparent; color: #c9d0da; border: 1px dashed #d5dbe3; }
+  .stage.dup { background: var(--info-soft); color: var(--info); }
+  .stage-line { width: 6px; height: 1px; background: var(--line); }
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500;
+    padding: 2px 8px; border-radius: 10px; white-space: nowrap;
+  }
+  .badge.verified { background: var(--good-soft); color: #0b7a0b; }
+  .badge.repaired { background: var(--good-soft); color: #0b7a0b; }
+  .badge.escalated { background: var(--accent-soft); color: var(--accent); }
+  .badge.flagged { background: var(--crit-soft); color: var(--crit); }
+  .badge.duplicate { background: var(--info-soft); color: var(--info); }
+  .trace-row td { background: #fafbfd; padding-top: 0; }
+  .trace { font-size: 12.5px; color: var(--ink-2); border-left: 2px solid var(--accent); padding: 8px 12px; margin-left: 4px; }
+  .trace div { padding: 2px 0; }
+  .trace code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; }
+  .trace .bad { color: var(--crit); }
+  .trace .good { color: #0b7a0b; }
+  .legend-stages { display: flex; gap: 14px; flex-wrap: wrap; color: var(--muted); font-size: 12px; }
+
+  /* kpis */
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .kpi { padding: 16px 18px; }
+  .kpi .label { color: var(--ink-2); font-size: 13px; }
+  .kpi .value { font-size: 26px; font-weight: 600; letter-spacing: -.01em; margin: 4px 0 2px; }
+  .kpi .foot { color: var(--muted); font-size: 12px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--card); }
+  .seg button { border: 0; background: transparent; padding: 5px 12px; color: var(--ink-2); font-weight: 500; }
+  .seg button.on { background: var(--accent-soft); color: var(--accent); }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+  .sankey-wrap { padding: 12px 18px 18px; }
+  .sankey-wrap svg { width: 100%; height: auto; display: block; }
+  .sankey-wrap text { font-size: 11.5px; fill: var(--ink); paint-order: stroke; stroke: #fff; stroke-width: 3px; stroke-linejoin: round; }
+  .sankey-wrap text .amt { fill: var(--ink-2); }
+
+  .swatch { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 8px; vertical-align: 0; }
+  .barcell { width: 38%; }
+  .bar { height: 8px; background: var(--line-2); border-radius: 4px; overflow: hidden; }
+  .bar > div { height: 100%; border-radius: 0 4px 4px 0; }
+  .muted { color: var(--muted); }
+  tfoot td { font-weight: 600; border-top: 1px solid var(--line); }
+
+  .flag-item { display: flex; gap: 14px; padding: 14px 18px; border-bottom: 1px solid var(--line-2); align-items: flex-start; }
+  .flag-item:last-child { border-bottom: 0; }
+  .flag-icon { width: 28px; height: 28px; border-radius: 6px; display: grid; place-items: center; flex: none; font-weight: 700; }
+  .flag-icon.crit { background: var(--crit-soft); color: var(--crit); }
+  .flag-icon.dup { background: var(--info-soft); color: var(--info); }
+  .flag-body { flex: 1; min-width: 0; }
+  .flag-body .reason { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; color: var(--crit); background: var(--crit-soft); padding: 4px 8px; border-radius: 4px; display: inline-block; margin-top: 4px; }
+  .flag-body .reason.dup { color: var(--info); background: var(--info-soft); }
+
+  .bench { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; }
+  .bench > div { padding: 16px 18px; border-right: 1px solid var(--line-2); }
+  .bench > div:last-child { border-right: 0; }
+  .bench .big { font-size: 22px; font-weight: 600; }
+  .bench .vs { color: var(--muted); font-size: 12px; }
+  .pill-good { color: #006300; font-weight: 600; font-size: 12px; }
+
+  .export { display: flex; align-items: center; gap: 16px; padding: 18px; flex-wrap: wrap; }
+  .sheet-list { display: flex; gap: 6px; flex-wrap: wrap; }
+  footer { color: var(--muted); font-size: 12px; text-align: center; padding: 32px 0 48px; }
+
+  @media (max-width: 860px) {
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .grid2 { grid-template-columns: 1fr; }
+    .bench { grid-template-columns: 1fr 1fr; }
+    .bench > div { border-bottom: 1px solid var(--line-2); }
+    .hide-sm { display: none; }
+    main, .top-inner { padding-left: 16px; padding-right: 16px; }
+    .workspace { display: none; }
+  }
+  .scroll-x { overflow-x: auto; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="logo"><span class="logo-mark">T</span>Tally</div>
+    <div class="workspace">Kestrel Studio</div>
+    <div class="spacer"></div>
+    <button class="btn hide-sm">New run</button>
+    <button class="btn btn-primary">Download .xlsx</button>
+  </div>
+</header>
+
+<main>
+  <div class="steps">
+    <div class="step done"><span class="dot">✓</span>Upload</div>
+    <div class="step-sep"></div>
+    <div class="step done"><span class="dot">✓</span>Process</div>
+    <div class="step-sep"></div>
+    <div class="step current"><span class="dot">3</span>Report</div>
+  </div>
+
+  <h1>October 2026 spend report</h1>
+  <p class="sub">Run #14 · 16 documents · finished Nov 2, 2026 at 2:41 PM · took 41s</p>
+
+  <!-- 1. Upload -->
+  <div class="section-head"><h2>1 · Documents</h2><span class="card-note">PDF, JPG, PNG, HEIC · one invoice per file</span></div>
+  <div class="card">
+    <div class="card-body">
+      <div class="drop">
+        <strong>Drop more invoices and receipts here</strong>
+        <span class="muted">or <a href="#">browse files</a> to add them to this run</span>
+      </div>
+      <div class="file-chips" id="chips"></div>
+      <div class="alt-in">
+        <span>✉︎ Or forward them to <code>spend@kestrel.tally.app</code></span>
+        <a href="#">Connect Gmail</a>
+        <a href="#">Connect Google Drive</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Pipeline -->
+  <div class="section-head"><h2>2 · Processing</h2>
+    <div class="legend-stages">
+      <span>Stages: ingest · extract · checks · repair · escalate</span>
+      <span><span class="stage ok" style="display:inline-grid">✓</span> passed</span>
+      <span><span class="stage fail" style="display:inline-grid">✕</span> failed</span>
+      <span><span class="stage skip" style="display:inline-grid"></span> not needed</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="card-title">16 of 16 processed</div>
+        <div class="card-note">13 verified · 2 flagged for review · 1 duplicate held · $0.16 model cost</div>
+      </div>
+      <div class="card-note num">p50 3.0s · p95 13.1s per document</div>
+      <div class="progress" style="width:100%"><div></div></div>
+    </div>
+    <div class="scroll-x">
+      <table>
+        <thead><tr>
+          <th>Document</th><th class="hide-sm">Route</th><th>Pipeline</th><th>Result</th>
+          <th class="r">Total</th><th class="r hide-sm">Model cost</th><th class="r hide-sm">Time</th>
+        </tr></thead>
+        <tbody id="pipe"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 3. Results -->
+  <div class="section-head">
+    <h2>3 · Results</h2>
+    <div class="seg"><button class="on">USD</button><button>IDR</button></div>
+  </div>
+  <div class="kpis">
+    <div class="card kpi">
+      <div class="label">Verified spend</div>
+      <div class="value num">$7,166.01</div>
+      <div class="foot">13 documents · all checks passed</div>
+    </div>
+    <div class="card kpi">
+      <div class="label">Needs review</div>
+      <div class="value num">$650.00</div>
+      <div class="foot">2 flagged · not counted in totals</div>
+    </div>
+    <div class="card kpi">
+      <div class="label">Biggest category</div>
+      <div class="value">Contractors</div>
+      <div class="foot num">$3,200.00 · 44.7% of spend</div>
+    </div>
+    <div class="card kpi">
+      <div class="label">Cost to process</div>
+      <div class="value num">$0.16</div>
+      <div class="foot num">$0.010 per document</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="card-head">
+      <div class="card-title">Where the money went</div>
+      <div class="card-note">Total → category → vendor · hover a band for amounts</div>
+    </div>
+    <div class="sankey-wrap" id="sankey"></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-head"><div class="card-title">By category</div><div class="card-note">USD</div></div>
+      <table id="bycat"></table>
+    </div>
+    <div class="card">
+      <div class="card-head"><div class="card-title">By vendor</div><a href="#" class="card-note">All 12 →</a></div>
+      <table id="byvendor"></table>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-head"><div class="card-title">Needs your attention</div><span class="badge flagged">3 items</span></div>
+      <div class="flag-item">
+        <div class="flag-icon crit">!</div>
+        <div class="flag-body">
+          <div><strong>WeWork</strong> · wework-oct.pdf · <span class="num">$650.00</span></div>
+          <div class="reason">subtotal 600.00 + tax 48.00 = 648.00 ≠ printed total 650.00</div>
+          <div class="card-note" style="margin-top:6px">Both models read the same numbers, so the math on the invoice itself looks wrong.</div>
+        </div>
+        <button class="btn btn-sm">Review</button>
+      </div>
+      <div class="flag-item">
+        <div class="flag-icon crit">!</div>
+        <div class="flag-body">
+          <div><strong>Unknown vendor</strong> · IMG_4471.heic</div>
+          <div class="reason">unreadable: total, date not legible</div>
+          <div class="card-note" style="margin-top:6px">The large model couldn't read it either. Try a sharper photo.</div>
+        </div>
+        <button class="btn btn-sm">Re-upload</button>
+      </div>
+      <div class="flag-item">
+        <div class="flag-icon dup">⧉</div>
+        <div class="flag-body">
+          <div><strong>Figma</strong> · figma-INV-2291 (1).pdf · <span class="num">$180.00</span></div>
+          <div class="reason dup">duplicate of figma-INV-2291.pdf (same vendor + invoice #)</div>
+        </div>
+        <button class="btn btn-sm">Not a duplicate</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div class="card-title">By month</div><div class="card-note">by invoice date</div></div>
+      <table>
+        <thead><tr><th>Month</th><th class="r">Documents</th><th class="r">Spend</th></tr></thead>
+        <tbody>
+          <tr><td>September 2026</td><td class="r num">1</td><td class="r num">$412.60</td></tr>
+          <tr><td>October 2026</td><td class="r num">12</td><td class="r num">$6,753.41</td></tr>
+        </tbody>
+        <tfoot><tr><td>Total</td><td class="r num">13</td><td class="r num">$7,166.01</td></tr></tfoot>
+      </table>
+      <div class="card-body" style="border-top:1px solid var(--line-2)">
+        <div class="card-title" style="margin-bottom:6px">Other currencies</div>
+        <div class="card-note">Kept separate, never converted.</div>
+        <table style="margin-top:8px">
+          <tr><td>IDR · Warung Made (meals)</td><td class="r num">Rp 385,000</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Benchmark strip -->
+  <div class="section-head"><h2>How this compares</h2><a href="#" class="card-note">Full eval: 120 labeled documents →</a></div>
+  <div class="card bench">
+    <div>
+      <div class="card-title">Small model + checks</div>
+      <div class="card-note">vs. sending every document to the large model</div>
+    </div>
+    <div>
+      <div class="vs">Field accuracy</div>
+      <div class="big num">97.8%</div>
+      <div class="vs num">large model: 98.4%</div>
+    </div>
+    <div>
+      <div class="vs">Cost per document</div>
+      <div class="big num">$0.0068</div>
+      <div class="vs num">large model: $0.0412 · <span class="pill-good">6.1× cheaper</span></div>
+    </div>
+    <div>
+      <div class="vs">Median latency</div>
+      <div class="big num">3.4s</div>
+      <div class="vs num">large model: 7.6s</div>
+    </div>
+  </div>
+
+  <!-- Export -->
+  <div class="section-head"><h2>Export</h2></div>
+  <div class="card export">
+    <button class="btn btn-primary">Download kestrel-oct-2026.xlsx</button>
+    <button class="btn">Sankey (.html)</button>
+    <div class="sheet-list">
+      <span class="chip">Summary</span><span class="chip">By category</span><span class="chip">By vendor</span>
+      <span class="chip">By month</span><span class="chip">Line items</span><span class="chip">Flagged</span>
+    </div>
+  </div>
+
+  <footer>Each line item keeps its doc_id and page number. The model only reads values; all math is done in code with exact decimals.</footer>
+</main>
+
+<script>
+const DOCS = [
+  {id:'d01',file:'aws-invoice-oct.pdf',vendor:'Amazon Web Services',cur:'USD',total:1284.37,route:'text',status:'verified',cost:.0009,lat:2.4},
+  {id:'d02',file:'figma-INV-2291.pdf',vendor:'Figma',cur:'USD',total:180.00,route:'text',status:'verified',cost:.0006,lat:1.9},
+  {id:'d03',file:'notion-receipt-1022.pdf',vendor:'Notion Labs',cur:'USD',total:96.00,route:'text',status:'verified',cost:.0005,lat:1.7},
+  {id:'d04',file:'priya-raman-inv-017.pdf',vendor:'Priya Raman Design',cur:'USD',total:3200.00,route:'text',status:'verified',cost:.0007,lat:2.2},
+  {id:'d05',file:'delta-eticket.jpg',vendor:'Delta Air Lines',cur:'USD',total:412.60,route:'vision',status:'verified',cost:.0031,lat:4.1},
+  {id:'d06',file:'marriott-folio-scan.pdf',vendor:'Marriott',cur:'USD',total:638.24,route:'vision',status:'repaired',cost:.0058,lat:7.9,
+    trace:[['bad','checks: line 1: 2 × 231.06 ≠ 426.12'],['','repair 1/2 with VISION_MODEL: re-read line 1 amount'],['good','checks: all passed (amount 462.12)']]},
+  {id:'d07',file:'blue-bottle-1012.jpg',vendor:'Blue Bottle Coffee',cur:'USD',total:38.50,route:'vision',status:'verified',cost:.0024,lat:3.6},
+  {id:'d08',file:'staples-1009.jpg',vendor:'Staples',cur:'USD',total:214.87,route:'vision',status:'repaired',cost:.0049,lat:6.8},
+  {id:'d09',file:'google-ads-oct.pdf',vendor:'Google Ads',cur:'USD',total:950.00,route:'text',status:'verified',cost:.0006,lat:1.8},
+  {id:'d10',file:'warung-made.jpg',vendor:'Warung Made',cur:'IDR',total:385000,route:'vision',status:'verified',cost:.0027,lat:3.9},
+  {id:'d11',file:'figma-INV-2291 (1).pdf',vendor:'Figma',cur:'USD',total:180.00,route:'text',status:'duplicate',cost:.0006,lat:1.8},
+  {id:'d12',file:'uber-1014.png',vendor:'Uber',cur:'USD',total:27.43,route:'vision',status:'escalated',cost:.0490,lat:12.4},
+  {id:'d13',file:'wework-oct.pdf',vendor:'WeWork',cur:'USD',total:650.00,route:'text',status:'flagged',cost:.0417,lat:10.1},
+  {id:'d14',file:'IMG_4471.heic',vendor:'Unreadable',cur:'USD',total:null,route:'vision',status:'flagged',cost:.0461,lat:13.8},
+  {id:'d15',file:'vercel-oct.pdf',vendor:'Vercel',cur:'USD',total:40.00,route:'text',status:'verified',cost:.0005,lat:1.6},
+  {id:'d16',file:'github-receipt.pdf',vendor:'GitHub',cur:'USD',total:84.00,route:'text',status:'verified',cost:.0006,lat:1.7},
+];
+// ingest, extract, checks, repair, escalate
+const STAGES = {
+  verified:  ['ok','ok','ok','skip','skip'],
+  repaired:  ['ok','ok','fail','ok','skip'],
+  escalated: ['ok','ok','fail','fail','ok'],
+  flagged:   ['ok','ok','fail','fail','fail'],
+  duplicate: ['ok','ok','ok','skip','dup'],
+};
+const LABEL = {verified:'Verified',repaired:'Verified after retry',escalated:'Verified by large model',flagged:'Flagged',duplicate:'Duplicate'};
+const ICON = {ok:'✓',fail:'✕',skip:'',dup:'⧉'};
+
+const money = (v, cur='USD') => v == null ? '—' :
+  cur === 'IDR' ? 'Rp ' + v.toLocaleString('en-US') :
+  '$' + v.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+document.getElementById('chips').innerHTML = DOCS.map(d =>
+  `<span class="chip"><span class="ext">${d.file.split('.').pop()}</span>${d.file}</span>`).join('');
+
+document.getElementById('pipe').innerHTML = DOCS.map(d => {
+  const st = STAGES[d.status].map(s => `<span class="stage ${s}">${ICON[s]}</span>`).join('<span class="stage-line"></span>');
+  let row = `<tr>
+    <td class="file">${d.vendor}<small>${d.file}</small></td>
+    <td class="hide-sm"><span class="route ${d.route}">${d.route.toUpperCase()}</span></td>
+    <td><div class="stages">${st}</div></td>
+    <td><span class="badge ${d.status}">${LABEL[d.status]}</span></td>
+    <td class="r num">${money(d.total, d.cur)}</td>
+    <td class="r num hide-sm">$${d.cost.toFixed(4)}</td>
+    <td class="r num hide-sm">${d.lat.toFixed(1)}s</td>
+  </tr>`;
+  if (d.trace) row += `<tr class="trace-row"><td colspan="7"><div class="trace">${
+    d.trace.map(([c, t]) => `<div class="${c}"><code>${t}</code></div>`).join('')}</div></td></tr>`;
+  return row;
+}).join('');
+
+// Category and vendor data (USD, verified only). Tax and adjustments are their own buckets.
+const CATS = [
+  {id:'contractors',label:'Contractors',v:3200.00},
+  {id:'cloud',label:'Cloud',v:1324.37},
+  {id:'travel',label:'Travel',v:1000.15},
+  {id:'marketing',label:'Marketing',v:950.00},
+  {id:'software',label:'Software',v:360.00},
+  {id:'office',label:'Office',v:197.25},
+  {id:'meals',label:'Meals',v:30.40},
+  {id:'tax',label:'Tax',v:94.84},
+  {id:'adjustments',label:'Tips & fees',v:9.00},
+];
+const VENDORS = [
+  ['Priya Raman Design','contractors',3200.00],['Amazon Web Services','cloud',1284.37],['Vercel','cloud',40.00],
+  ['Marriott','travel',564.12],['Delta Air Lines','travel',412.60],['Uber','travel',23.43],
+  ['Google Ads','marketing',950.00],['Figma','software',180.00],['Notion Labs','software',96.00],
+  ['GitHub','software',84.00],['Staples','office',197.25],['Blue Bottle Coffee','meals',30.40],
+];
+const color = id => `var(--c-${id})`;
+const TOTAL = 7166.01;
+
+document.getElementById('bycat').innerHTML = `<thead><tr><th>Category</th><th class="barcell"></th><th class="r">Share</th><th class="r">Spend</th></tr></thead><tbody>` +
+  CATS.map(c => `<tr>
+    <td><span class="swatch" style="background:${color(c.id)}"></span>${c.label}</td>
+    <td class="barcell"><div class="bar"><div style="width:${c.v / 3200 * 100}%;background:${color(c.id)}"></div></div></td>
+    <td class="r num muted">${(c.v / TOTAL * 100).toFixed(1)}%</td>
+    <td class="r num">${money(c.v)}</td></tr>`).join('') +
+  `</tbody><tfoot><tr><td>Total</td><td></td><td class="r num">100%</td><td class="r num">${money(TOTAL)}</td></tr></tfoot>`;
+
+const topV = [...VENDORS].sort((a, b) => b[2] - a[2]).slice(0, 8);
+document.getElementById('byvendor').innerHTML = `<thead><tr><th>Vendor</th><th>Category</th><th class="r">Spend</th></tr></thead><tbody>` +
+  topV.map(([n, c, v]) => `<tr><td>${n}</td><td class="muted"><span class="swatch" style="background:${color(c)}"></span>${CATS.find(x => x.id === c).label}</td><td class="r num">${money(v)}</td></tr>`).join('') + '</tbody>';
+
+function drawSankey(el, nodes, links, {width = 900, height = 420, nodeW = 10, pad = 14, labelW = 200} = {}) {
+  const byId = Object.fromEntries(nodes.map(n => [n.id, {...n, in: 0, out: 0}]));
+  links.forEach(l => { byId[l.s].out += l.v; byId[l.t].in += l.v; });
+  const N = Object.values(byId);
+  N.forEach(n => n.v = Math.max(n.in, n.out));
+  const cols = [...new Set(N.map(n => n.col))].sort();
+  const colNodes = cols.map(c => N.filter(n => n.col === c));
+  const k = Math.min(...colNodes.map(ns => (height - pad * (ns.length - 1)) / ns.reduce((a, n) => a + n.v, 0)));
+  const span = width - labelW - nodeW;
+  colNodes.forEach((ns, i) => {
+    let y = 0;
+    const x = i * span / (cols.length - 1);
+    ns.forEach(n => { n.x = x; n.y = y; n.h = Math.max(n.v * k, 2); n.sy = y; n.ty = y; y += n.h + pad; });
+  });
+  const fullH = Math.max(...N.map(n => n.y + n.h)) + 8;
+  let s = `<svg viewBox="0 0 ${width} ${fullH}" role="img" aria-label="Sankey diagram of spend by category and vendor">`;
+  links.forEach(l => {
+    const a = byId[l.s], b = byId[l.t], h = Math.max(l.v * k, 1);
+    const x0 = a.x + nodeW, x1 = b.x, xm = (x0 + x1) / 2, y0 = a.sy, y1 = b.ty;
+    a.sy += h; b.ty += h;
+    const fill = a.col === 0 ? b.color : a.color;
+    s += `<path d="M${x0},${y0}C${xm},${y0} ${xm},${y1} ${x1},${y1}L${x1},${y1 + h}C${xm},${y1 + h} ${xm},${y0 + h} ${x0},${y0 + h}Z" style="fill:${fill};fill-opacity:.3"><title>${a.label} → ${b.label}: ${money(l.v)}</title></path>`;
+  });
+  N.forEach(n => {
+    s += `<rect x="${n.x}" y="${n.y}" width="${nodeW}" height="${n.h}" rx="2" style="fill:${n.color}"><title>${n.label}: ${money(n.v)}</title></rect>`;
+    s += `<text x="${n.x + nodeW + 6}" y="${n.y + n.h / 2}" dominant-baseline="middle">${n.label} <tspan class="amt">${money(n.v)}</tspan></text>`;
+  });
+  el.innerHTML = s + '</svg>';
+}
+
+drawSankey(document.getElementById('sankey'),
+  [{id:'total',label:'Verified spend',col:0,color:'#0a2540'},
+   ...CATS.map(c => ({id:c.id,label:c.label,col:1,color:color(c.id)})),
+   ...VENDORS.map(([n, c]) => ({id:n,label:n,col:2,color:color(c)}))],
+  [...CATS.map(c => ({s:'total',t:c.id,v:c.v})),
+   ...VENDORS.map(([n, c, v]) => ({s:c,t:n,v}))]);
+</script>
+</body>
+</html>

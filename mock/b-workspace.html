@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tally · Workspace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Mock B: ongoing spend workspace. Sidebar app with Overview, Inbox, Review, Ledger, Vendors, Benchmark, Settings. Ramp / Mercury inspired. -->
+<style>
+  :root {
+    --page: #f7f7f4;
+    --card: #ffffff;
+    --side: #f0f0ea;
+    --ink: #1b1b18;
+    --ink-2: #5a5a53;
+    --muted: #8c8b83;
+    --line: #e4e3db;
+    --line-2: #efeee8;
+    --brand: #1f4d3a;
+    --brand-2: #2f6b52;
+    --lime: #d7f36b;
+    --lime-soft: #f2fbd2;
+    --good: #0ca30c;
+    --good-ink: #006300;
+    --good-soft: #e6f5e3;
+    --warn-ink: #8a5a00;
+    --warn-soft: #fdf1d6;
+    --crit: #d03b3b;
+    --crit-soft: #fbe9e7;
+    --info: #2a78d6;
+    --info-soft: #e7f0fb;
+
+    --c-software: #2a78d6;
+    --c-cloud: #eb6834;
+    --c-travel: #1baf7a;
+    --c-meals: #eda100;
+    --c-contractors: #e87ba4;
+    --c-office: #008300;
+    --c-marketing: #6250d6;
+    --c-other: #e34948;
+    --c-tax: #a3a29c;
+    --c-adjustments: #c3c2b7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--page); color: var(--ink);
+    font: 14px/1.45 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .num { font-variant-numeric: tabular-nums; }
+  a { color: var(--brand-2); text-decoration: none; }
+  button { font: inherit; cursor: pointer; color: inherit; }
+
+  .app { display: grid; grid-template-columns: 232px 1fr; min-height: 100vh; }
+  aside {
+    background: var(--side); border-right: 1px solid var(--line); padding: 16px 12px;
+    display: flex; flex-direction: column; gap: 2px; position: sticky; top: 0; height: 100vh;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; padding: 4px 8px 16px; }
+  .brand-mark { width: 28px; height: 28px; border-radius: 8px; background: var(--brand); color: var(--lime); display: grid; place-items: center; font-weight: 700; }
+  .brand b { display: block; }
+  .brand small { color: var(--muted); font-size: 12px; }
+  .nav {
+    display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 7px;
+    color: var(--ink-2); font-weight: 500; border: 0; background: none; width: 100%; text-align: left;
+  }
+  .nav:hover { background: rgba(0,0,0,.04); }
+  .nav.on { background: var(--card); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+  .nav .ic { width: 18px; text-align: center; opacity: .8; }
+  .nav .count { margin-left: auto; font-size: 12px; background: var(--crit-soft); color: var(--crit); border-radius: 9px; padding: 0 7px; }
+  .nav .count.soft { background: var(--line); color: var(--ink-2); }
+  .nav-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; padding: 14px 10px 4px; }
+  .side-foot { margin-top: auto; padding: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; font-size: 12px; color: var(--ink-2); }
+  .side-foot code { display: block; margin-top: 4px; color: var(--brand); font-size: 12px; word-break: break-all; }
+
+  .topbar {
+    display: flex; align-items: center; gap: 12px; padding: 14px 28px;
+    border-bottom: 1px solid var(--line); background: var(--page); position: sticky; top: 0; z-index: 5;
+  }
+  .search { flex: 1; max-width: 420px; display: flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px; color: var(--muted); }
+  .search kbd { margin-left: auto; font: 11px ui-monospace, Menlo, monospace; background: var(--line-2); padding: 1px 5px; border-radius: 4px; }
+  .spacer { flex: 1; }
+  .btn { border: 1px solid var(--line); background: var(--card); border-radius: 8px; padding: 7px 14px; font-weight: 500; }
+  .btn-primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+  .btn-lime { background: var(--lime); border-color: #c4e255; color: var(--brand); font-weight: 600; }
+  .btn-sm { padding: 4px 10px; font-size: 13px; border-radius: 6px; }
+  .period { display: flex; align-items: center; gap: 6px; }
+
+  .content { padding: 24px 28px 48px; max-width: 1180px; }
+  .view { display: none; }
+  .view.on { display: block; }
+  h1 { font-size: 26px; margin: 0; letter-spacing: -.015em; font-weight: 600; }
+  .lede { color: var(--ink-2); margin: 4px 0 20px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
+  .card-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 0; gap: 12px; flex-wrap: wrap; }
+  .card-title { font-weight: 600; }
+  .card-note { color: var(--muted); font-size: 13px; }
+  .card-body { padding: 16px 20px 20px; }
+  .muted { color: var(--muted); }
+
+  .hero { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .hero-num { font-size: 40px; font-weight: 600; letter-spacing: -.02em; margin: 6px 0 4px; }
+  .delta { color: var(--good-ink); font-weight: 500; font-size: 13px; }
+  .hero .row { display: flex; gap: 28px; margin-top: 14px; flex-wrap: wrap; }
+  .hero .row div { font-size: 13px; color: var(--ink-2); }
+  .hero .row b { display: block; font-size: 16px; color: var(--ink); }
+  .attn-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line-2); }
+  .attn-item:last-child { border-bottom: 0; }
+  .attn-ic { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; font-weight: 700; flex: none; }
+  .attn-ic.crit { background: var(--crit-soft); color: var(--crit); }
+  .attn-ic.dup { background: var(--info-soft); color: var(--info); }
+  .attn-ic.ok { background: var(--good-soft); color: var(--good-ink); }
+  .attn-item .t { flex: 1; min-width: 0; }
+  .attn-item .t small { display: block; color: var(--muted); }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+  .grid3 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-top: 16px; }
+
+  /* month bars */
+  .bars { display: flex; align-items: flex-end; gap: 14px; height: 150px; padding-top: 10px; border-bottom: 1px solid #c3c2b7; }
+  .bars .b { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; position: relative; }
+  .bars .b .fill { width: 100%; max-width: 44px; border-radius: 4px 4px 0 0; background: #86b6ef; }
+  .bars .b.cur .fill { background: #2a78d6; }
+  .bars .b.mtd .fill { background: repeating-linear-gradient(45deg, #cde2fb, #cde2fb 4px, #b7d3f6 4px, #b7d3f6 8px); }
+  .bars .b .v { font-size: 11px; color: var(--ink-2); margin-bottom: 4px; }
+  .bars .b:hover .fill { filter: brightness(.92); }
+  .bar-labels { display: flex; gap: 14px; margin-top: 6px; }
+  .bar-labels span { flex: 1; text-align: center; font-size: 12px; color: var(--muted); }
+
+  .sankey-wrap svg { width: 100%; height: auto; display: block; }
+  .sankey-wrap text { font-size: 11.5px; fill: var(--ink); paint-order: stroke; stroke: #fff; stroke-width: 3px; stroke-linejoin: round; }
+  .sankey-wrap .amt { fill: var(--ink-2); }
+
+  .stack { display: flex; height: 12px; border-radius: 6px; overflow: hidden; gap: 2px; margin: 6px 0 14px; }
+  .stack div:first-child { border-radius: 6px 0 0 6px; }
+  .stack div:last-child { border-radius: 0 6px 6px 0; }
+  .cat-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 13px; }
+  .swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; display: inline-block; }
+  .cat-row .amt { margin-left: auto; }
+  .cat-row .pct { width: 48px; text-align: right; color: var(--muted); }
+
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 12px; font-weight: 500; color: var(--muted); padding: 10px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td { padding: 11px 14px; border-bottom: 1px solid var(--line-2); }
+  tr:last-child td { border-bottom: 0; }
+  tbody tr:hover td { background: #fafaf7; }
+  .r { text-align: right; }
+  .vendor-cell { display: flex; align-items: center; gap: 10px; }
+  .avatar { width: 28px; height: 28px; border-radius: 7px; display: grid; place-items: center; font-weight: 600; font-size: 12px; color: #fff; flex: none; }
+  .vendor-cell small { display: block; color: var(--muted); font-size: 12px; }
+  .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; padding: 2px 9px; border-radius: 10px; white-space: nowrap; }
+  .badge.verified, .badge.repaired { background: var(--good-soft); color: var(--good-ink); }
+  .badge.escalated { background: var(--lime-soft); color: #4d6200; }
+  .badge.flagged { background: var(--crit-soft); color: var(--crit); }
+  .badge.duplicate { background: var(--info-soft); color: var(--info); }
+  .badge.processing { background: var(--warn-soft); color: var(--warn-ink); }
+  .src { font-size: 12px; color: var(--ink-2); }
+  .tabs { display: flex; gap: 4px; padding: 0 20px; border-bottom: 1px solid var(--line); }
+  .tabs button { border: 0; background: none; padding: 12px 10px; color: var(--muted); font-weight: 500; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tabs button.on { color: var(--ink); border-color: var(--brand); }
+
+  .ingest { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .ingest .card { padding: 16px; }
+  .drop { border: 1.5px dashed #c9c8bd; border-radius: 10px; padding: 14px; text-align: center; color: var(--ink-2); background: #fcfcfa; }
+  .conn { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; gap: 8px; }
+  .status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; }
+
+  /* review */
+  .review { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .doc-preview { background: #ecebe5; padding: 24px; border-right: 1px solid var(--line); border-radius: 12px 0 0 12px; }
+  .paper { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,.08); padding: 28px; font-size: 12px; max-width: 380px; margin: 0 auto; }
+  .paper .hd { display: flex; justify-content: space-between; margin-bottom: 18px; }
+  .paper .row { display: flex; justify-content: space-between; padding: 4px 0; }
+  .paper .hl { outline: 2px solid var(--crit); outline-offset: 2px; border-radius: 2px; background: var(--crit-soft); }
+  .form { padding: 20px; }
+  .field { display: grid; grid-template-columns: 110px 1fr; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .field label { color: var(--muted); font-size: 13px; }
+  .field input { font: inherit; border: 1px solid var(--line); border-radius: 7px; padding: 6px 10px; width: 100%; background: #fff; }
+  .field input.bad { border-color: var(--crit); background: var(--crit-soft); }
+  .check { display: flex; gap: 8px; font-size: 13px; padding: 4px 0; }
+  .check .ok { color: var(--good-ink); }
+  .check .x { color: var(--crit); }
+  .callout { background: var(--crit-soft); color: #8e2626; border-radius: 8px; padding: 10px 12px; font-size: 13px; margin: 14px 0; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .queue { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .queue .q { padding: 8px 12px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; font-size: 13px; }
+  .queue .q.on { border-color: var(--brand); box-shadow: 0 0 0 1px var(--brand); }
+
+  /* benchmark */
+  .scatter svg { width: 100%; height: auto; display: block; }
+  .scatter text { font-size: 11.5px; fill: var(--ink-2); }
+  .scatter .lbl { fill: var(--ink); font-weight: 500; }
+
+  /* settings */
+  .toggle { width: 34px; height: 20px; border-radius: 10px; background: var(--line); position: relative; flex: none; }
+  .toggle::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+  .toggle.on { background: var(--brand-2); }
+  .toggle.on::after { left: 16px; }
+  .set-row { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line-2); }
+  .set-row:last-child { border-bottom: 0; }
+  .set-row .t { flex: 1; }
+  .set-row small { display: block; color: var(--muted); }
+
+  @media (max-width: 900px) {
+    .app { grid-template-columns: 1fr; }
+    aside { position: static; height: auto; flex-direction: row; flex-wrap: wrap; }
+    .brand, .nav-label, .side-foot { display: none; }
+    .nav { width: auto; }
+    .hero, .grid2, .grid3, .review, .ingest { grid-template-columns: 1fr; }
+    .topbar, .content { padding-left: 16px; padding-right: 16px; }
+    .search { display: none; }
+    .doc-preview { border-radius: 12px 12px 0 0; border-right: 0; }
+  }
+  .scroll-x { overflow-x: auto; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="brand"><div class="brand-mark">T</div><div><b>Kestrel Studio</b><small>Tally workspace</small></div></div>
+    <button class="nav on" data-view="overview"><span class="ic">◐</span>Overview</button>
+    <button class="nav" data-view="inbox"><span class="ic">⇣</span>Inbox<span class="count soft">16</span></button>
+    <button class="nav" data-view="review"><span class="ic">!</span>Review<span class="count">3</span></button>
+    <button class="nav" data-view="ledger"><span class="ic">≡</span>Line items</button>
+    <button class="nav" data-view="vendors"><span class="ic">◎</span>Vendors</button>
+    <div class="nav-label">Insights</div>
+    <button class="nav" data-view="bench"><span class="ic">⚖</span>Model benchmark</button>
+    <button class="nav" data-view="settings"><span class="ic">⚙</span>Settings</button>
+    <div class="side-foot">
+      Forward invoices to
+      <code>spend@kestrel.tally.app</code>
+    </div>
+  </aside>
+
+  <div>
+    <div class="topbar">
+      <div class="search">⌕ Search vendors, invoices, amounts<kbd>⌘K</kbd></div>
+      <div class="spacer"></div>
+      <div class="period">
+        <button class="btn btn-sm">‹</button>
+        <button class="btn btn-sm">October 2026 ▾</button>
+        <button class="btn btn-sm">›</button>
+      </div>
+      <button class="btn">Export .xlsx</button>
+      <button class="btn btn-primary">+ Upload</button>
+    </div>
+
+    <div class="content">
+
+      <!-- OVERVIEW -->
+      <section class="view on" id="v-overview">
+        <h1>October spend</h1>
+        <p class="lede">13 verified documents · last update 2:41 PM today from Gmail and upload</p>
+
+        <div class="hero">
+          <div class="card card-body">
+            <div class="card-note">Verified spend · USD</div>
+            <div class="hero-num num">$7,166.01</div>
+            <div class="delta num">▲ $776.01 (12.1%) vs September</div>
+            <div class="row">
+              <div><b class="num">13</b>documents</div>
+              <div><b class="num">12</b>vendors</div>
+              <div><b class="num">Rp 385,000</b>in IDR, kept separate</div>
+            </div>
+          </div>
+          <div class="card card-body">
+            <div class="card-title" style="margin-bottom:6px">Needs attention</div>
+            <div class="attn-item"><div class="attn-ic crit">!</div><div class="t">WeWork math doesn't add up<small>The invoice's own total is off by $2.00</small></div><button class="btn btn-sm" data-go="review">Review</button></div>
+            <div class="attn-item"><div class="attn-ic crit">!</div><div class="t">Receipt photo unreadable<small>IMG_4471.heic</small></div><button class="btn btn-sm" data-go="review">Review</button></div>
+            <div class="attn-item"><div class="attn-ic dup">⧉</div><div class="t">Possible duplicate: Figma<small>INV-2291 uploaded twice · held out of totals</small></div><button class="btn btn-sm" data-go="review">Check</button></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div class="card-title">Where the money went</div><div class="card-note">Hover a band for amounts</div></div>
+          <div class="card-body sankey-wrap" id="sankey"></div>
+        </div>
+
+        <div class="grid3">
+          <div class="card">
+            <div class="card-head"><div class="card-title">Monthly spend</div><div class="card-note">USD · verified only · Nov is month-to-date</div></div>
+            <div class="card-body">
+              <div class="bars" id="bars"></div>
+              <div class="bar-labels" id="barlabels"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><div class="card-title">By category</div></div>
+            <div class="card-body" id="cats"></div>
+          </div>
+        </div>
+
+        <div class="grid2">
+          <div class="card">
+            <div class="card-head"><div class="card-title">Top vendors</div><a href="#" data-go="vendors" class="card-note">All vendors →</a></div>
+            <table id="topv"></table>
+          </div>
+          <div class="card">
+            <div class="card-head"><div class="card-title">Weekly digest</div><span class="badge verified">On · Mondays 9 AM</span></div>
+            <div class="card-body">
+              <p style="margin:0 0 10px;color:var(--ink-2)">Every Monday, the team gets an email with:</p>
+              <div class="check"><span class="ok">✓</span>New spend since last week, by category</div>
+              <div class="check"><span class="ok">✓</span>Items that need review, with links</div>
+              <div class="check"><span class="ok">✓</span>New vendors seen for the first time</div>
+              <div class="check"><span class="ok">✓</span>Spend over the $500 category alert</div>
+              <div class="actions"><button class="btn btn-sm">Preview email</button><button class="btn btn-sm">Edit recipients (3)</button></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- INBOX -->
+      <section class="view" id="v-inbox">
+        <h1>Inbox</h1>
+        <p class="lede">Each document gets read, its math checked, then it's added to your books.</p>
+        <div class="ingest">
+          <div class="card"><div class="drop"><b>Drop files</b><br><span class="muted">PDF, JPG, PNG, HEIC</span></div></div>
+          <div class="card"><div class="card-title">Email</div><div class="card-note">spend@kestrel.tally.app</div><div class="conn"><span><span class="status-dot" style="background:var(--good)"></span>Active</span><span class="muted num">9 this month</span></div></div>
+          <div class="card"><div class="card-title">Gmail</div><div class="card-note">billing@kestrel.studio</div><div class="conn"><span><span class="status-dot" style="background:var(--good)"></span>Connected</span><span class="muted num">4 this month</span></div></div>
+          <div class="card"><div class="card-title">Google Drive</div><div class="card-note">Watch a folder</div><div class="conn"><span class="muted">Not connected</span><button class="btn btn-sm">Connect</button></div></div>
+        </div>
+        <div class="card">
+          <div class="tabs"><button class="on">All 16</button><button>Verified 13</button><button>Needs review 2</button><button>Duplicates 1</button></div>
+          <div class="scroll-x"><table id="inbox"></table></div>
+        </div>
+      </section>
+
+      <!-- REVIEW -->
+      <section class="view" id="v-review">
+        <h1>Review</h1>
+        <p class="lede">Tally won't guess. These were held back from your totals until someone checks them.</p>
+        <div class="queue">
+          <div class="q on"><b>WeWork</b> · math mismatch</div>
+          <div class="q">IMG_4471.heic · unreadable</div>
+          <div class="q">Figma · duplicate?</div>
+        </div>
+        <div class="card review">
+          <div class="doc-preview">
+            <div class="paper">
+              <div class="hd"><div><b style="font-size:15px">WeWork</b><br>115 W 18th St, New York</div><div style="text-align:right">INVOICE<br>WW-88213<br>Oct 1, 2026</div></div>
+              <div class="muted" style="margin-bottom:8px">Bill to: Kestrel Studio</div>
+              <div class="row"><span>Dedicated desk — October</span><span class="num">450.00</span></div>
+              <div class="row"><span>Meeting room credits (10 × 15.00)</span><span class="num">150.00</span></div>
+              <hr style="border:0;border-top:1px solid #ddd">
+              <div class="row"><span>Subtotal</span><span class="num">600.00</span></div>
+              <div class="row"><span>Sales tax 8%</span><span class="num">48.00</span></div>
+              <div class="row hl"><b>Total due (USD)</b><b class="num">650.00</b></div>
+            </div>
+            <div class="card-note" style="text-align:center;margin-top:10px">Page 1 of 1 · <a href="#">open original</a></div>
+          </div>
+          <div class="form">
+            <div class="field"><label>Vendor</label><input value="WeWork"></div>
+            <div class="field"><label>Invoice #</label><input value="WW-88213"></div>
+            <div class="field"><label>Date</label><input value="2026-10-01"></div>
+            <div class="field"><label>Subtotal</label><input value="600.00"></div>
+            <div class="field"><label>Tax</label><input value="48.00"></div>
+            <div class="field"><label>Total</label><input class="bad" value="650.00"></div>
+            <div class="field"><label>Category</label><input value="Office"></div>
+            <div class="check"><span class="ok">✓</span>Line amounts add up to subtotal (600.00)</div>
+            <div class="check"><span class="x">✕</span>600.00 + 48.00 = 648.00, but the invoice says 650.00</div>
+            <div class="callout">Both the small and large model read <b>650.00</b>, so the mistake is probably on the invoice. Ask WeWork for a corrected invoice, or approve the printed total.</div>
+            <div class="actions">
+              <button class="btn btn-primary">Approve $650.00</button>
+              <button class="btn">Use $648.00</button>
+              <button class="btn">Email vendor</button>
+              <button class="btn">Exclude</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LEDGER -->
+      <section class="view" id="v-ledger">
+        <h1>Line items</h1>
+        <p class="lede">Every row links to its source document and page.</p>
+        <div class="card">
+          <div class="tabs"><button class="on">All categories</button><button>Software</button><button>Cloud</button><button>Travel</button><button>Contractors</button><button>Marketing</button><button>Office</button><button>Meals</button></div>
+          <div class="scroll-x"><table id="ledger"></table></div>
+        </div>
+      </section>
+
+      <!-- VENDORS -->
+      <section class="view" id="v-vendors">
+        <h1>Vendors</h1>
+        <p class="lede">Different spellings of the same vendor are merged automatically. Unclear matches are confirmed by the model.</p>
+        <div class="card"><div class="scroll-x"><table id="vendors"></table></div></div>
+      </section>
+
+      <!-- BENCHMARK -->
+      <section class="view" id="v-bench">
+        <h1>Model benchmark</h1>
+        <p class="lede">120 labeled real documents. Small model plus math checks against a large model reading everything.</p>
+        <div class="grid3" style="margin-top:0">
+          <div class="card">
+            <div class="card-head"><div class="card-title">Accuracy vs. cost per document</div><div class="card-note">Up and to the left is better</div></div>
+            <div class="card-body scatter" id="scatter"></div>
+          </div>
+          <div class="card card-body">
+            <div class="card-note">Recommended setup</div>
+            <div style="font-size:20px;font-weight:600;margin:4px 0 12px">Small + checks + escalate</div>
+            <div class="cat-row"><span>Field accuracy</span><span class="amt num"><b>97.8%</b> vs 98.4%</span></div>
+            <div class="cat-row"><span>Cost / document</span><span class="amt num"><b>$0.0068</b> vs $0.0412</span></div>
+            <div class="cat-row"><span>Median latency</span><span class="amt num"><b>3.4s</b> vs 7.6s</span></div>
+            <div class="cat-row"><span>Sent to large model</span><span class="amt num"><b>11%</b> of docs</span></div>
+            <div class="cat-row"><span>Sent to a human</span><span class="amt num"><b>2.5%</b> of docs</span></div>
+            <p class="card-note" style="margin-top:12px">Note: the large model pre-filled the labels, which may favor it. 6.2% of fields were corrected by hand.</p>
+          </div>
+        </div>
+        <div class="card" style="margin-top:16px"><div class="scroll-x"><table id="evaltable"></table></div></div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="view" id="v-settings">
+        <h1>Settings</h1>
+        <p class="lede">How documents come in and what happens to them.</p>
+        <div class="grid2" style="margin-top:0">
+          <div class="card card-body">
+            <div class="card-title">Automation</div>
+            <div class="set-row"><div class="t">Process new inbox items automatically<small>No need to press “Run”</small></div><div class="toggle on"></div></div>
+            <div class="set-row"><div class="t">Weekly digest email<small>Mondays at 9 AM · 3 recipients</small></div><div class="toggle on"></div></div>
+            <div class="set-row"><div class="t">Monthly close report<small>xlsx sent on the 1st of each month</small></div><div class="toggle"></div></div>
+            <div class="set-row"><div class="t">Alert when a category goes over budget<small>Set a monthly limit per category</small></div><div class="toggle on"></div></div>
+            <div class="set-row"><div class="t">Zoom into hard-to-read regions<small>Experimental: more accurate, slower</small></div><div class="toggle"></div></div>
+          </div>
+          <div class="card card-body">
+            <div class="card-title">Categories</div>
+            <div class="card-note" style="margin-bottom:8px">Each description tells the model what belongs in the category</div>
+            <div id="catset"></div>
+            <button class="btn btn-sm" style="margin-top:10px">+ Add category</button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const money = (v, cur='USD') => v == null ? '—' :
+  cur === 'IDR' ? 'Rp ' + v.toLocaleString('en-US') :
+  '$' + v.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const color = id => `var(--c-${id})`;
+const TOTAL = 7166.01;
+
+const CATS = [
+  {id:'contractors',label:'Contractors',v:3200.00,desc:'Freelancers, agencies, consultants'},
+  {id:'cloud',label:'Cloud',v:1324.37,desc:'Hosting, compute, storage, CDN'},
+  {id:'travel',label:'Travel',v:1000.15,desc:'Flights, hotels, rides, mileage'},
+  {id:'marketing',label:'Marketing',v:950.00,desc:'Ads, sponsorships, events'},
+  {id:'software',label:'Software',v:360.00,desc:'SaaS subscriptions and licenses'},
+  {id:'office',label:'Office',v:197.25,desc:'Supplies, coworking, equipment'},
+  {id:'meals',label:'Meals',v:30.40,desc:'Team meals, client meals, coffee'},
+  {id:'tax',label:'Tax',v:94.84},
+  {id:'adjustments',label:'Tips & fees',v:9.00},
+];
+const catLabel = id => (CATS.find(c => c.id === id) || {label: 'Other'}).label;
+const VENDORS = [
+  ['Priya Raman Design','contractors',3200.00],['Amazon Web Services','cloud',1284.37],['Vercel','cloud',40.00],
+  ['Marriott','travel',564.12],['Delta Air Lines','travel',412.60],['Uber','travel',23.43],
+  ['Google Ads','marketing',950.00],['Figma','software',180.00],['Notion Labs','software',96.00],
+  ['GitHub','software',84.00],['Staples','office',197.25],['Blue Bottle Coffee','meals',30.40],
+];
+
+// nav
+document.querySelectorAll('[data-view], [data-go]').forEach(b => b.addEventListener('click', e => {
+  e.preventDefault();
+  const v = b.dataset.view || b.dataset.go;
+  document.querySelectorAll('.nav').forEach(n => n.classList.toggle('on', n.dataset.view === v));
+  document.querySelectorAll('.view').forEach(s => s.classList.toggle('on', s.id === 'v-' + v));
+  window.scrollTo(0, 0);
+}));
+
+// monthly bars
+const MONTHS = [['May',5820],['Jun',6140],['Jul',6910],['Aug',6480],['Sep',6390],['Oct',7166.01,'cur'],['Nov',1140,'mtd']];
+const maxM = 8000;
+document.getElementById('bars').innerHTML = MONTHS.map(([m, v, c]) =>
+  `<div class="b ${c || ''}" title="${m} 2026: ${money(v)}${c === 'mtd' ? ' (month to date)' : ''}"><span class="v num">${c ? money(v).replace(/\.\d\d$/, '') : ''}</span><div class="fill" style="height:${v / maxM * 100}%"></div></div>`).join('');
+document.getElementById('barlabels').innerHTML = MONTHS.map(([m]) => `<span>${m}</span>`).join('');
+
+// categories
+document.getElementById('cats').innerHTML =
+  `<div class="stack">${CATS.map(c => `<div title="${c.label}: ${money(c.v)}" style="flex:${c.v};background:${color(c.id)}"></div>`).join('')}</div>` +
+  CATS.map(c => `<div class="cat-row"><span class="swatch" style="background:${color(c.id)}"></span>${c.label}<span class="amt num">${money(c.v)}</span><span class="pct num">${(c.v / TOTAL * 100).toFixed(1)}%</span></div>`).join('');
+
+const avatar = (n, c) => `<span class="avatar" style="background:${color(c)}">${n.split(' ').map(w => w[0]).slice(0, 2).join('')}</span>`;
+document.getElementById('topv').innerHTML = '<tbody>' + [...VENDORS].sort((a, b) => b[2] - a[2]).slice(0, 6).map(([n, c, v]) =>
+  `<tr><td><div class="vendor-cell">${avatar(n, c)}<div>${n}<small>${catLabel(c)}</small></div></div></td><td class="r num">${money(v)}</td></tr>`).join('') + '</tbody>';
+
+// inbox
+const DOCS = [
+  ['aws-invoice-oct.pdf','Amazon Web Services','cloud','Oct 3',1284.37,'USD','verified','Email'],
+  ['figma-INV-2291.pdf','Figma','software','Oct 5',180.00,'USD','verified','Gmail'],
+  ['notion-receipt-1022.pdf','Notion Labs','software','Oct 22',96.00,'USD','verified','Gmail'],
+  ['priya-raman-inv-017.pdf','Priya Raman Design','contractors','Oct 31',3200.00,'USD','verified','Email'],
+  ['delta-eticket.jpg','Delta Air Lines','travel','Sep 28',412.60,'USD','verified','Upload'],
+  ['marriott-folio-scan.pdf','Marriott','travel','Oct 14',638.24,'USD','repaired','Upload'],
+  ['blue-bottle-1012.jpg','Blue Bottle Coffee','meals','Oct 12',38.50,'USD','verified','Upload'],
+  ['staples-1009.jpg','Staples','office','Oct 9',214.87,'USD','repaired','Upload'],
+  ['google-ads-oct.pdf','Google Ads','marketing','Oct 31',950.00,'USD','verified','Email'],
+  ['warung-made.jpg','Warung Made','meals','Oct 19',385000,'IDR','verified','Upload'],
+  ['figma-INV-2291 (1).pdf','Figma','software','Oct 5',180.00,'USD','duplicate','Email'],
+  ['uber-1014.png','Uber','travel','Oct 14',27.43,'USD','escalated','Email'],
+  ['wework-oct.pdf','WeWork','office','Oct 1',650.00,'USD','flagged','Email'],
+  ['IMG_4471.heic','Unknown','other','—',null,'USD','flagged','Upload'],
+  ['vercel-oct.pdf','Vercel','cloud','Oct 1',40.00,'USD','verified','Email'],
+  ['github-receipt.pdf','GitHub','software','Oct 8',84.00,'USD','verified','Gmail'],
+];
+const LABEL = {verified:'Verified',repaired:'Verified · fixed on retry',escalated:'Verified · large model',flagged:'Needs review',duplicate:'Duplicate'};
+document.getElementById('inbox').innerHTML =
+  '<thead><tr><th>Vendor</th><th>Category</th><th>Date</th><th>Source</th><th>Status</th><th class="r">Amount</th></tr></thead><tbody>' +
+  `<tr><td><div class="vendor-cell"><span class="avatar" style="background:#c3c2b7">…</span><div>Reading…<small>slack-invoice-nov.pdf</small></div></div></td><td class="muted">—</td><td class="muted">—</td><td class="src">Email · just now</td><td><span class="badge processing">Checking math</span></td><td class="r muted">—</td></tr>` +
+  DOCS.map(([f, v, c, d, amt, cur, st, src]) =>
+    `<tr><td><div class="vendor-cell">${avatar(v, c)}<div>${v}<small>${f}</small></div></div></td><td>${c === 'other' ? '<span class="muted">—</span>' : catLabel(c)}</td><td class="num">${d}</td><td class="src">${src}</td><td><span class="badge ${st}">${LABEL[st]}</span></td><td class="r num">${money(amt, cur)}</td></tr>`).join('') + '</tbody>';
+
+// ledger
+const LINES = [
+  ['d04',1,'Brand identity system, phase 2','Priya Raman Design','contractors',1,3200.00],
+  ['d01',1,'Amazon EC2 — US East','Amazon Web Services','cloud',1,812.40],
+  ['d01',1,'Amazon S3','Amazon Web Services','cloud',1,214.11],
+  ['d01',2,'Amazon RDS','Amazon Web Services','cloud',1,257.86],
+  ['d09',1,'Search campaigns — October','Google Ads','marketing',1,950.00],
+  ['d06',1,'Room, 2 nights × 231.06','Marriott','travel',2,462.12],
+  ['d06',1,'Valet parking','Marriott','travel',2,51.00],
+  ['d05',1,'SFO → JFK, economy','Delta Air Lines','travel',1,412.60],
+  ['d02',1,'Figma Professional — 12 editors','Figma','software',12,15.00],
+  ['d03',1,'Notion Plus — 8 seats','Notion Labs','software',8,12.00],
+  ['d16',1,'GitHub Team — 4 seats','GitHub','software',4,21.00],
+  ['d08',1,'Copy paper, 10 reams','Staples','office',2,48.99],
+  ['d08',1,'Monitor arm','Staples','office',1,99.27],
+  ['d07',1,'Oat latte','Blue Bottle Coffee','meals',4,6.10],
+];
+document.getElementById('ledger').innerHTML =
+  '<thead><tr><th>Description</th><th>Vendor</th><th>Category</th><th class="r">Qty</th><th class="r">Unit price</th><th class="r">Amount</th><th>Source</th></tr></thead><tbody>' +
+  LINES.map(([doc, pg, desc, v, c, q, u]) =>
+    `<tr><td>${desc}</td><td>${v}</td><td><span class="swatch" style="background:${color(c)};margin-right:6px"></span>${catLabel(c)}</td><td class="r num">${q}</td><td class="r num">${money(u)}</td><td class="r num"><b>${money(q * u)}</b></td><td><a href="#">${doc} · p${pg}</a></td></tr>`).join('') + '</tbody>';
+
+// vendors
+const VMETA = {
+  'Amazon Web Services':['AWS, Amazon Web Services Inc., AMZN WEB SVCS',3],
+  'Figma':['Figma, Inc.',2],
+  'Notion Labs':['Notion Labs Inc',1],
+  'Blue Bottle Coffee':['Blue Bottle Coffee Inc · confirmed by model (score 84)',4],
+  'Uber':['Uber Technologies, Uber *Trip',6],
+  'Marriott':['Marriott Marquis SF',1],
+};
+document.getElementById('vendors').innerHTML =
+  '<thead><tr><th>Vendor</th><th>Also seen as</th><th>Usual category</th><th class="r">Docs (all time)</th><th class="r">October</th></tr></thead><tbody>' +
+  [...VENDORS].sort((a, b) => b[2] - a[2]).map(([n, c, v]) => {
+    const [aka, docs] = VMETA[n] || ['—', 1];
+    return `<tr><td><div class="vendor-cell">${avatar(n, c)}${n}</div></td><td class="muted">${aka}</td><td>${catLabel(c)}</td><td class="r num">${docs}</td><td class="r num">${money(v)}</td></tr>`;
+  }).join('') + '</tbody>';
+
+// eval
+const EVAL = [
+  ['small_raw','Small model, no checks',89.1,82.4,0.0014,2.9,6.1,'small'],
+  ['small_checks','Small + checks + retries',95.6,91.7,0.0021,3.2,9.8,'small'],
+  ['small_escalate','Small + checks + escalate',97.8,95.2,0.0068,3.4,11.2,'small'],
+  ['large_per_doc','Large model, every doc',98.4,96.0,0.0412,7.6,14.9,'large'],
+  ['large_all','Large model, all docs at once',null,null,0.0187,48.0,48.0,'large'],
+];
+document.getElementById('evaltable').innerHTML =
+  '<thead><tr><th>Config</th><th class="r">Field acc.</th><th class="r">Line-item acc.</th><th class="r">$ error / category</th><th class="r">Cost / doc</th><th class="r">p50</th><th class="r">p95</th></tr></thead><tbody>' +
+  EVAL.map(([k, d, fa, la, c, p50, p95]) => `<tr${k === 'small_escalate' ? ' style="background:var(--lime-soft)"' : ''}><td><b>${d}</b><br><span class="muted" style="font-size:12px">${k}</span></td><td class="r num">${fa ? fa + '%' : '—'}</td><td class="r num">${la ? la + '%' : '—'}</td><td class="r num">${({small_raw:'4.1%',small_checks:'1.3%',small_escalate:'0.4%',large_per_doc:'0.6%',large_all:'6.8%'})[k]}</td><td class="r num">$${c.toFixed(4)}</td><td class="r num">${p50}s</td><td class="r num">${p95}s</td></tr>`).join('') + '</tbody>';
+
+// scatter: x = cost per doc (log-ish linear 0..0.045), y = field accuracy 88..100
+(() => {
+  const W = 620, H = 300, L = 48, R = 20, T = 16, B = 40;
+  const x = c => L + c / 0.045 * (W - L - R);
+  const y = a => T + (100 - a) / 12 * (H - T - B);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Accuracy versus cost per document">`;
+  [88, 91, 94, 97, 100].forEach(a => s += `<line x1="${L}" x2="${W - R}" y1="${y(a)}" y2="${y(a)}" stroke="#e1e0d9"/><text x="${L - 8}" y="${y(a)}" text-anchor="end" dominant-baseline="middle">${a}%</text>`);
+  [0, 0.01, 0.02, 0.03, 0.04].forEach(c => s += `<text x="${x(c)}" y="${H - B + 18}" text-anchor="middle">$${c.toFixed(2)}</text>`);
+  s += `<line x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}" stroke="#c3c2b7"/>`;
+  s += `<text x="${(W + L) / 2}" y="${H - 4}" text-anchor="middle">Cost per document</text>`;
+  EVAL.filter(e => e[2]).forEach(([k, d, fa, , c, , , grp]) => {
+    const cx = x(c), cy = y(fa), fill = grp === 'small' ? '#2a78d6' : '#eb6834';
+    s += `<circle cx="${cx}" cy="${cy}" r="7" fill="${fill}" stroke="#fff" stroke-width="2"><title>${d}: ${fa}% at $${c.toFixed(4)}/doc</title></circle>`;
+    s += `<text class="lbl" x="${cx + (grp === 'large' ? -12 : 12)}" y="${cy + (k === 'small_checks' ? 14 : -10)}" text-anchor="${grp === 'large' ? 'end' : 'start'}">${k}</text>`;
+  });
+  s += `<circle cx="${W - 150}" cy="${H - B - 40}" r="5" fill="#2a78d6"/><text x="${W - 140}" y="${H - B - 40}" dominant-baseline="middle">Small model</text>`;
+  s += `<circle cx="${W - 150}" cy="${H - B - 22}" r="5" fill="#eb6834"/><text x="${W - 140}" y="${H - B - 22}" dominant-baseline="middle">Large model</text>`;
+  document.getElementById('scatter').innerHTML = s + '</svg><p class="card-note" style="margin:6px 0 0">large_all is scored on dollar error only, so it isn\'t plotted here.</p>';
+})();
+
+// settings categories
+document.getElementById('catset').innerHTML = CATS.filter(c => c.desc).concat([{id:'other',label:'Other',desc:'Anything that doesn\'t fit above'}]).map(c =>
+  `<div class="cat-row"><span class="swatch" style="background:${color(c.id)}"></span><b>${c.label}</b><span class="muted" style="margin-left:6px">${c.desc}</span><a href="#" style="margin-left:auto;font-size:12px">Edit</a></div>`).join('');
+
+// sankey
+function drawSankey(el, nodes, links, {width = 900, height = 400, nodeW = 10, pad = 14, labelW = 200} = {}) {
+  const byId = Object.fromEntries(nodes.map(n => [n.id, {...n, in: 0, out: 0}]));
+  links.forEach(l => { byId[l.s].out += l.v; byId[l.t].in += l.v; });
+  const N = Object.values(byId);
+  N.forEach(n => n.v = Math.max(n.in, n.out));
+  const cols = [...new Set(N.map(n => n.col))].sort();
+  const colNodes = cols.map(c => N.filter(n => n.col === c));
+  const k = Math.min(...colNodes.map(ns => (height - pad * (ns.length - 1)) / ns.reduce((a, n) => a + n.v, 0)));
+  const span = width - labelW - nodeW;
+  colNodes.forEach((ns, i) => {
+    let y = 0;
+    const x = i * span / (cols.length - 1);
+    ns.forEach(n => { n.x = x; n.y = y; n.h = Math.max(n.v * k, 2); n.sy = y; n.ty = y; y += n.h + pad; });
+  });
+  const fullH = Math.max(...N.map(n => n.y + n.h)) + 8;
+  let s = `<svg viewBox="0 0 ${width} ${fullH}" role="img" aria-label="Sankey diagram of spend by category and vendor">`;
+  links.forEach(l => {
+    const a = byId[l.s], b = byId[l.t], h = Math.max(l.v * k, 1);
+    const x0 = a.x + nodeW, x1 = b.x, xm = (x0 + x1) / 2, y0 = a.sy, y1 = b.ty;
+    a.sy += h; b.ty += h;
+    const fill = a.col === 0 ? b.color : a.color;
+    s += `<path d="M${x0},${y0}C${xm},${y0} ${xm},${y1} ${x1},${y1}L${x1},${y1 + h}C${xm},${y1 + h} ${xm},${y0 + h} ${x0},${y0 + h}Z" style="fill:${fill};fill-opacity:.3"><title>${a.label} → ${b.label}: ${money(l.v)}</title></path>`;
+  });
+  N.forEach(n => {
+    s += `<rect x="${n.x}" y="${n.y}" width="${nodeW}" height="${n.h}" rx="2" style="fill:${n.color}"><title>${n.label}: ${money(n.v)}</title></rect>`;
+    s += `<text x="${n.x + nodeW + 6}" y="${n.y + n.h / 2}" dominant-baseline="middle">${n.label} <tspan class="amt">${money(n.v)}</tspan></text>`;
+  });
+  el.innerHTML = s + '</svg>';
+}
+drawSankey(document.getElementById('sankey'),
+  [{id:'total',label:'October',col:0,color:'#1f4d3a'},
+   ...CATS.map(c => ({id:c.id,label:c.label,col:1,color:color(c.id)})),
+   ...VENDORS.map(([n, c]) => ({id:n,label:n,col:2,color:color(c)}))],
+  [...CATS.map(c => ({s:'total',t:c.id,v:c.v})),
+   ...VENDORS.map(([n, c, v]) => ({s:c,t:n,v}))]);
+</script>
+</body>
+</html>
