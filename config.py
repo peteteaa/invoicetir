@@ -58,6 +58,7 @@ for _role in ("VISION_MODEL", "TEXT_MODEL", "ESCALATION_MODEL"):
 MAX_OUTPUT_TOKENS = int(_env("MAX_OUTPUT_TOKENS", "8000"))   # a cut-off reply counts as a retry
 REQUEST_TIMEOUT_S = float(_env("REQUEST_TIMEOUT_S", "120"))
 API_MAX_RETRIES = int(_env("API_MAX_RETRIES", "6"))   # rate limits / server errors, with backoff
+WORKERS = int(_env("WORKERS", "4"))   # documents extracted at once; 12 hit Fireworks rate limits
 
 MAX_RETRIES = int(_env("MAX_RETRIES", "2"))
 # Escalate when the small model passes the checks but is unsure about a money or vendor field.

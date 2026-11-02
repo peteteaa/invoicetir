@@ -186,6 +186,8 @@ call and is skipped when `FIREWORKS_API_KEY` is unset.
 
 ```bash
 pytest
+python -m pipeline.run data/docs              # whole pipeline -> out/spend.xlsx, out/sankey.html
+python -m pipeline.run a.pdf b.jpg --fresh    # --fresh: don't read or update data/state/
 streamlit run label_app.py
 python data/load_cord.py
 python -m eval.run_eval --config all
