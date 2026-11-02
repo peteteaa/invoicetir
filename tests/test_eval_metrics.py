@@ -7,7 +7,7 @@ import pytest
 from eval import metrics, template_truth
 from schemas import Invoice, LineItem, ProcessedDoc
 
-DOCS = Path(__file__).resolve().parent.parent / "data" / "docs" / "Samples of electronic invoices"
+from sample_docs import DOCS  # noqa: E402
 
 
 def item(desc, amount, qty="1", price=None, category=None):

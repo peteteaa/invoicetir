@@ -16,7 +16,7 @@ from pipeline import ingest, repair
 from pipeline.extract import Attempt
 from schemas import ExtractionResult, Invoice, LineItem
 
-DOCS = Path(__file__).resolve().parent.parent / "data" / "docs" / "Samples of electronic invoices"
+from sample_docs import DOCS  # noqa: E402
 
 
 @pytest.mark.parametrize("fields, material", [

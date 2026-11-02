@@ -10,7 +10,7 @@ import pytest
 import config
 from pipeline import run
 
-DOCS = Path(__file__).resolve().parent.parent / "data" / "docs" / "Samples of electronic invoices"
+from sample_docs import DOCS  # noqa: E402
 
 
 def test_unreadable_file_is_flagged_not_raised(tmp_path):
