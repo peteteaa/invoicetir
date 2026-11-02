@@ -127,6 +127,9 @@ Assumes one invoice per document.
 ## Data
 
 - Real documents go in `data/docs/`. Ground truth goes in `data/labels/<doc_id>.json`.
+- **Invoice dataset:** download it from https://data.mendeley.com/datasets/tnj49gpmtz/1 and
+  put the PDFs directly in `data/docs/` (`data/docs/invoice_1.pdf`, ...). `data/docs/` is
+  gitignored, so the PDFs stay out of the repo.
 - **`label_app.py`:** Streamlit labeling tool. Shows the document next to an editable form
   pre-filled by `ESCALATION_MODEL`'s extraction. A human verifies or corrects every field
   and saves to `data/labels/`. Tracks which fields were corrected.
