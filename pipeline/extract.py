@@ -16,7 +16,7 @@ import pymupdf
 import config
 import llm
 from pipeline import normalize
-from pipeline.ingest import Document, page_rect, render_page
+from pipeline.ingest import Document, image_pixmap, page_rect, render_page
 from schemas import ExtractionResult
 
 ZOOM_TOOL = {
@@ -95,8 +95,8 @@ def _zoom(doc: Document, args: dict):
             clip = pymupdf.Rect(r.x0 + x0 * r.width, r.y0 + y0 * r.height,
                                 r.x0 + x1 * r.width, r.y0 + y1 * r.height)
             png = render_page(doc.path, page, config.ZOOM_DPI, clip)
-        else:  # image file: crop the original pixels
-            pix = pymupdf.Pixmap(str(doc.path))
+        else:  # image file: crop the original pixels, turned upright as the model saw them
+            pix = image_pixmap(doc.path)
             irect = pymupdf.IRect(int(x0 * pix.width), int(y0 * pix.height),
                                   int(x1 * pix.width), int(y1 * pix.height))
             crop = pymupdf.Pixmap(pix.colorspace, irect, pix.alpha)

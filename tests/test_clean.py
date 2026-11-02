@@ -117,5 +117,15 @@ def test_flagged_document_gets_a_vendor_but_is_never_an_original():
     docs = [doc("a", vendor="ACME CORP.", status="flagged"), doc("b"), ProcessedDoc(
         doc_id="c", source_path="c.pdf", status="flagged")]
     assert duplicates(docs) == [None, None, None]
-    assert [d.vendor for d in docs] == ["ACME CORP.", "ACME CORP.", None]
+    assert [d.vendor for d in docs] == ["Acme Corp", "Acme Corp", None]
     assert [d.status for d in docs] == ["flagged", "verified", "flagged"]
+
+
+def test_flagged_document_never_names_or_joins_a_vendor():
+    """A misread name on a flagged document must not become the canonical name of the vendor."""
+    registry = {}
+    docs = [doc("a", vendor="Starbuckz Coffee", status="flagged"), doc("b", vendor="Starbucks Coffee"),
+            doc("c", vendor="Zenith Supplies", status="flagged")]
+    assert clean.clean(docs, registry) == []
+    assert registry == {"Starbucks Coffee": ["Starbucks Coffee"]}
+    assert [d.vendor for d in docs] == ["Starbuckz Coffee", "Starbucks Coffee", "Zenith Supplies"]

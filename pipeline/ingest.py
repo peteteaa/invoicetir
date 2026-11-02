@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Optional
 
 import pymupdf
+from PIL import Image, ImageOps
 
 import config
 
@@ -89,6 +90,17 @@ def _png(pix: pymupdf.Pixmap) -> bytes:
     return pix.tobytes("png")
 
 
+def image_pixmap(path: Path) -> pymupdf.Pixmap:
+    """An image file as an upright RGB pixmap. Phone photos are often stored sideways with an
+    EXIF orientation tag that viewers apply; pymupdf ignores it, so Pillow applies it here.
+    The zoom tool crops this same pixmap, so its coordinates match what the model saw."""
+    with Image.open(path) as im:
+        im = ImageOps.exif_transpose(im)
+        if im.mode != "RGB":
+            im = im.convert("RGB")
+        return pymupdf.Pixmap(pymupdf.csRGB, im.width, im.height, im.tobytes(), 0)
+
+
 def render_page(path: Path, page_number: int, dpi: int, clip: Optional[pymupdf.Rect] = None) -> bytes:
     """Render one page (or a region of it, in PDF points) to PNG. Used by the zoom tool."""
     with pymupdf.open(path) as doc:
@@ -107,7 +119,7 @@ def load(path, doc_id: Optional[str] = None) -> Document:
     suffix = path.suffix.lower()
 
     if suffix in IMAGE_SUFFIXES:
-        return Document(doc_id, path, "image", [Page(1, image_png=_png(pymupdf.Pixmap(str(path))))],
+        return Document(doc_id, path, "image", [Page(1, image_png=_png(image_pixmap(path)))],
                         reason="image file")
     if suffix not in PDF_SUFFIXES:
         raise ValueError(f"{path.name}: unsupported file type {suffix}")

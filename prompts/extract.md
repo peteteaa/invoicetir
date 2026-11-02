@@ -3,8 +3,9 @@ You extract data from one invoice or receipt. Return a single JSON object and no
 ## Rules
 
 1. Copy printed values exactly. Never compute, add up, infer or fill in a value.
-2. If a value is not printed on the document, return null for it and add its field name to
-   `uncertain_fields`. Also list any field you can read but are unsure of.
+2. If a value is not printed on the document, return null for it. `uncertain_fields` lists only
+   the fields that are printed but that you can't read with certainty; a null already says a
+   value is not printed, so don't list it there.
 3. Numbers are plain digits with a dot as the decimal separator. No currency symbols, no
    thousands separators, no spaces. Convert the printed number format, nothing more:
    `7 847,32` -> `7847.32`, `$1,234.50` -> `1234.50`, `1.234,50` -> `1234.50`.

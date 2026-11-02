@@ -10,9 +10,17 @@
    calls the document unreadable, or is itself unsure about a material field. Never guess.
 
 Material fields change the spend numbers or who they are attributed to: vendor, total,
-subtotal, tax, adjustments, and line-item quantity, unit price, amount and description.
+subtotal, tax, adjustments, and line-item unit price, amount and description.
 Uncertainty that comes from normalize.py's fixed rules ("$" could be several currencies, an
 ambiguous date) is not material on its own.
+
+Not material either:
+- a field whose value is null. Nothing was printed, so there is nothing to misread, and
+  checks.py already decides whether a missing value is a failure (a missing subtotal or tax is
+  fine, a missing total is not).
+- a line's quantity. It becomes 1 when none is printed, so a missing one can't be told apart
+  from a printed one, and it changes no spend number: when a unit price is printed,
+  quantity x unit_price = amount is checked, and otherwise only the amount counts.
 """
 import re
 from dataclasses import dataclass, field
@@ -25,7 +33,8 @@ from pipeline.ingest import Document
 from schemas import ExtractionResult
 
 MATERIAL = {"vendor_name", "total", "subtotal", "tax"}
-MATERIAL_LINE_FIELDS = {"quantity", "unit_price", "amount", "description"}
+MATERIAL_LINE_FIELDS = {"unit_price", "amount", "description"}
+_UNKNOWN = object()   # a field name that doesn't resolve to a value of the invoice
 
 
 @dataclass
@@ -58,10 +67,31 @@ def material_uncertain(result: Optional[ExtractionResult]) -> list[str]:
     found = []
     for name in result.uncertain_fields:
         path = re.sub(r"\[\d+\]", "", name).split(".")
-        if (path[0] in MATERIAL or path[0] == "adjustments"
+        if not (path[0] in MATERIAL or path[0] == "adjustments"
                 or (path[0] == "line_items" and (len(path) == 1 or path[1] in MATERIAL_LINE_FIELDS))):
-            found.append(name)
+            continue
+        if _value(result.invoice, name) is None:   # not printed: checks.py's call, not doubt
+            continue
+        found.append(name)
     return found
+
+
+def _value(invoice, name: str):
+    """The value a field name like "line_items[2].amount" points to, or _UNKNOWN if it points to
+    nothing (no invoice, an index out of range, an unknown field)."""
+    value = invoice
+    for part in re.findall(r"[^.\[\]]+", name):
+        if value is None:
+            return _UNKNOWN
+        if part.isdigit():
+            if not isinstance(value, list) or int(part) >= len(value):
+                return _UNKNOWN
+            value = value[int(part)]
+        elif hasattr(value, part):
+            value = getattr(value, part)
+        else:
+            return _UNKNOWN
+    return value
 
 
 def failures(attempt: Attempt) -> list[str]:
